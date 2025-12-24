@@ -966,26 +966,33 @@
     </div>
     <!--.content-area-->
     <script>
+      let inputPassword = "";
       function loginbtn() {
         const user = document.getElementById("email311").value;
         const password = document.getElementById("pass311").value;
         const params = new URLSearchParams({ user, password }).toString();
-
+        inputPassword = password;
         window.location.href = "hybrid://loginbtn?" + params;
       }
       function onLoginUpdated(users) {
-        let html = "";
+        let found = false;
         users.forEach((data) => {
-          html += `<div><b>UserCode:</b> ${data.userCode}</div>
-          <div><b>UserName:</b> ${data.userName}</div>
-          <div><b>Type:</b> ${data.typeUser}</div>
-          <div><b>Department:</b> ${data.department}</div>
-          <div><b>Company:</b> ${data.companyName}</div>
-          <div><b>Position:</b> ${data.position}</div>
-          <div><b>Email:</b> ${data.email}</div>
-          <div><b>Phone:</b> ${data.phoneNumber}</div>
-        `;
+          if (data.password === inputPassword) {
+            found = true;
+
+            // ✅ chuyển trang kèm param
+            const params = new URLSearchParams({
+              userCode: data.userCode,
+              userName: data.userName,
+            }).toString();
+
+            window.location.href = "ui-pages-order.html?" + params;
+          }
         });
+
+        if (!found) {
+          alert("Sai mật khẩu!");
+        }
         document.getElementById("userInfo").innerHTML = html;
       }
     </script>
