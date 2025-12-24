@@ -975,28 +975,22 @@
         window.location.href = "hybrid://loginbtn?" + params;
       }
       function onLoginUpdated(users) {
-        let found = false;
         let html = "";
-        users.forEach((data) => {
-          if (data.Password === inputPassword) {
-            found = true;
+        function onLoginUpdated(users) {
+          let html = "";
 
-            // ✅ chuyển trang kèm param
-            const params = new URLSearchParams({
-              userCode: data.userCode,
-              userName: data.userName,
-            }).toString();
+          users.forEach((data) => {
+            html += `
+            <div><b>UserCode:</b> ${data.userCode}</div>
+            <div><b>UserName:</b> ${data.userName}</div>
+            <div><b>Type:</b> ${data.Password}</div>
+            <div><b>Department:</b> ${data.department}</div>
+            <hr/>
+          `;
+          });
 
-            window.location.href = "ui-pages-order.html?" + params;
-          }
-        });
-
-        if (!found) {
-          alert("Sai mật khẩu!" + inputPassword);
+          document.getElementById("userInfo").innerHTML = html;
         }
-
-        document.getElementById("userInfo").innerHTML =
-          "`<div><b>UserCode:</b> ${data.userCode}</div> <div><b>UserName:</b> ${data.userName}</div>`";
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
