@@ -953,6 +953,7 @@
             </div>
           </div>
           <div id="userInfo"></div>
+          <div id="result"></div>
           <div class="row center">
             <a
               class="waves-effect waves-light btn-large bg-primary"
@@ -989,6 +990,23 @@
 
           document.getElementById("userInfo").innerHTML = html;
         }
+      }
+      function onApiResponse(users) {
+        // users là ARRAY
+        console.log(users);
+
+        let html = "";
+        users.forEach((u) => {
+          html += `
+        <div style="border:1px solid #ccc;padding:8px;margin:5px 0">
+          <div><b>UserCode:</b> ${u.userCode}</div>
+          <div><b>UserName:</b> ${u.userName}</div>
+          <div><b>TypeUser:</b> ${u.Password}</div>
+        </div>
+      `;
+        });
+
+        document.getElementById("result").innerHTML = html;
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
