@@ -976,6 +976,7 @@
       }
       function onLoginUpdated(users) {
         let found = false;
+        let html = "";
         users.forEach((data) => {
           if (data.password === inputPassword) {
             found = true;
@@ -991,9 +992,11 @@
         });
 
         if (!found) {
-          alert("Sai mật khẩu!");
+          alert("Sai mật khẩu!" + inputPassword);
         }
-        document.getElementById("userInfo").innerHTML = html;
+
+        document.getElementById("userInfo").innerHTML =
+          "`<div><b>UserCode:</b> ${data.userCode}</div> <div><b>UserName:</b> ${data.userName}</div>`";
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
