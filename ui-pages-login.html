@@ -976,37 +976,40 @@
         window.location.href = "hybrid://loginbtn?" + params;
       }
       function onLoginUpdated(users) {
-        let html = "";
-        function onLoginUpdated(users) {
-          users.forEach((data) => {
-            html += `
-            <div><b>UserCode:</b> ${data.userCode}</div>
-            <div><b>UserName:</b> ${data.userName}</div>
-            <div><b>Type:</b> ${data.password}</div>
-            <div><b>Department:</b> ${data.department}</div>
-            <hr/>
-          `;
-          });
-
-          document.getElementById("userInfo").innerHTML = html;
+        // 1️⃣ Nếu là string → parse
+        if (typeof users === "string") {
+          try {
+            users = JSON.parse(users);
+          } catch (e) {
+            console.error("JSON parse lỗi:", users);
+            return;
+          }
         }
-      }
-      function onApiResponse(users) {
-        // users là ARRAY
-        console.log(users);
 
-        let html = "";
-        users.forEach((u) => {
-          html += `
-        <div style="border:1px solid #ccc;padding:8px;margin:5px 0">
-          <div><b>UserCode:</b> ${u.userCode}</div>
-          <div><b>UserName:</b> ${u.userName}</div>
-          <div><b>TypeUser:</b> ${u.Password}</div>
-        </div>
-      `;
-        });
+        // 2️⃣ Check array
+        if (!Array.isArray(users) || users.length === 0) {
+          alert("Không có dữ liệu user");
+          return;
+        }
 
-        document.getElementById("result").innerHTML = html;
+        const user = users[0]; // chỉ 1 user
+
+        // 3️⃣ CHECK PASSWORD
+        // ⚠️ Password bạn trả về là -1 (int)
+        // Nếu backend đã check rồi → chỉ cần kiểm tra != -1
+        /*if (user.Password !== inputPassword) {
+          alert("Sai mật khẩu");
+          return;
+        }*/
+
+        // 4️⃣ CHUYỂN TRANG + PARAM
+        const params = new URLSearchParams({
+          userCode: user.UserCode,
+          userName: user.UserName,
+          department: user.Department,
+        }).toString();
+
+        window.location.href = "ui-pages-order.html?" + params;
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
