@@ -1080,35 +1080,56 @@
       });
 
       function renderTransportOrders(orders) {
-        if (!Array.isArray(orders)) return;
+        let orders = data;
 
-        const list = document.getElementById("transportList");
-        list.innerHTML = "";
-
-        const activeOrders = orders.filter((o) => o.checkOut != null);
-
-        if (activeOrders.length === 0) {
-          list.innerHTML =
-            "<li class='collection-item'>Không có chuyến đang vận chuyển</li>";
-          return;
+        if (typeof data === "string") {
+          try {
+            orders = JSON.parse(data);
+          } catch {
+            return;
+          }
         }
 
-        activeOrders.forEach((item) => {
+        // Nếu API trả dạng { items: [] }
+        if (!Array.isArray(orders) && Array.isArray(orders.items)) {
+          orders = orders.items;
+        }
+
+        if (!Array.isArray(orders)) return;
+
+        // 3️⃣ Đảm bảo DOM tồn tại
+        const list = document.getElementById("transportList");
+        if (!list) return;
+
+        list.innerHTML = "";
+
+        // 4️⃣ RENDER – KHÔNG DÙNG return trong forEach
+        let count = 0;
+
+        orders.forEach((item) => {
+          // đổi điều kiện theo nhu cầu
+          if (item.checkOut == null) return;
+
+          count++;
+
           list.insertAdjacentHTML(
             "beforeend",
             `
       <li class="collection-item avatar" style="padding-left:5px">
         <div class="item-det">
-          <span class="title success">
-            ${item.orderId}
-          </span>
-          <p>${item.driverName} - ${item.licensePlate ?? ""}</p>
-          <p>Trạng thái: Đang vận chuyển</p>
+          <span class="title success">${item.orderId}</span>
+          <p>${item.driverName ?? ""} - ${item.licensePlate ?? ""}</p>
+          <p>Trạng thái: Hoàn thành</p>
         </div>
       </li>
       `
           );
         });
+
+        if (count === 0) {
+          list.innerHTML =
+            "<li class='collection-item'>Không có dữ liệu phù hợp</li>";
+        }
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
