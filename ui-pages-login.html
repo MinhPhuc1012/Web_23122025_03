@@ -1002,11 +1002,11 @@
         }
         // 4️⃣ CHUYỂN TRANG + PARAM
         const params = new URLSearchParams({
-          userCode: user.UserCode,
+          user: user.UserCode,
           userName: user.UserName,
           department: user.Department,
         }).toString();
-        localStorage.setItem("user", JSON.stringify(user.UserCode));
+        localStorage.setItem("user", user.UserCode);
         window.location.href = "hybrid://getOrder?" + params;
       }
 
