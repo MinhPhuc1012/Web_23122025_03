@@ -1085,7 +1085,7 @@
         const list = document.getElementById("transportList");
         list.innerHTML = "";
 
-        const activeOrders = orders.filter((o) => o.checkOut == null);
+        const activeOrders = orders.filter((o) => o.checkOut != null);
 
         if (activeOrders.length === 0) {
           list.innerHTML =
