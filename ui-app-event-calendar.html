@@ -1004,7 +1004,7 @@
         data.forEach((item) => {
           total++;
 
-          switch (item.distanceRangeCode) {
+          switch (item.DistanceRangeCode) {
             case "00-02":
               inc("d02");
               break;
@@ -1021,18 +1021,6 @@
               inc("noDistance");
               break;
           }
-
-          // Render list chi tiết (nếu cần)
-          list.insertAdjacentHTML(
-            "beforeend",
-            `
-            <li class="collection-item">
-                <b>${item.orderId}</b><br>
-                ${item.driverName} - ${item.licensePlate}<br>
-                ${item.distance ?? "-"} km
-            </li>
-        `
-          );
         });
 
         document.getElementById("totalTrip").innerText = total;
