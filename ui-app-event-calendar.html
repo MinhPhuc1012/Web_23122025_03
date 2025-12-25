@@ -815,6 +815,21 @@
 
     <div class="container has-pagehead is-pagetitle">
       <div class="section">
+        <div
+          id="debugBox"
+          style="
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid red;
+            background: #fff3f3;
+            max-height: 200px;
+            overflow: auto;
+            font-size: 12px;
+            white-space: pre-wrap;
+          "
+        >
+          DEBUG:
+        </div>
         <h5 class="pagetitle">Tra cứu</h5>
         <div class="date-range-box">
           <div class="date-item">
@@ -929,6 +944,16 @@
           link.parentElement.classList.add("Pactive");
         }
       });
+      function uiLog(data) {
+        const box = document.getElementById("debugBox");
+        if (!box) return;
+
+        if (typeof data === "object") {
+          box.innerText = "DEBUG:\n" + JSON.stringify(data, null, 2);
+        } else {
+          box.innerText = "DEBUG:\n" + data;
+        }
+      }
 
       function setToday() {
         const today = new Date().toISOString().split("T")[0];
@@ -983,6 +1008,7 @@
       }
 
       function renderHistoryOrders(data) {
+        uiLog(data);
         resetSummary();
         if (!Array.isArray(data) || data.length === 0) {
           document.getElementById("orderList").innerHTML =
