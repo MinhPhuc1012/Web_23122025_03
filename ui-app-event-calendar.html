@@ -848,7 +848,7 @@
             <button class="btn-today" onclick="setToday()">📅 Hôm nay</button>
           </div>
           <!-- THỐNG KÊ DƯỚI LỊCH -->
-          <div class="distance-summary" id="orderList">
+          <div class="distance-summary" id="transportList">
             <div class="summary-row">
               <span class="label">Chưa có cự ly:</span>
               <span class="value" id="noDistance">0</span>
@@ -944,21 +944,6 @@
           link.parentElement.classList.add("Pactive");
         }
       });
-      function setToday() {
-        const today = new Date().toISOString().split("T")[0];
-
-        document.getElementById("fromDate").value = today;
-        document.getElementById("toDate").value = today;
-        const user = localStorage.getItem("user") || "";
-
-        // GỌI XUỐNG MAUI NGAY KHI LOAD TRANG
-        window.location.href =
-          `hybrid://gethistory?user=${user}` +
-          `&fromDate=${today}` +
-          `&toDate=${today}`;
-      }
-
-      setToday();
       function uiLog(data) {
         const box = document.getElementById("debugBox");
         if (!box) return;
@@ -969,6 +954,15 @@
           box.innerText = "DEBUG:\n" + data;
         }
       }
+
+      function setToday() {
+        const today = new Date().toISOString().split("T")[0];
+
+        document.getElementById("fromDate").value = today;
+        document.getElementById("toDate").value = today;
+      }
+
+      setToday();
       function confirmDelivery() {
         document.getElementById("deliveryCard").style.display = "none";
       }
