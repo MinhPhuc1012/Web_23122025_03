@@ -983,56 +983,46 @@
       }
 
       function renderHistoryOrders(data) {
-        if (typeof data === "string") {
-          data = JSON.parse(data);
-        }
+        function renderTransport(data) {
+          resetSummary();
 
-        // Reset UI
-        document.getElementById("noDistance").innerText = 0;
-        document.getElementById("d02").innerText = 0;
-        document.getElementById("d05").innerText = 0;
-        document.getElementById("d10").innerText = 0;
-        document.getElementById("d20").innerText = 0;
-        document.getElementById("totalTrip").innerText = 0;
-
-        const list = document.getElementById("transportList");
-        list.innerHTML = "";
-
-        if (!Array.isArray(data) || data.length === 0) {
-          list.innerHTML = "<li class='collection-item'>Không có dữ liệu</li>";
-          return;
-        }
-
-        let total = 0;
-
-        data.forEach((item) => {
-          total++;
-
-          switch (item.distanceRangeCode) {
-            case "00-02":
-              inc("d02");
-              break;
-            case "02-05":
-              inc("d05");
-              break;
-            case "05-10":
-              inc("d10");
-              break;
-            case "10-20":
-              inc("d20");
-              break;
-            default:
-              inc("noDistance");
-              break;
+          if (!Array.isArray(data) || data.length === 0) {
+            document.getElementById("orderList").innerHTML =
+              "<li class='collection-item'>Không có dữ liệu</li>";
+            return;
           }
-        });
 
-        document.getElementById("totalTrip").innerText = total;
-      }
+          data.forEach((item) => {
+            switch (item.distanceRangeCode) {
+              case "02-05":
+                inc("d05");
+                break;
+              case "05-10":
+                inc("d10");
+                break;
+              case "10-20":
+                inc("d20");
+                break;
+              default:
+                inc("noDistance");
+            }
+          });
+          document.getElementById("totalTrip").innerText = data.length;
+        }
 
-      function inc(id) {
-        const el = document.getElementById(id);
-        el.innerText = Number(el.innerText) + 1;
+        function inc(id) {
+          const el = document.getElementById(id);
+          el.innerText = Number(el.innerText) + 1;
+        }
+
+        function resetSummary() {
+          const ids = ["noDistance", "d02", "d05", "d10", "d20", "totalTrip"];
+
+          ids.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = "0";
+          });
+        }
       }
     </script>
     <script src="assets/js/pwa.js"></script>
