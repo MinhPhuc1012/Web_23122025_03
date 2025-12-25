@@ -1049,7 +1049,7 @@
 
         // tìm chuyến đang vận chuyển
         const active = data.find(
-          (x) => x.checkIn != null && x.checkOut == null
+          (x) => x.CheckIn != null && x.CheckOut == null
         );
 
         const card = document.getElementById("deliveryCard");
@@ -1081,11 +1081,11 @@
 
       function renderTransportOrders(data) {
         if (!Array.isArray(data)) return;
-
+        const orders = JSON.parse(data);
         const list = document.getElementById("transportList");
         list.innerHTML = "";
 
-        data.forEach((item) => {
+        orders.forEach((item) => {
           if (item.checkOut !== null) return;
 
           list.insertAdjacentHTML(
