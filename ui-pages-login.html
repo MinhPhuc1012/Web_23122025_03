@@ -995,13 +995,10 @@
         const user = users[0]; // chỉ 1 user
 
         // 3️⃣ CHECK PASSWORD
-        // ⚠️ Password bạn trả về là -1 (int)
-        // Nếu backend đã check rồi → chỉ cần kiểm tra != -1
-        /*if (user.Password !== inputPassword) {
+        if (user.Password !== inputPassword) {
           alert("Sai mật khẩu");
           return;
-        }*/
-
+        }
         // 4️⃣ CHUYỂN TRANG + PARAM
         const params = new URLSearchParams({
           userCode: user.UserCode,
@@ -1009,7 +1006,7 @@
           department: user.Department,
         }).toString();
 
-        window.location.href = "ui-pages-order.html?" + params;
+        window.location.href = "hybrid://getOrder?" + params;
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
