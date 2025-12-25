@@ -823,20 +823,27 @@
       <div class="container transparent pr0 pl0 relative">
         <div class="section pt0 pb0">
           <div class="row">
-            <div class="card-panel invoice-to" id="deliveryCard">
+            <div
+              class="card-panel invoice-to"
+              id="deliveryCard"
+              style="display: none"
+            >
               <h5 class="top-0" style="color: #2196f3">
                 Chuyến đang cần hoàn thành
               </h5>
-              <span class="title">DH2512090006 Đất nạo vét</span>
-              <p>Từ: Cuối cầu cảng 7</p>
-              <p>Đến: Đường số 5</p>
+
+              <span class="title" id="deliveryTitle"></span>
+              <p id="deliveryFrom"></p>
+              <p id="deliveryTo"></p>
+
               <div class="secondary-content">
                 <a
                   class="waves-effect waves-light btn Pactive"
                   onclick="confirmDelivery()"
-                  ><i class="mdi mdi-message-text-outline right"></i>Xác nhận
-                  điểm giao</a
                 >
+                  <i class="mdi mdi-message-text-outline right"></i>
+                  Xác nhận điểm giao
+                </a>
               </div>
             </div>
             <div class="col s12 pad-0">
@@ -1026,8 +1033,48 @@
 
         window.location.href = "ui-pages-checkin.html?" + params;
       }
+      function renderDeliveryCard() {
+        const raw = localStorage.getItem("ordersData");
 
+        if (!raw) return;
+
+        let data;
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          return;
+        }
+
+        if (!Array.isArray(data)) return;
+
+        // tìm chuyến đang vận chuyển
+        const active = data.find(
+          (x) => x.checkIn != null && x.checkOut == null
+        );
+
+        const card = document.getElementById("deliveryCard");
+
+        if (!active) {
+          card.style.display = "none";
+          return;
+        }
+
+        // HIỂN THỊ CARD
+        card.style.display = "block";
+
+        // ĐỔ DỮ LIỆU
+        document.getElementById(
+          "deliveryTitle"
+        ).innerText = `${active.orderId}`;
+
+        document.getElementById("deliveryFrom").innerText =
+          "Từ: " + (active.startLocName || "");
+
+        document.getElementById("deliveryTo").innerText =
+          "Đến: " + (active.endLocName || "");
+      }
       document.addEventListener("DOMContentLoaded", () => {
+        renderDeliveryCard();
         const user = localStorage.getItem("user");
         window.location.href = "hybrid://gettransport?user=" + user.toString();
       });
