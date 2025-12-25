@@ -983,6 +983,10 @@
       }
 
       function renderHistoryOrders(data) {
+        if (typeof data === "string") {
+          data = JSON.parse(data);
+        }
+
         // Reset UI
         document.getElementById("noDistance").innerText = 0;
         document.getElementById("d02").innerText = 0;
