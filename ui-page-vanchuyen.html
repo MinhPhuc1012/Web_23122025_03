@@ -840,7 +840,7 @@
               </div>
             </div>
             <div class="col s12 pad-0">
-              <ul class="collection invoice-item">
+              <ul class="collection invoice-item" id="transportList">
                 <li class="collection-item avatar" style="padding-left: 5px">
                   <div class="item-det">
                     <span class="title success"
@@ -1025,6 +1025,33 @@
         }).toString();
 
         window.location.href = "ui-pages-checkin.html?" + params;
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const user = localStorage.getItem("user");
+        window.location.href = "hybrid://gettransport?user=" + user;
+      });
+
+      function renderTransportOrders(data) {
+        if (!Array.isArray(data)) return;
+
+        const list = document.getElementById("transportList");
+        list.innerHTML = "";
+
+        data.forEach((item) => {
+          if (item.checkOut !== null) return;
+
+          list.insertAdjacentHTML(
+            "beforeend",
+            `
+            <li>
+                <b>${item.orderId}</b><br>
+                ${item.driverName} - ${item.licensePlate}<br>
+                <span class="status transporting">Đang vận chuyển</span>
+            </li>
+        `
+          );
+        });
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
