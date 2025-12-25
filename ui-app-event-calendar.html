@@ -827,7 +827,9 @@
             <input type="date" id="toDate" />
           </div>
           <div>
-            <button class="btn-today">🔎Tra cứu</button>
+            <button class="btn-today" onclick="searchTransport()">
+              🔎Tra cứu
+            </button>
             <button class="btn-today" onclick="setToday()">📅 Hôm nay</button>
           </div>
           <!-- THỐNG KÊ DƯỚI LỊCH -->
@@ -945,6 +947,100 @@
 
       function closeProfile() {
         document.getElementById("popupProfile").style.display = "none";
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        const today = new Date().toISOString().split("T")[0];
+
+        // set default cho input date (nếu có)
+        const fromInput = document.getElementById("fromDate");
+        const toInput = document.getElementById("toDate");
+
+        if (fromInput) fromInput.value = today;
+        if (toInput) toInput.value = today;
+
+        const user = localStorage.getItem("userCode") || "";
+
+        // GỌI XUỐNG MAUI NGAY KHI LOAD TRANG
+        window.location.href =
+          `hybrid://gettransport?user=${encodeURIComponent(user)}` +
+          `&fromDate=${today}` +
+          `&toDate=${today}`;
+      });
+      function searchTransport() {
+        const user = localStorage.getItem("userCode") || "";
+        const fromDate = document.getElementById("fromDate").value;
+        const toDate = document.getElementById("toDate").value;
+
+        if (!fromDate || !toDate) {
+          alert("Vui lòng chọn đủ ngày");
+          return;
+        }
+
+        window.location.href =
+          `hybrid://gethistory?user=${user}` +
+          `&fromDate=${fromDate}` +
+          `&toDate=${toDate}`;
+      }
+
+      function renderHistoryOrders(data) {
+        // Reset UI
+        document.getElementById("noDistance").innerText = 0;
+        document.getElementById("d02").innerText = 0;
+        document.getElementById("d05").innerText = 0;
+        document.getElementById("d10").innerText = 0;
+        document.getElementById("d20").innerText = 0;
+        document.getElementById("totalTrip").innerText = 0;
+
+        const list = document.getElementById("transportList");
+        list.innerHTML = "";
+
+        if (!Array.isArray(data) || data.length === 0) {
+          list.innerHTML = "<li class='collection-item'>Không có dữ liệu</li>";
+          return;
+        }
+
+        let total = 0;
+
+        data.forEach((item) => {
+          total++;
+
+          switch (item.distanceRangeCode) {
+            case "00-02":
+              inc("d02");
+              break;
+            case "02-05":
+              inc("d05");
+              break;
+            case "05-10":
+              inc("d10");
+              break;
+            case "10-20":
+              inc("d20");
+              break;
+            default:
+              inc("noDistance");
+              break;
+          }
+
+          // Render list chi tiết (nếu cần)
+          list.insertAdjacentHTML(
+            "beforeend",
+            `
+            <li class="collection-item">
+                <b>${item.orderId}</b><br>
+                ${item.driverName} - ${item.licensePlate}<br>
+                ${item.distance ?? "-"} km
+            </li>
+        `
+          );
+        });
+
+        document.getElementById("totalTrip").innerText = total;
+      }
+
+      function inc(id) {
+        const el = document.getElementById(id);
+        el.innerText = Number(el.innerText) + 1;
       }
     </script>
     <script src="assets/js/pwa.js"></script>
