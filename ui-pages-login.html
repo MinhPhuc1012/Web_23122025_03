@@ -1006,7 +1006,7 @@
           userName: user.UserName,
           department: user.Department,
         }).toString();
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user.UserCode));
         window.location.href = "hybrid://getOrder?" + params;
       }
 
