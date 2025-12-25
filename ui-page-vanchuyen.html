@@ -1079,24 +1079,34 @@
         window.location.href = "hybrid://gettransport?user=" + user.toString();
       });
 
-      function renderTransportOrders(data) {
-        if (!Array.isArray(data)) return;
-        const orders = JSON.parse(data);
+      function renderTransportOrders(orders) {
+        if (!Array.isArray(orders)) return;
+
         const list = document.getElementById("transportList");
         list.innerHTML = "";
 
-        orders.forEach((item) => {
-          if (item.checkOut !== null) return;
+        const activeOrders = orders.filter((o) => o.checkOut == null);
 
+        if (activeOrders.length === 0) {
+          list.innerHTML =
+            "<li class='collection-item'>Không có chuyến đang vận chuyển</li>";
+          return;
+        }
+
+        activeOrders.forEach((item) => {
           list.insertAdjacentHTML(
             "beforeend",
             `
-            <li>
-                <b>${item.orderId}</b><br>
-                ${item.driverName} - ${item.licensePlate}<br>
-                <span class="status transporting">Đang vận chuyển</span>
-            </li>
-        `
+      <li class="collection-item avatar" style="padding-left:5px">
+        <div class="item-det">
+          <span class="title success">
+            ${item.orderId}
+          </span>
+          <p>${item.driverName} - ${item.licensePlate ?? ""}</p>
+          <p>Trạng thái: Đang vận chuyển</p>
+        </div>
+      </li>
+      `
           );
         });
       }
