@@ -1033,8 +1033,8 @@
 
         window.location.href = "ui-pages-checkin.html?" + params;
       }
-      function renderDeliveryCard() {
-        const raw = localStorage.getItem("ordersData");
+      function renderDeliveryCard(data) {
+        const raw = data;
 
         if (!raw) return;
 
@@ -1089,7 +1089,7 @@
             return;
           }
         }
-
+        renderDeliveryCard(orders);
         // Nếu API trả dạng { items: [] }
         if (!Array.isArray(orders) && Array.isArray(orders.items)) {
           orders = orders.items;
