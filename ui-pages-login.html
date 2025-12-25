@@ -1011,11 +1011,15 @@
       }
 
       function onLoginSuccess(ordersJson) {
-        localStorage.clear();
-        // Lưu vào localStorage
-        localStorage.setItem("ordersData", JSON.stringify(ordersJson));
+        localStorage.removeItem("ordersData");
 
-        // Chuyển trang
+        if (!Array.isArray(ordersJson) || ordersJson.length === 0) {
+          // KHÔNG lưu gì cả
+          window.location.href = "ui-pages-order.html";
+          return;
+        }
+
+        localStorage.setItem("ordersData", JSON.stringify(ordersJson));
         window.location.href = "ui-pages-order.html";
       }
     </script>

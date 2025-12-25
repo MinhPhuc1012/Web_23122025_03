@@ -1018,14 +1018,17 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         const raw = localStorage.getItem("ordersData");
-
         if (!raw) {
-          document.getElementById("orderList").innerHTML =
-            "<li class='collection-item'>Không có dữ liệu</li>";
+          showEmpty();
           return;
         }
 
         const orders = JSON.parse(raw);
+        if (!Array.isArray(orders) || orders.length === 0) {
+          showEmpty();
+          return;
+        }
+
         let html = "";
 
         orders.forEach((o) => {
@@ -1050,6 +1053,10 @@
 
         document.getElementById("orderList").innerHTML = html;
       });
+      function showEmpty() {
+        document.getElementById("orderList").innerHTML =
+          "<li class='collection-item'>Không có dữ liệu</li>";
+      }
     </script>
 
     <!-- CORE JS FRAMEWORK - START -->
