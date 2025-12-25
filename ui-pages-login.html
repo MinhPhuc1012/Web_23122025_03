@@ -1011,11 +1011,6 @@
       }
 
       function onLoginSuccess(ordersJson) {
-        if (!ordersJson || ordersJson.length === 0) {
-          alert("Không có dữ liệu trả về");
-          return;
-        }
-
         // Lưu vào localStorage
         localStorage.setItem("ordersData", JSON.stringify(ordersJson));
 

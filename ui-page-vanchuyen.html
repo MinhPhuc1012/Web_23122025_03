@@ -1029,7 +1029,7 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         const user = localStorage.getItem("user");
-        window.location.href = "hybrid://gettransport?user=" + user;
+        window.location.href = "hybrid://gettransport?user=" + user.toString();
       });
 
       function renderTransportOrders(data) {
