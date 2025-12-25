@@ -991,8 +991,6 @@
       function renderHistoryOrders(data) {
         resetSummary();
         if (!Array.isArray(data) || data.length === 0) {
-          document.getElementById("orderList").innerHTML =
-            "<li class='collection-item'>Không có dữ liệu</li>";
           return;
         }
 
