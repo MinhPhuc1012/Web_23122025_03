@@ -1011,6 +1011,7 @@
       }
 
       function onLoginSuccess(ordersJson) {
+        localStorage.clear();
         // Lưu vào localStorage
         localStorage.setItem("ordersData", JSON.stringify(ordersJson));
 
