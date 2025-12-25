@@ -841,7 +841,7 @@
 
           <div class="row">
             <div class="col s12 pad-0">
-              <ul class="collection invoice-item">
+              <ul class="collection invoice-item" id="orderList">
                 <li class="collection-item avatar" style="padding-left: 5px">
                   <div class="item-det">
                     <span class="title new">DH2512090006 - Đất nạo vét</span>
@@ -1015,6 +1015,41 @@
 
         window.location.href = "ui-pages-checkin-order.html?" + params;
       }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const raw = localStorage.getItem("ordersData");
+
+        if (!raw) {
+          document.getElementById("orderList").innerHTML =
+            "<li class='collection-item'>Không có dữ liệu</li>";
+          return;
+        }
+
+        const orders = JSON.parse(raw);
+        let html = "";
+
+        orders.forEach((o) => {
+          // đổi màu theo trạng thái
+          let statusClass = "new";
+          if (o.status === "Hoàn thành") statusClass = "success";
+          if (o.status === "Đang làm") statusClass = "warning";
+
+          html += `
+      <li class="collection-item avatar" style="padding-left:5px">
+        <div class="item-det">
+          <span class="title ${statusClass}">
+            ${o.orderId} - ${o.orderName}
+          </span>
+          <p>Từ: ${o.startLocName}</p>
+          <p>Đến: ${o.endLocName}</p>
+          <p>Trạng thái: ${o.status}</p>
+        </div>
+      </li>
+    `;
+        });
+
+        document.getElementById("orderList").innerHTML = html;
+      });
     </script>
 
     <!-- CORE JS FRAMEWORK - START -->

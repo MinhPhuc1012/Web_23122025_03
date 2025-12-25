@@ -975,6 +975,7 @@
         inputPassword = password;
         window.location.href = "hybrid://loginbtn?" + params;
       }
+
       function onLoginUpdated(users) {
         // 1️⃣ Nếu là string → parse
         if (typeof users === "string") {
@@ -1007,6 +1008,19 @@
         }).toString();
 
         window.location.href = "hybrid://getOrder?" + params;
+      }
+
+      function onLoginSuccess(ordersJson) {
+        if (!ordersJson || ordersJson.length === 0) {
+          alert("Không có dữ liệu trả về");
+          return;
+        }
+
+        // Lưu vào localStorage
+        localStorage.setItem("ordersData", JSON.stringify(ordersJson));
+
+        // Chuyển trang
+        window.location.href = "ui-pages-order.html";
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
