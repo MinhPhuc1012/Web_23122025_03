@@ -983,46 +983,43 @@
       }
 
       function renderHistoryOrders(data) {
-        function renderTransport(data) {
-          resetSummary();
+        resetSummary();
+        if (!Array.isArray(data) || data.length === 0) {
+          document.getElementById("orderList").innerHTML =
+            "<li class='collection-item'>Không có dữ liệu</li>";
+          return;
+        }
 
-          if (!Array.isArray(data) || data.length === 0) {
-            document.getElementById("orderList").innerHTML =
-              "<li class='collection-item'>Không có dữ liệu</li>";
-            return;
+        data.forEach((item) => {
+          switch (item.distanceRangeCode) {
+            case "02-05":
+              inc("d05");
+              break;
+            case "05-10":
+              inc("d10");
+              break;
+            case "10-20":
+              inc("d20");
+              break;
+            default:
+              inc("noDistance");
           }
+        });
+        document.getElementById("totalTrip").innerText = data.length;
+      }
 
-          data.forEach((item) => {
-            switch (item.distanceRangeCode) {
-              case "02-05":
-                inc("d05");
-                break;
-              case "05-10":
-                inc("d10");
-                break;
-              case "10-20":
-                inc("d20");
-                break;
-              default:
-                inc("noDistance");
-            }
-          });
-          document.getElementById("totalTrip").innerText = data.length;
-        }
+      function inc(id) {
+        const el = document.getElementById(id);
+        el.innerText = Number(el.innerText) + 1;
+      }
 
-        function inc(id) {
+      function resetSummary() {
+        const ids = ["noDistance", "d02", "d05", "d10", "d20", "totalTrip"];
+
+        ids.forEach((id) => {
           const el = document.getElementById(id);
-          el.innerText = Number(el.innerText) + 1;
-        }
-
-        function resetSummary() {
-          const ids = ["noDistance", "d02", "d05", "d10", "d20", "totalTrip"];
-
-          ids.forEach((id) => {
-            const el = document.getElementById(id);
-            if (el) el.innerText = "0";
-          });
-        }
+          if (el) el.innerText = "0";
+        });
       }
     </script>
     <script src="assets/js/pwa.js"></script>
