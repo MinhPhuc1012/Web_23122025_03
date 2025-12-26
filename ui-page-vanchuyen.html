@@ -996,13 +996,8 @@
       }
       function confirmDelivery() {
         document.addEventListener("DOMContentLoaded", () => {
-          const btn = document.getElementById("confirmBtn");
-          if (!btn) return;
-
-          btn.addEventListener("click", () => {
-            // 🔥 CHỈ GỬI TÍN HIỆU
-            window.location.href = "hybrid://checkoutorder";
-          });
+          // 🔥 CHỈ GỬI TÍN HIỆU
+          window.location.href = "hybrid://checkoutorder";
         });
       }
       function closeConfirm() {
