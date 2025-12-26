@@ -867,7 +867,7 @@
         document.getElementById("orderTo").innerText =
           "Đến: " + (order.EndLocName || "");
       }
-      function click() {
+      document.addEventListener("DOMContentLoaded", () => {
         const btn = document.getElementById("confirmBtn");
         if (!btn) return;
 
@@ -875,7 +875,7 @@
           // 🔥 CHỈ GỬI TÍN HIỆU
           window.location.href = "hybrid://checkin";
         });
-      }
+      });
       document.addEventListener("DOMContentLoaded", () => {
         const raw = localStorage.getItem("ordersCheckin");
 
