@@ -1077,20 +1077,20 @@
           if (o.status === "Đang vận chuyển") statusClass = "warning";
 
           html += `
-      <li class="collection-item avatar" style="padding-left:5px">
-        <div class="item-det">
-          <span class="title ${statusClass}">
-            ${o.OrderId} - ${o.OrderName}
-          </span>
-          <p>Từ: ${o.StartLocName || ""}</p>
-          <p>Đến: ${o.EndLocName || ""}</p>
-          <p>Trạng thái: ${
-            o.Status || ""
-          }<button type="button" onclick="goToCheckin(${index})">Xác nhận</button></p>
-          
-        </div>
-      </li>
-    `;
+        <li class="collection-item avatar" style="padding-left:5px">
+          <div class="item-det">
+            <span class="title ${statusClass}">
+              ${o.OrderId} - ${o.OrderName}
+            </span>
+            <p>Từ: ${o.StartLocName || ""}</p>
+            <p>Đến: ${o.EndLocName || ""}</p>
+            <p>Trạng thái: ${
+              o.Status || ""
+            }<button type="button" onclick="getCheckin(${index})">Xác nhận</button></p>
+
+          </div>
+        </li>
+      `;
         });
 
         document.getElementById("orderList").innerHTML = html;
@@ -1100,12 +1100,23 @@
         document.getElementById("orderList").innerHTML =
           "<li class='collection-item'>Không có dữ liệu</li>";
       }
-      function goToCheckin(index) {
+      function getCheckin(index) {
         const user = localStorage.getItem("user") || "";
 
         // chuyển sang trang checkin
         window.location.href =
           "hybrid://selectorder?i=" + index + "&user=" + user;
+      }
+      function goToCheckin(ordersJson) {
+        localStorage.removeItem("ordersCheckin");
+        if (!Array.isArray(ordersJson) || ordersJson.length === 0) {
+          // KHÔNG lưu gì cả
+          window.location.href = "ui-pages-order.html";
+          return;
+        }
+
+        localStorage.setItem("ordersCheckin", JSON.stringify(ordersJson));
+        window.location.href = "ui-pages-order.html";
       }
     </script>
 

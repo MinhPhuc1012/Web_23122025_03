@@ -867,8 +867,8 @@
         document.getElementById("orderTo").innerText =
           "Đến: " + (orders.EndLocName || "");
       }
+
       document.addEventListener("DOMContentLoaded", () => {
-        window.location.href = "hybrid://getorderselected";
         const btn = document.getElementById("confirmBtn");
         if (!btn) return;
 
@@ -876,7 +876,37 @@
           // 🔥 CHỈ GỬI TÍN HIỆU
           window.location.href = "hybrid://checkin";
         });
+
+        const raw = localStorage.getItem("ordersCheckin");
+
+        if (!raw) {
+          showEmpty();
+          return;
+        }
+
+        let o;
+        try {
+          o = JSON.parse(raw);
+        } catch {
+          showEmpty();
+          return;
+        }
+
+        if (!o || typeof o !== "object") {
+          showEmpty();
+          return;
+        }
+
+        // 👉 RENDER 1 ORDER
+        renderCheckin(o);
       });
+      function getCheckin() {
+        window.location.href = "";
+      }
+      function showEmpty() {
+        document.getElementById("orderList").innerHTML =
+          "<li class='collection-item'>Không có dữ liệu</li>";
+      }
       function onCheckinSuccess() {
         const btn = document.getElementById("confirmBtn");
         btn.classList.add("disabled");
