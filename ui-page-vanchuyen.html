@@ -1049,7 +1049,7 @@
 
         // tìm chuyến đang vận chuyển
         const active = data.find(
-          (x) => x.CheckIn != null && x.CheckOut == null
+          (x) => x.checkIn != null && x.checkOut == null
         );
 
         const card = document.getElementById("deliveryCard");
