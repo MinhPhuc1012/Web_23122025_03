@@ -1033,39 +1033,29 @@
 
         window.location.href = "ui-pages-checkin.html?" + params;
       }
-      function renderDeliveryCard(data) {
-        const raw = data;
-
-        if (!raw) return;
-
-        let data;
-        try {
-          data = JSON.parse(raw);
-        } catch {
-          return;
-        }
-
-        if (!Array.isArray(data)) return;
-
-        // tìm chuyến đang vận chuyển
-        const active = data.find(
-          (x) => x.checkIn != null && x.checkOut == null
-        );
+      function renderDeliveryCard(orders) {
+        // orders đã là ARRAY từ MAUI
+        if (!Array.isArray(orders)) return;
 
         const card = document.getElementById("deliveryCard");
+        if (!card) return;
+
+        // 🔥 tìm chuyến đang vận chuyển
+        const active = orders.find(
+          (x) => x.checkIn != null && x.checkOut == null
+        );
 
         if (!active) {
           card.style.display = "none";
           return;
         }
 
-        // HIỂN THỊ CARD
+        // 👉 HIỂN THỊ CARD
         card.style.display = "block";
 
-        // ĐỔ DỮ LIỆU
-        document.getElementById(
-          "deliveryTitle"
-        ).innerText = `${active.orderId}`;
+        // 👉 ĐỔ DỮ LIỆU
+        document.getElementById("deliveryTitle").innerText =
+          active.orderId || "";
 
         document.getElementById("deliveryFrom").innerText =
           "Từ: " + (active.startLocName || "");
@@ -1073,8 +1063,8 @@
         document.getElementById("deliveryTo").innerText =
           "Đến: " + (active.endLocName || "");
       }
+
       document.addEventListener("DOMContentLoaded", () => {
-        renderDeliveryCard();
         const user = localStorage.getItem("user");
         window.location.href = "hybrid://gettransport?user=" + user.toString();
       });
