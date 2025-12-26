@@ -853,10 +853,6 @@
       }
     </script>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        window.location.href = "hybrid://getselectedorder";
-      });
-
       function renderCheckin(order) {
         if (!order) return;
 
@@ -872,6 +868,7 @@
           "Đến: " + (orders.EndLocName || "");
       }
       document.addEventListener("DOMContentLoaded", () => {
+        window.location.href = "hybrid://getorderselected";
         const btn = document.getElementById("confirmBtn");
         if (!btn) return;
 
