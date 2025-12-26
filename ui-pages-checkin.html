@@ -767,6 +767,7 @@
 
       <div class="container transparent pr0 pl0 relative">
         <div class="section pt0 pb0">
+          <div id="emptyText" style="text-align: center; color: #999"></div>
           <div class="card-panel invoice-to" id="orderList">
             <span
               id="orderTitle"
@@ -866,8 +867,7 @@
         document.getElementById("orderTo").innerText =
           "Đến: " + (order.EndLocName || "");
       }
-
-      document.addEventListener("DOMContentLoaded", () => {
+      function click() {
         const btn = document.getElementById("confirmBtn");
         if (!btn) return;
 
@@ -875,7 +875,8 @@
           // 🔥 CHỈ GỬI TÍN HIỆU
           window.location.href = "hybrid://checkin";
         });
-
+      }
+      document.addEventListener("DOMContentLoaded", () => {
         const raw = localStorage.getItem("ordersCheckin");
 
         if (!raw) {
@@ -900,8 +901,8 @@
         renderCheckin(o);
       });
       function showEmpty() {
-        document.getElementById("orderList").innerHTML =
-          "<li class='collection-item'>Không có dữ liệu</li>";
+        const el = document.getElementById("emptyText");
+        if (el) el.innerText = "Không có dữ liệu";
       }
       function onCheckinSuccess() {
         const btn = document.getElementById("confirmBtn");
