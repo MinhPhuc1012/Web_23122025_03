@@ -838,6 +838,7 @@
 
               <div class="secondary-content">
                 <a
+                  id="btnConfirmDelivery"
                   href="#"
                   class="waves-effect waves-light btn Pactive"
                   onclick="confirmDelivery(); return false;"
@@ -996,7 +997,15 @@
         btn.classList.add("green");
       }
       function confirmDelivery() {
-        window.location.href = "hybrid://checkout";
+        const btn = document.getElementById("btnConfirmDelivery");
+        const orderId = btn?.dataset?.orderId;
+        const user = localStorage.getItem("user");
+        if (!orderId) {
+          alert("Không xác định được đơn hàng");
+          return;
+        }
+
+        window.location.href = "hybrid://checkout?orderId=" + orderId;
       }
       function closeConfirm() {
         document.getElementById("confirmBox1").style.display = "none";
@@ -1076,6 +1085,8 @@
 
         document.getElementById("deliveryTo").innerText =
           "Đến: " + (orderDetail?.EndLocName || "—");
+        const btn = document.getElementById("btnConfirmDelivery");
+        btn.dataset.orderId = active.orderId;
       }
 
       document.addEventListener("DOMContentLoaded", () => {
