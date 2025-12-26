@@ -1104,7 +1104,7 @@
         const user = localStorage.getItem("userCode") || "";
 
         // chuyển sang trang checkin
-        window.location.assign(
+        window.location.href(
           "hybrid://selectorder?i=" + index + "&user=" + user
         );
       }

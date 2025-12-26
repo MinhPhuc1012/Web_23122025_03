@@ -854,7 +854,7 @@
     </script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        window.location.assign("hybrid://getselectedorder");
+        window.location.href("hybrid://getselectedorder");
       });
 
       function renderCheckin(order) {
@@ -877,7 +877,7 @@
 
         btn.addEventListener("click", () => {
           // 🔥 CHỈ GỬI TÍN HIỆU
-          window.location.assign("hybrid://checkin");
+          window.location.href("hybrid://checkin");
         });
       });
       function onCheckinSuccess() {
