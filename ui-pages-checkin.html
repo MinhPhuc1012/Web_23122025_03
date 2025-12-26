@@ -767,7 +767,7 @@
 
       <div class="container transparent pr0 pl0 relative">
         <div class="section pt0 pb0">
-          <div class="card-panel invoice-to">
+          <div class="card-panel invoice-to" id="orderList">
             <span
               id="orderTitle"
               style="color: var(--primary); font-weight: 700"
@@ -856,16 +856,15 @@
       function renderCheckin(order) {
         if (!order) return;
 
-        // 👉 GÁN LÊN CARD
-        document.getElementById("orderTitle").innerText = `${orders.OrderId} ${
-          orders.OrderName || ""
+        document.getElementById("orderTitle").innerText = `${order.OrderId} ${
+          order.OrderName || ""
         }`;
 
         document.getElementById("orderFrom").innerText =
-          "Từ: " + (orders.StartLocName || "");
+          "Từ: " + (order.StartLocName || "");
 
         document.getElementById("orderTo").innerText =
-          "Đến: " + (orders.EndLocName || "");
+          "Đến: " + (order.EndLocName || "");
       }
 
       document.addEventListener("DOMContentLoaded", () => {
@@ -900,9 +899,6 @@
         // 👉 RENDER 1 ORDER
         renderCheckin(o);
       });
-      function getCheckin() {
-        window.location.href = "";
-      }
       function showEmpty() {
         document.getElementById("orderList").innerHTML =
           "<li class='collection-item'>Không có dữ liệu</li>";
