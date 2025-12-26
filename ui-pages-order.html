@@ -1102,9 +1102,6 @@
       }
       function goToCheckin(item) {
         const user = localStorage.getItem("userCode") || "";
-        if (!item || item.Status !== "Mới") {
-          return;
-        }
 
         // chuyển sang trang checkin
         window.location.assign(
