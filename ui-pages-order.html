@@ -1077,8 +1077,7 @@
           if (o.status === "Đang vận chuyển") statusClass = "warning";
 
           html += `
-      <li class="collection-item avatar" style="padding-left:5px"
-      onclick="goToCheckin(${index})">
+      <li class="collection-item avatar" style="padding-left:5px">
         <div class="item-det">
           <span class="title ${statusClass}">
             ${o.OrderId} - ${o.OrderName}
@@ -1086,6 +1085,7 @@
           <p>Từ: ${o.StartLocName || ""}</p>
           <p>Đến: ${o.EndLocName || ""}</p>
           <p>Trạng thái: ${o.Status || ""}</p>
+          <button onclick="goToCheckin(${index})">Xác nhận</button>
         </div>
       </li>
     `;
