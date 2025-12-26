@@ -768,19 +768,21 @@
       <div class="container transparent pr0 pl0 relative">
         <div class="section pt0 pb0">
           <div class="card-panel invoice-to">
-            <span style="color: var(--primary); font-weight: 700"
-              >DH2512090006 Đất nạo vét</span
-            >
-            <p>Từ: Cuối cầu cảng 7</p>
-            <p>Đến: Đường số 5</p>
+            <span
+              id="orderTitle"
+              style="color: var(--primary); font-weight: 700"
+            ></span>
+            <p id="orderFrom"></p>
+            <p id="orderTo"></p>
           </div>
+
           <div class="secondary-content" style="float: none">
             <a
               class="waves-effect waves-light btn red lighten-1"
               id="confirmBtn"
               href="#"
               ><i class="mdi mdi-message-text-outline right"></i>
-              <span id="confirmText">Xác nhận</span></a
+              <span id="confirmText">Xác nhận điểm nhận</span></a
             >
           </div>
         </div>
@@ -851,21 +853,38 @@
       }
     </script>
     <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const trangThai = urlParams.get("trangThai");
+      document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const index = parseInt(urlParams.get("i"), 10);
 
-      const btn = document.getElementById("confirmBtn");
-      const text = document.getElementById("confirmText");
+        if (isNaN(index)) return;
 
-      if (trangThai === "Đang vận chuyển" || trangThai === "Mới") {
-        text.innerText = "Xác nhận điểm nhận";
-        btn.classList.add("Pactive");
-        btn.classList.remove("red", "lighten-1");
-        btn.href = "ui-pages-checkin1.html";
-      } else {
-        text.innerText = "Xác nhận điểm giao";
-        btn.href = "ui-pages-checkin2-fail.html";
-      }
+        const raw = localStorage.getItem("ordersData");
+        if (!raw) return;
+
+        const orders = JSON.parse(raw);
+        if (!Array.isArray(orders) || index < 0 || index >= orders.length)
+          return;
+
+        const order = orders[index];
+
+        // 👉 GÁN LÊN CARD
+        document.getElementById("orderTitle").innerText = `${order.OrderId} ${
+          order.OrderName || ""
+        }`;
+
+        document.getElementById("orderFrom").innerText =
+          "Từ: " + (order.StartLocName || "");
+
+        document.getElementById("orderTo").innerText =
+          "Đến: " + (order.EndLocName || "");
+        const btn = document.getElementById("confirmBtn");
+        if (!btn) return;
+
+        btn.addEventListener("click", () => {
+          window.location.assign("hybrid://checkin");
+        });
+      });
     </script>
     <script src="assets/js/pwa.js"></script>
 
