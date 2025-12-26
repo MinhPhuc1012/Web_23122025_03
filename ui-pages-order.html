@@ -1022,26 +1022,15 @@
 
         window.location.href = "ui-pages-checkin-order.html?" + params;
       }
-      function renderDeliveryCard() {
-        const raw = localStorage.getItem("ordersData");
-
-        if (!raw) return;
-
-        let data;
-        try {
-          data = JSON.parse(raw);
-        } catch {
-          return;
-        }
-
-        if (!Array.isArray(data)) return;
-
-        // tìm chuyến đang vận chuyển
-        const active = data.find(
-          (x) => x.checkIn != null && x.checkOut == null
-        );
+      function renderDeliveryCard(orders) {
+        if (!Array.isArray(orders)) return;
 
         const card = document.getElementById("deliveryCard");
+        if (!card) return;
+
+        const active = orders.find(
+          (x) => x.checkIn != null && x.checkOut == null
+        );
 
         if (!active) {
           card.style.display = "none";
@@ -1050,34 +1039,39 @@
 
         card.style.display = "block";
 
-        document.getElementById(
-          "deliveryTitle"
-        ).innerText = `${active.orderId}`;
+        document.getElementById("deliveryTitle").innerText =
+          active.orderId || "";
 
         document.getElementById("deliveryFrom").innerText =
-          "Từ: " + (active.startLocName || "");
+          "Từ: " + (active.driverName || "");
 
         document.getElementById("deliveryTo").innerText =
-          "Đến: " + (active.endLocName || "");
+          "Đến: " + (active.licensePlate || "");
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        renderDeliveryCard();
         const raw = localStorage.getItem("ordersData");
+
         if (!raw) {
           showEmpty();
+          renderDeliveryCard([]); // không có chuyến
           return;
         }
 
         const orders = JSON.parse(raw);
+
         if (!Array.isArray(orders) || orders.length === 0) {
           showEmpty();
+          renderDeliveryCard([]);
           return;
         }
 
+        // ✅ render card "chuyến đang vận chuyển"
+        renderDeliveryCard(orders);
+
         let html = "";
+
         orders.forEach((o) => {
-          // đổi màu theo trạng thái
           let statusClass = "new";
           if (o.Status === "Hoàn thành") statusClass = "success";
           if (o.Status === "Đang vận chuyển") statusClass = "warning";
@@ -1088,9 +1082,9 @@
           <span class="title ${statusClass}">
             ${o.OrderId} - ${o.OrderName}
           </span>
-          <p>Từ: ${o.StartLocName}</p>
-          <p>Đến: ${o.EndLocName}</p>
-          <p>Trạng thái: ${o.Status}</p>
+          <p>Từ: ${o.StartLocName || ""}</p>
+          <p>Đến: ${o.EndLocName || ""}</p>
+          <p>Trạng thái: ${o.Status || ""}</p>
         </div>
       </li>
     `;
@@ -1098,6 +1092,7 @@
 
         document.getElementById("orderList").innerHTML = html;
       });
+
       function showEmpty() {
         document.getElementById("orderList").innerHTML =
           "<li class='collection-item'>Không có dữ liệu</li>";

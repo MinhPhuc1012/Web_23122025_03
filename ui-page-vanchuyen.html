@@ -1066,60 +1066,67 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         const user = localStorage.getItem("user");
-        window.location.href = `hybrid://gettransport?user=${user}`;
+        window.location.href = `hybrid://getordertransport?user=${user}`;
       });
-
-      function renderTransportOrders(orders) {
+      function renderTransportOrders(data) {
+        // 1️⃣ Chuẩn hoá dữ liệu
         let orders = data;
 
-        if (typeof data === "string") {
+        // nếu MAUI truyền string
+        if (typeof orders === "string") {
           try {
-            orders = JSON.parse(data);
+            orders = JSON.parse(orders);
           } catch {
+            showEmpty();
             return;
           }
         }
-        renderDeliveryCard(orders);
-        // Nếu API trả dạng { items: [] }
+
+        // nếu API trả { items: [] }
         if (!Array.isArray(orders) && Array.isArray(orders.items)) {
           orders = orders.items;
         }
 
-        if (!Array.isArray(orders)) return;
+        if (!Array.isArray(orders) || orders.length === 0) {
+          showEmpty();
+          renderDeliveryCard([]);
+          return;
+        }
 
-        // 3️⃣ Đảm bảo DOM tồn tại
-        const list = document.getElementById("transportList");
-        if (!list) return;
+        // 2️⃣ Render card "chuyến đang vận chuyển"
+        renderDeliveryCard(orders);
 
-        list.innerHTML = "";
-
-        // 4️⃣ RENDER – KHÔNG DÙNG return trong forEach
-        let count = 0;
+        // 3️⃣ Render danh sách chuyến
+        let html = "";
 
         orders.forEach((item) => {
-          // đổi điều kiện theo nhu cầu
+          // chỉ hiển thị chuyến ĐÃ HOÀN THÀNH
           if (item.checkOut == null) return;
 
-          count++;
-
-          list.insertAdjacentHTML(
-            "beforeend",
-            `
+          html += `
       <li class="collection-item avatar" style="padding-left:5px">
         <div class="item-det">
-          <span class="title success">${item.orderId}</span>
-          <p>${item.driverName ?? ""} - ${item.licensePlate ?? ""}</p>
+          <span class="title success">
+            ${item.orderId || ""}
+          </span>
+          <p>Tài xế: ${item.driverName || ""}</p>
           <p>Trạng thái: Hoàn thành</p>
         </div>
       </li>
-      `
-          );
+    `;
         });
 
-        if (count === 0) {
-          list.innerHTML =
-            "<li class='collection-item'>Không có dữ liệu phù hợp</li>";
+        if (!html) {
+          showEmpty();
+          return;
         }
+
+        document.getElementById("orderList").innerHTML = html;
+      }
+
+      function showEmpty() {
+        document.getElementById("orderList").innerHTML =
+          "<li class='collection-item'>Không có dữ liệu</li>";
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
