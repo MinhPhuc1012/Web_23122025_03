@@ -1084,8 +1084,10 @@
           </span>
           <p>Từ: ${o.StartLocName || ""}</p>
           <p>Đến: ${o.EndLocName || ""}</p>
-          <p>Trạng thái: ${o.Status || ""}</p>
-          <button onclick="goToCheckin(${index})">Xác nhận</button>
+          <p>Trạng thái: ${
+            o.Status || ""
+          }<button onclick="goToCheckin(${index})">Xác nhận</button></p>
+          
         </div>
       </li>
     `;
