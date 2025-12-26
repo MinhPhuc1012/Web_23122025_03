@@ -1109,12 +1109,6 @@
       }
       function goToCheckin(ordersJson) {
         localStorage.removeItem("ordersCheckin");
-        if (!Array.isArray(ordersJson) || ordersJson.length === 0) {
-          // KHÔNG lưu gì cả
-          window.location.href = "ui-pages-order.html";
-          return;
-        }
-
         localStorage.setItem("ordersCheckin", JSON.stringify(ordersJson));
         window.location.href = "ui-pages-checkin.html";
       }
