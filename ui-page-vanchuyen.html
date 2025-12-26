@@ -1046,7 +1046,7 @@
         );
 
         if (!active) {
-          card.style.display = "block";
+          card.style.display = "none";
           return;
         }
 
@@ -1066,7 +1066,7 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         const user = localStorage.getItem("user");
-        window.location.href = "hybrid://gettransport?user=" + user.toString();
+        window.location.href = `hybrid://gettransport?user=${user}`;
       });
 
       function renderTransportOrders(orders) {
