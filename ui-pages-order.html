@@ -833,8 +833,10 @@
 
             <div class="secondary-content">
               <a
+                id="btnConfirmDelivery"
+                href="#"
                 class="waves-effect waves-light btn Pactive"
-                onclick="confirmDelivery()"
+                onclick="confirmDelivery(); return false;"
               >
                 <i class="mdi mdi-message-text-outline right"></i>
                 Xác nhận điểm giao
@@ -963,12 +965,15 @@
       }
 
       function confirmDelivery() {
-        const btn = document.getElementById("confirmBtn");
-        if (!btn) return;
+        const btn = document.getElementById("btnConfirmDelivery");
+        const orderId = btn?.dataset?.orderId;
+        const user = localStorage.getItem("user");
+        if (!orderId) {
+          alert("Không xác định được đơn hàng");
+          return;
+        }
 
-        btn.addEventListener("click", () => {
-          window.location.href = "hybrid://checkinorder";
-        });
+        window.location.href = "hybrid://checkout?orderId=" + orderId;
       }
       function closeConfirm() {
         document.getElementById("confirmBox1").style.display = "none";
