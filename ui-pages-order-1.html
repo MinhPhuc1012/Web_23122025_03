@@ -1009,11 +1009,11 @@
         <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin(${index})">
           <div class="item-det">
             <span class="title ${statusClass}">
-              ${o.OrderId} - ${o.OrderName}
+              ${o.orderId} - ${o.orderName}
             </span>
-            <p>Từ: ${o.StartLocName || ""}</p>
-            <p>Đến: ${o.EndLocName || ""}</p>
-            <p>Trạng thái: ${o.Status || ""}</p>
+            <p>Từ: ${o.startLocName || ""}</p>
+            <p>Đến: ${o.endLocName || ""}</p>
+            <p>Trạng thái: ${o.status || ""}</p>
           </div>
         </li>
       `;
@@ -1037,7 +1037,7 @@
           return;
         }
 
-        const hasActiveOrder = orders.some((o) => o.CheckOut === null);
+        const hasActiveOrder = orders.some((o) => o.checkOut === null);
 
         if (hasActiveOrder) {
           window.location.href = "ui-pages-order.html";

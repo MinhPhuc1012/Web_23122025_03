@@ -1135,15 +1135,15 @@
 
         orders.forEach((item) => {
           // ✅ chỉ hiển thị chuyến ĐÃ HOÀN THÀNH
-          if (item.CheckOut == null) return;
+          if (item.checkOut == null) return;
 
           html += `
       <li class="collection-item avatar" style="padding-left:5px">
         <div class="item-det">
           <span class="title success">
-            ${item.OrderId ?? ""}
+            ${item.orderId ?? ""}
           </span>
-          <p>Tài xế: ${item.DriverName ?? ""}</p>
+          <p>Tài xế: ${item.driverName ?? ""}</p>
           <p>Trạng thái: Hoàn thành</p>
         </div>
       </li>

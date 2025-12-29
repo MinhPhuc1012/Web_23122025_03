@@ -995,7 +995,7 @@
           return;
         }
 
-        const hasActiveOrder = orders.some((o) => o.CheckOut === null);
+        const hasActiveOrder = orders.some((o) => o.checkOut === null);
 
         if (hasActiveOrder) {
           window.location.href = "ui-pages-order.html";
@@ -1049,10 +1049,10 @@
 
             // nếu ordersCheckin là ARRAY
             if (Array.isArray(parsed)) {
-              orderDetail = parsed.find((o) => o.OrderId === active.orderId);
+              orderDetail = parsed.find((o) => o.orderId === active.orderId);
             }
             // nếu ordersCheckin là OBJECT
-            else if (parsed && parsed.OrderId === active.orderId) {
+            else if (parsed && parsed.orderId === active.orderId) {
               orderDetail = parsed;
             }
           } catch {}
@@ -1106,19 +1106,19 @@
 
         raw.forEach((o, index) => {
           let statusClass = "new";
-          if (o.Status === "Hoàn thành") statusClass = "success";
-          if (o.Status === "Đang vận chuyển") statusClass = "warning";
+          if (o.status === "Hoàn thành") statusClass = "success";
+          if (o.status === "Đang vận chuyển") statusClass = "warning";
 
           html += `
       <li class="collection-item avatar" style="padding-left:5px">
         <div class="item-det">
           <span class="title ${statusClass}">
-            ${o.OrderId} - ${o.OrderName}
+            ${o.orderId} - ${o.orderName}
           </span>
-          <p>Từ: ${o.StartLocName ?? ""}</p>
-          <p>Đến: ${o.EndLocName ?? ""}</p>
+          <p>Từ: ${o.startLocName ?? ""}</p>
+          <p>Đến: ${o.endLocName ?? ""}</p>
           <p>
-            Trạng thái: ${o.Status ?? ""}
+            Trạng thái: ${o.status ?? ""}
             <button type="button" onclick="getCheckin(${index})">
               Xác nhận
             </button>
