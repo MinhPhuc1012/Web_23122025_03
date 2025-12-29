@@ -979,7 +979,8 @@
           return;
         }
 
-        window.location.href = "hybrid://checkout?orderId=" + orderId;
+        window.location.href =
+          "hybrid://checkout?orderId=" + orderId + "&user=" + user;
       }
       function closeConfirm() {
         document.getElementById("confirmOverlay").style.display = "none";
