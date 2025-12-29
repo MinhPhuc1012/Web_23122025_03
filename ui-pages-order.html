@@ -1048,10 +1048,6 @@
           "Đến: " + (active.licensePlate || "");
       }
       document.addEventListener("DOMContentLoaded", () => {
-        const user = localStorage.getItem("user");
-        window.location.href = `hybrid://getorder?user=${user}`;
-      });
-      document.addEventListener("DOMContentLoaded", () => {
         const raw = localStorage.getItem("ordersData");
 
         if (!raw) {
