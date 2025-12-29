@@ -922,7 +922,7 @@
           return;
         }
 
-        const hasActiveOrder = orders.some((o) => o.CheckOut === null);
+        const hasActiveOrder = orders.some((o) => o.checkOut === null);
 
         if (hasActiveOrder) {
           window.location.href = "ui-pages-order.html";

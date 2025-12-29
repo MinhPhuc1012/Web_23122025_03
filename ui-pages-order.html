@@ -1021,10 +1021,10 @@
           active.orderId || "";
 
         document.getElementById("deliveryFrom").innerText =
-          "Từ: " + (active.driverName || "");
+          "Từ: " + (active.startLocName || "");
 
         document.getElementById("deliveryTo").innerText =
-          "Đến: " + (active.licensePlate || "");
+          "Đến: " + (active.endLocName || "");
       }
       function logToMaui(msg) {
         if (window.external && window.external.notify) {
@@ -1063,22 +1063,19 @@
 
         raw.forEach((o, index) => {
           let statusClass = "new";
-          if (o.status === "Hoàn thành") statusClass = "success";
-          if (o.status === "Đang vận chuyển") statusClass = "warning";
+          if (o.Status === "Hoàn thành") statusClass = "success";
+          if (o.Status === "Đang vận chuyển") statusClass = "warning";
 
           html += `
       <li class="collection-item avatar" style="padding-left:5px">
         <div class="item-det">
           <span class="title ${statusClass}">
-            ${o.orderId} - ${o.orderName}
+            ${o.OrderId} - ${o.OrderName}
           </span>
-          <p>Từ: ${o.startLocName ?? ""}</p>
-          <p>Đến: ${o.endLocName ?? ""}</p>
+          <p>Từ: ${o.StartLocName ?? ""}</p>
+          <p>Đến: ${o.EndLocName ?? ""}</p>
           <p>
-            Trạng thái: ${o.status ?? ""}
-            <button type="button" onclick="getCheckin(${index})">
-              Xác nhận
-            </button>
+            Trạng thái: ${o.Status ?? ""}
           </p>
         </div>
       </li>
