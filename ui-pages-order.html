@@ -1047,8 +1047,17 @@
         document.getElementById("deliveryTo").innerText =
           "Đến: " + (active.licensePlate || "");
       }
+      function logToMaui(msg) {
+        if (window.external && window.external.notify) {
+          window.external.notify("[JS] " + msg);
+        }
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
         let raw = localStorage.getItem("ordersData");
+        logToMaui("ordersData = " + localStorage.getItem("ordersData"));
+        logToMaui("raw length = " + raw.length);
+        logToMaui("first order = " + JSON.stringify(raw[0]));
 
         if (!raw) {
           showEmpty();
