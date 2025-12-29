@@ -812,11 +812,7 @@
           </a>
         </li>
         <li class="Pactive">
-          <a
-            data-active="ui-pages-order.html"
-            data-empty="ui-pages-order-1.html"
-            onclick="goMenu(this)"
-          >
+          <a onclick="goOrderPage()">
             <i class="mdi mdi-truck-fast"></i>
             <span>Vận chuyển</span>
           </a>
@@ -910,6 +906,31 @@
       }
     </script>
     <script>
+      function goOrderPage() {
+        const raw = localStorage.getItem("ordersData");
+
+        if (!raw) {
+          window.location.href = "ui-pages-order-1.html";
+          return;
+        }
+
+        let orders;
+        try {
+          orders = JSON.parse(raw);
+        } catch {
+          window.location.href = "ui-pages-order-1.html";
+          return;
+        }
+
+        const hasActiveOrder = orders.some((o) => o.CheckOut === null);
+
+        if (hasActiveOrder) {
+          window.location.href = "ui-pages-order.html";
+        } else {
+          window.location.href = "ui-pages-order-1.html";
+        }
+      }
+
       function renderCheckin(order) {
         if (!order) return;
 

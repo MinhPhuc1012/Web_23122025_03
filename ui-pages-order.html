@@ -1034,11 +1034,6 @@
           (x) => x.checkIn != null && x.checkOut == null
         );
 
-        if (!active) {
-          card.style.display = "none";
-          return;
-        }
-
         const raw = localStorage.getItem("ordersData");
         let orderDetail = null;
 

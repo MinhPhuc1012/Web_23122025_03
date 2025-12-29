@@ -913,7 +913,7 @@
           </a>
         </li>
         <li class="Pactive">
-          <a href="ui-pages-order.html">
+          <a onclick="goOrderPage()">
             <i class="mdi mdi-shopping"></i>
             <span>Đơn hàng</span>
           </a>
@@ -1025,19 +1025,29 @@
 
         document.getElementById("orderList").innerHTML = html;
       });
-      function goMenu(el) {
+      function goOrderPage() {
         const raw = localStorage.getItem("ordersData");
-        let orders = [];
 
+        if (!raw) {
+          window.location.href = "ui-pages-order-1.html";
+          return;
+        }
+
+        let orders;
         try {
-          orders = JSON.parse(raw) || [];
-        } catch {}
+          orders = JSON.parse(raw);
+        } catch {
+          window.location.href = "ui-pages-order-1.html";
+          return;
+        }
 
         const hasActiveOrder = orders.some((o) => o.CheckOut === null);
 
-        window.location.href = hasActiveOrder
-          ? el.dataset.active
-          : el.dataset.empty;
+        if (hasActiveOrder) {
+          window.location.href = "ui-pages-order.html";
+        } else {
+          window.location.href = "ui-pages-order-1.html";
+        }
       }
 
       function showEmpty() {
