@@ -845,7 +845,33 @@
         <button class="logout-btn">ĐĂNG XUẤT</button>
       </div>
     </div>
+    <div id="confirmOverlay" class="confirm-overlay"></div>
+
+    <div id="confirmBox1" class="confirm-box1">
+      <button class="confirm-close" onclick="closeConfirm()">✕</button>
+
+      <div class="confirm-icon1">✔</div>
+      <div class="confirm-title1">Xác nhận vị trí thành công!</div>
+
+      <div class="confirm-row1">
+        <span class="icon">🕒</span>
+        <span id="cfTime">16:23 Thứ Sáu 12/12/2025</span>
+      </div>
+
+      <div class="confirm-row1">
+        <span class="icon">📍</span>
+        <span id="cfLocation">Cuối cầu cảng 7</span>
+      </div>
+
+      <div class="confirm-sub1">
+        Khoảng: <span id="cfDistance"></span>50m Bán kính:
+        <span id="cfRadius">30.000m</span>
+      </div>
+
+      <div class="confirm-sub1 small">(10.745231 - 106.634654)</div>
+    </div>
     <script>
+      let checkinResult = null; // 'success' | 'fail'
       function goMenu(el) {
         const raw = localStorage.getItem("ordersData");
         let orders = [];
@@ -870,6 +896,17 @@
 
       function closeProfile() {
         document.getElementById("popupProfile").style.display = "none";
+      }
+      function closeConfirm() {
+        document.getElementById("confirmOverlay").style.display = "none";
+        document.getElementById("confirmBox1").style.display = "none";
+
+        if (checkinResult === "success") {
+          window.location.href = "ui-pages-order-1.html";
+        }
+
+        // reset lại cho lần sau
+        checkinResult = null;
       }
     </script>
     <script>
@@ -923,15 +960,48 @@
         const el = document.getElementById("emptyText");
         if (el) el.innerText = "Không có dữ liệu";
       }
-      function onCheckinSuccess() {
-        const btn = document.getElementById("confirmBtn");
-        btn.classList.add("disabled");
-        document.getElementById("confirmText").innerText = "Đã checkin";
-        window.location.href = "ui-page-vanchuyen.html";
+      function onCheckinSuccess(distance, latitude, longitude, startLocName) {
+        checkinResult = "success";
+        document.getElementById("confirmOverlay").style.display = "block";
+        document.getElementById("confirmBox1").style.display = "block";
+
+        const now = new Date();
+        document.getElementById("cfTime").innerText =
+          now.toLocaleTimeString("vi-VN") +
+          " " +
+          now.toLocaleDateString("vi-VN", { weekday: "long" });
+
+        document.getElementById("cfLocation").innerText = startLocName;
+
+        document.getElementById("cfDistance").innerText =
+          Math.round(distance) + "m ";
+
+        document.querySelector(
+          ".confirm-sub1.small"
+        ).innerText = `(${latitude} - ${longitude})`;
       }
 
-      function onCheckinFail() {
-        alert("Checkin thất bại");
+      function onCheckinFail(
+        message,
+        distance,
+        latitude,
+        longitude,
+        startLocName
+      ) {
+        checkinResult = "fail";
+        document.getElementById("confirmOverlay").style.display = "block";
+        document.getElementById("confirmBox1").style.display = "block";
+
+        document.querySelector(".confirm-icon1").innerText = "✕";
+        document.querySelector(".confirm-title1").innerText = message;
+
+        document.getElementById("cfLocation").innerText = startLocName ?? "";
+        document.getElementById("cfDistance").innerText = distance
+          ? Math.round(distance) + "m "
+          : "";
+
+        document.querySelector(".confirm-sub1.small").innerText =
+          latitude && longitude ? `(${latitude} - ${longitude})` : "";
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->

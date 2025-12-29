@@ -822,11 +822,7 @@
 
       <div class="container transparent pr0 pl0 relative">
         <div class="section pt0 pb0">
-          <div
-            class="card-panel invoice-to"
-            id="deliveryCard"
-            style="display: none"
-          >
+          <div class="card-panel invoice-to" id="deliveryCard">
             <h5 class="top-0" style="color: #2196f3">
               Chuyến đang cần hoàn thành
             </h5>
@@ -1003,8 +999,12 @@
       }
 
       function confirmDelivery() {
-        document.getElementById("confirmBox1").style.display = "block";
-        document.getElementById("confirmOverlay").style.display = "block";
+        const btn = document.getElementById("confirmBtn");
+        if (!btn) return;
+
+        btn.addEventListener("click", () => {
+          window.location.href = "hybrid://checkinorder";
+        });
       }
       function closeConfirm() {
         document.getElementById("confirmBox1").style.display = "none";
@@ -1038,6 +1038,7 @@
           card.style.display = "none";
           return;
         }
+
         const raw = localStorage.getItem("ordersData");
         let orderDetail = null;
 
@@ -1132,19 +1133,6 @@
       function showEmpty() {
         document.getElementById("orderList").innerHTML =
           "<li class='collection-item'>Không có dữ liệu</li>";
-      }
-
-      function getCheckin(index) {
-        const user = localStorage.getItem("user") || "";
-
-        // chuyển sang trang checkin
-        window.location.href =
-          "hybrid://selectorder?i=" + index + "&user=" + user;
-      }
-      function goToCheckin(ordersJson) {
-        localStorage.removeItem("ordersCheckin");
-        localStorage.setItem("ordersCheckin", JSON.stringify(ordersJson));
-        window.location.href = "ui-pages-checkin.html";
       }
 
       function onCheckinSuccess(distance, latitude, longitude, startLocName) {

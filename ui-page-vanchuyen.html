@@ -987,6 +987,7 @@
       </div>
     </div>
     <script>
+      let checkinResult = null; // 'success' | 'fail'
       const currentPage = window.location.pathname.split("/").pop();
       const menuLinks = document.querySelectorAll("ul li a");
 
@@ -1027,9 +1028,15 @@
         window.location.href = "hybrid://checkout?orderId=" + orderId;
       }
       function closeConfirm() {
-        document.getElementById("confirmBox1").style.display = "none";
         document.getElementById("confirmOverlay").style.display = "none";
-        window.location.href = "ui-pages-order-1.html";
+        document.getElementById("confirmBox1").style.display = "none";
+
+        if (checkinResult === "success") {
+          window.location.href = "ui-pages-order-1.html";
+        }
+
+        // reset lại cho lần sau
+        checkinResult = null;
       }
       function openProfile() {
         document.getElementById("popupProfile").style.display = "flex";
