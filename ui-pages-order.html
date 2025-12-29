@@ -973,6 +973,7 @@
       </div>
     </div>
     <script>
+      let checkinResult = null; // 'success' | 'fail'
       const currentPage = window.location.pathname.split("/").pop();
       const menuLinks = document.querySelectorAll("ul li a");
 
@@ -989,7 +990,12 @@
       function closeConfirm() {
         document.getElementById("confirmBox1").style.display = "none";
         document.getElementById("confirmOverlay").style.display = "none";
-        window.location.href = "ui-pages-order-1.html";
+        if (checkinResult === "success") {
+          window.location.href = "ui-pages-order-1.html";
+        }
+
+        // reset lại cho lần sau
+        checkinResult = null;
       }
       function openProfile() {
         document.getElementById("popupProfile").style.display = "flex";
@@ -999,29 +1005,6 @@
         document.getElementById("popupProfile").style.display = "none";
       }
 
-      function openDetail(
-        soDH,
-        nguoiTao,
-        trangThai,
-        ngay,
-        diemDau,
-        diemCuoi,
-        khoiLuong,
-        soChuyen
-      ) {
-        const params = new URLSearchParams({
-          soDH,
-          nguoiTao,
-          trangThai,
-          ngay,
-          diemDau,
-          diemCuoi,
-          khoiLuong,
-          soChuyen,
-        }).toString();
-
-        window.location.href = "ui-pages-checkin-order.html?" + params;
-      }
       function renderDeliveryCard(orders) {
         if (!Array.isArray(orders)) return;
 
@@ -1036,7 +1019,23 @@
           card.style.display = "none";
           return;
         }
+        const raw = localStorage.getItem("ordersData");
+        let orderDetail = null;
 
+        if (raw) {
+          try {
+            const parsed = JSON.parse(raw);
+
+            // nếu ordersCheckin là ARRAY
+            if (Array.isArray(parsed)) {
+              orderDetail = parsed.find((o) => o.OrderId === active.orderId);
+            }
+            // nếu ordersCheckin là OBJECT
+            else if (parsed && parsed.OrderId === active.orderId) {
+              orderDetail = parsed;
+            }
+          } catch {}
+        }
         card.style.display = "block";
 
         document.getElementById("deliveryTitle").innerText =
@@ -1048,7 +1047,10 @@
         document.getElementById("deliveryTo").innerText =
           "Đến: " + (active.licensePlate || "");
       }
-
+      document.addEventListener("DOMContentLoaded", () => {
+        const user = localStorage.getItem("user");
+        window.location.href = `hybrid://getorder?user=${user}`;
+      });
       document.addEventListener("DOMContentLoaded", () => {
         const raw = localStorage.getItem("ordersData");
 
@@ -1058,20 +1060,27 @@
           return;
         }
 
-        const orders = JSON.parse(raw);
+        if (typeof raw === "string") {
+          try {
+            raw = JSON.parse(raw);
+          } catch {
+            showEmpty();
+            return;
+          }
+        }
 
-        if (!Array.isArray(orders) || orders.length === 0) {
+        if (!Array.isArray(raw) || raw.length === 0) {
           showEmpty();
           renderDeliveryCard([]);
           return;
         }
 
         // ✅ render card "chuyến đang vận chuyển"
-        renderDeliveryCard(orders);
+        renderDeliveryCard(raw);
 
         let html = "";
 
-        orders.forEach((o, index) => {
+        raw.forEach((o, index) => {
           let statusClass = "new";
           if (o.status === "Hoàn thành") statusClass = "success";
           if (o.status === "Đang vận chuyển") statusClass = "warning";
@@ -1111,6 +1120,50 @@
         localStorage.removeItem("ordersCheckin");
         localStorage.setItem("ordersCheckin", JSON.stringify(ordersJson));
         window.location.href = "ui-pages-checkin.html";
+      }
+
+      function onCheckinSuccess(distance, latitude, longitude, startLocName) {
+        checkinResult = "success";
+        document.getElementById("confirmOverlay").style.display = "block";
+        document.getElementById("confirmBox1").style.display = "block";
+
+        const now = new Date();
+        document.getElementById("cfTime").innerText =
+          now.toLocaleTimeString("vi-VN") +
+          " " +
+          now.toLocaleDateString("vi-VN", { weekday: "long" });
+
+        document.getElementById("cfLocation").innerText = startLocName;
+
+        document.getElementById("cfDistance").innerText =
+          Math.round(distance) + "m ";
+
+        document.querySelector(
+          ".confirm-sub1.small"
+        ).innerText = `(${latitude} - ${longitude})`;
+      }
+
+      function onCheckinFail(
+        message,
+        distance,
+        latitude,
+        longitude,
+        startLocName
+      ) {
+        checkinResult = "fail";
+        document.getElementById("confirmOverlay").style.display = "block";
+        document.getElementById("confirmBox1").style.display = "block";
+
+        document.querySelector(".confirm-icon1").innerText = "✕";
+        document.querySelector(".confirm-title1").innerText = message;
+
+        document.getElementById("cfLocation").innerText = startLocName ?? "";
+        document.getElementById("cfDistance").innerText = distance
+          ? Math.round(distance) + "m "
+          : "";
+
+        document.querySelector(".confirm-sub1.small").innerText =
+          latitude && longitude ? `(${latitude} - ${longitude})` : "";
       }
     </script>
 

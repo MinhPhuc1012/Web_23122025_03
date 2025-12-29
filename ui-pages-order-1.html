@@ -824,12 +824,9 @@
         <div class="section pt0 pb0">
           <div class="row">
             <div class="col s12 pad-0">
-              <ul class="collection invoice-item">
+              <ul class="collection invoice-item" id="orderList">
                 <li class="collection-item avatar" style="padding-left: 5px">
-                  <div
-                    class="item-det"
-                    onclick="openDetail('DH2512090006','Nguyễn Văn A','Đang vận chuyển','2025-01-10','Cuối cầu cảng 7','Đường số 5','12 tấn')"
-                  >
+                  <div class="item-det">
                     <span class="title new">DH2512090006 - Đất nạo vét</span>
                     <p>Từ: Cuối cầu cảng 7</p>
                     <p>Đến: Đường số 5</p>
@@ -961,6 +958,75 @@
           link.parentElement.classList.add("active");
         }
       });
+      function getCheckin(index) {
+        const user = localStorage.getItem("user") || "";
+
+        // chuyển sang trang checkin
+        window.location.href =
+          "hybrid://selectorder?i=" + index + "&user=" + user;
+      }
+      function goToCheckin(ordersJson) {
+        localStorage.removeItem("ordersCheckin");
+        localStorage.setItem("ordersCheckin", JSON.stringify(ordersJson));
+        window.location.href = "ui-pages-checkin.html";
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const raw = localStorage.getItem("ordersData");
+
+        if (!raw) {
+          showEmpty();
+          renderDeliveryCard([]); // không có chuyến
+          return;
+        }
+
+        if (typeof raw === "string") {
+          try {
+            raw = JSON.parse(raw);
+          } catch {
+            showEmpty();
+            return;
+          }
+        }
+
+        if (!Array.isArray(raw) || raw.length === 0) {
+          showEmpty();
+          renderDeliveryCard([]);
+          return;
+        }
+
+        // ✅ render card "chuyến đang vận chuyển"
+        renderDeliveryCard(raw);
+
+        let html = "";
+
+        raw.forEach((o, index) => {
+          let statusClass = "new";
+          if (o.status === "Hoàn thành") statusClass = "success";
+          if (o.status === "Đang vận chuyển") statusClass = "warning";
+
+          html += `
+        <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin(${index})">
+          <div class="item-det">
+            <span class="title ${statusClass}">
+              ${o.OrderId} - ${o.OrderName}
+            </span>
+            <p>Từ: ${o.StartLocName || ""}</p>
+            <p>Đến: ${o.EndLocName || ""}</p>
+            <p>Trạng thái: ${o.Status || ""}</p>
+          </div>
+        </li>
+      `;
+        });
+
+        document.getElementById("orderList").innerHTML = html;
+      });
+
+      function showEmpty() {
+        document.getElementById("orderList").innerHTML =
+          "<li class='collection-item'>Không có dữ liệu</li>";
+      }
+
       function closeConfirm() {
         document.getElementById("confirmBox1").style.display = "none";
         document.getElementById("confirmOverlay").style.display = "none";
@@ -971,30 +1037,6 @@
 
       function closeProfile() {
         document.getElementById("popupProfile").style.display = "none";
-      }
-
-      function openDetail(
-        soDH,
-        nguoiTao,
-        trangThai,
-        ngay,
-        diemDau,
-        diemCuoi,
-        khoiLuong,
-        soChuyen
-      ) {
-        const params = new URLSearchParams({
-          soDH,
-          nguoiTao,
-          trangThai,
-          ngay,
-          diemDau,
-          diemCuoi,
-          khoiLuong,
-          soChuyen,
-        }).toString();
-
-        window.location.href = "ui-pages-checkin-order.html?" + params;
       }
     </script>
 
