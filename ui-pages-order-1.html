@@ -941,11 +941,18 @@
 
         try {
           raw = JSON.parse(raw);
-          rawTransport = JSON.parse(rawTransport);
         } catch (e) {
-          console.error("JSON parse error", e);
+          console.error("Orders JSON parse error", e);
           showEmpty();
           return;
+        }
+
+        // 🔥 transport có thể chưa có → cho mảng rỗng
+        try {
+          rawTransport = rawTransport ? JSON.parse(rawTransport) : [];
+        } catch (e) {
+          console.warn("Transport JSON parse error", e);
+          rawTransport = [];
         }
 
         if (!Array.isArray(raw) || raw.length === 0) {
@@ -971,9 +978,7 @@
           </span>
           <p>Từ: ${o.StartLocName ?? ""}</p>
           <p>Đến: ${o.EndLocName ?? ""}</p>
-          <p>
-            Trạng thái: ${o.Status ?? ""}
-          </p>
+          <p>Trạng thái: ${o.Status ?? ""}</p>
         </div>
       </li>
     `;
