@@ -947,7 +947,11 @@
           </a>
         </li>
         <li>
-          <a href="ui-pages-order.html">
+          <a
+            data-active="ui-pages-order.html"
+            data-empty="ui-pages-order-1.html"
+            onclick="goMenu(this)"
+          >
             <i id="selectBtn" class="mdi mdi-shopping"></i>
             <span>Đơn hàng</span>
           </a>
@@ -996,6 +1000,21 @@
       function selectbtn() {
         btn.classList.add("green");
       }
+      function goMenu(el) {
+        const raw = localStorage.getItem("ordersData");
+        let orders = [];
+
+        try {
+          orders = JSON.parse(raw) || [];
+        } catch {}
+
+        const hasActiveOrder = orders.some((o) => o.CheckOut === null);
+
+        window.location.href = hasActiveOrder
+          ? el.dataset.active
+          : el.dataset.empty;
+      }
+
       function confirmDelivery() {
         const btn = document.getElementById("btnConfirmDelivery");
         const orderId = btn?.dataset?.orderId;

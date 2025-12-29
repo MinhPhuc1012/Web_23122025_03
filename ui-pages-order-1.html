@@ -919,7 +919,11 @@
           </a>
         </li>
         <li>
-          <a href="ui-page-vanchuyen.html">
+          <a
+            data-active="ui-pages-order.html"
+            data-empty="ui-pages-order-1.html"
+            onclick="goMenu(this)"
+          >
             <i class="mdi mdi-truck-fast"></i>
             <span>Vận chuyển</span>
           </a>
@@ -1021,6 +1025,20 @@
 
         document.getElementById("orderList").innerHTML = html;
       });
+      function goMenu(el) {
+        const raw = localStorage.getItem("ordersData");
+        let orders = [];
+
+        try {
+          orders = JSON.parse(raw) || [];
+        } catch {}
+
+        const hasActiveOrder = orders.some((o) => o.CheckOut === null);
+
+        window.location.href = hasActiveOrder
+          ? el.dataset.active
+          : el.dataset.empty;
+      }
 
       function showEmpty() {
         document.getElementById("orderList").innerHTML =

@@ -811,8 +811,12 @@
             <span>Đơn hàng</span>
           </a>
         </li>
-        <li class="active">
-          <a href="ui-page-vanchuyen.html">
+        <li class="Pactive">
+          <a
+            data-active="ui-pages-order.html"
+            data-empty="ui-pages-order-1.html"
+            onclick="goMenu(this)"
+          >
             <i class="mdi mdi-truck-fast"></i>
             <span>Vận chuyển</span>
           </a>
@@ -842,6 +846,21 @@
       </div>
     </div>
     <script>
+      function goMenu(el) {
+        const raw = localStorage.getItem("ordersData");
+        let orders = [];
+
+        try {
+          orders = JSON.parse(raw) || [];
+        } catch {}
+
+        const hasActiveOrder = orders.some((o) => o.CheckOut === null);
+
+        window.location.href = hasActiveOrder
+          ? el.dataset.active
+          : el.dataset.empty;
+      }
+
       function confirmDelivery() {
         document.getElementById("deliveryCard").style.display = "none";
       }
