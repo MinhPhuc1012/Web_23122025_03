@@ -1010,27 +1010,50 @@
         window.location.href = "hybrid://getOrder?" + params;
       }
 
-      function onLoginSuccess(ordersJson) {
+      function onLoginSuccess(ordersJson, transportJson) {
+        // clear cũ
         localStorage.removeItem("ordersData");
+        localStorage.removeItem("transportData");
 
-        // Không có đơn nào
-        if (!Array.isArray(ordersJson) || ordersJson.length === 0) {
+        // normalize orders
+        let orders = ordersJson;
+        if (typeof orders === "string") {
+          try {
+            orders = JSON.parse(orders);
+          } catch {
+            orders = [];
+          }
+        }
+
+        // normalize transport
+        let transports = transportJson;
+        if (typeof transports === "string") {
+          try {
+            transports = JSON.parse(transports);
+          } catch {
+            transports = [];
+          }
+        }
+
+        // Không có đơn
+        if (!Array.isArray(orders) || orders.length === 0) {
           window.location.href = "ui-pages-order.html";
           return;
         }
 
-        // 🔥 Kiểm tra có đơn đang vận chuyển không (CheckOut === null)
-        const hasActiveOrder = ordersJson.some((o) => o.CheckOut === null);
+        // 🔥 kiểm tra đơn đang chạy dựa trên TRANSPORT
+        const hasActiveOrder =
+          Array.isArray(transports) &&
+          transports.some((t) => t.CheckOut === null);
 
-        // Lưu localStorage
-        localStorage.setItem("ordersData", JSON.stringify(ordersJson));
+        // Lưu storage
+        localStorage.setItem("ordersData", JSON.stringify(orders));
+        localStorage.setItem("transportData", JSON.stringify(transports));
 
-        // 👉 Điều hướng theo điều kiện
+        // Điều hướng
         if (hasActiveOrder) {
-          // Có đơn đang chạy
           window.location.href = "ui-pages-order.html";
         } else {
-          // Không có đơn nào đang chạy
           window.location.href = "ui-pages-order-1.html";
         }
       }
