@@ -955,7 +955,7 @@
       menuLinks.forEach((link) => {
         const href = link.getAttribute("href");
         if (href && href === currentPage) {
-          link.parentElement.classList.add("active");
+          link.parentElement.classList.add("Pactive");
         }
       });
       function getCheckin(index) {
@@ -976,7 +976,6 @@
 
         if (!raw) {
           showEmpty();
-          renderDeliveryCard([]); // không có chuyến
           return;
         }
 
@@ -991,12 +990,8 @@
 
         if (!Array.isArray(raw) || raw.length === 0) {
           showEmpty();
-          renderDeliveryCard([]);
           return;
         }
-
-        // ✅ render card "chuyến đang vận chuyển"
-        renderDeliveryCard(raw);
 
         let html = "";
 
@@ -1022,7 +1017,7 @@
         document.getElementById("orderList").innerHTML = html;
       });
       function goOrderPage() {
-        const raw = localStorage.getItem("ordersData");
+        const raw = localStorage.getItem("transportData");
 
         if (!raw) {
           window.location.href = "ui-pages-order-1.html";
