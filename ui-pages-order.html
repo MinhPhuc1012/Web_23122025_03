@@ -988,44 +988,48 @@
         document.getElementById("popupProfile").style.display = "none";
       }
 
-      function renderDeliveryCard(orders) {
-        if (!Array.isArray(orders)) return;
+      function renderDeliveryCard(transports) {
+        if (!Array.isArray(transports) || transports.length === 0) return;
 
         const card = document.getElementById("deliveryCard");
         if (!card) return;
 
-        const active = orders.find(
+        // 🔥 tìm chuyến đang chạy từ TRANSPORT
+        const active = transports.find(
           (x) => x.checkIn != null && x.checkOut == null
         );
 
-        const raw = localStorage.getItem("ordersData");
-        let orderDetail = null;
-
-        if (raw) {
-          try {
-            const parsed = JSON.parse(raw);
-
-            // nếu ordersCheckin là ARRAY
-            if (Array.isArray(parsed)) {
-              orderDetail = parsed.find((o) => o.orderId === active.orderId);
-            }
-            // nếu ordersCheckin là OBJECT
-            else if (parsed && parsed.orderId === active.orderId) {
-              orderDetail = parsed;
-            }
-          } catch {}
+        if (!active) {
+          card.style.display = "none";
+          return;
         }
+
+        // 🔥 lấy order detail từ localStorage
+        const raw = localStorage.getItem("ordersData");
+        if (!raw) return;
+
+        let orders;
+        try {
+          orders = JSON.parse(raw);
+        } catch {
+          return;
+        }
+
+        const orderDetail = orders.find((o) => o.OrderId === active.orderId);
+
+        if (!orderDetail) return;
+
         card.style.display = "block";
 
-        document.getElementById("deliveryTitle").innerText =
-          active.orderId || "";
+        document.getElementById("deliveryTitle").innerText = active.orderId;
 
         document.getElementById("deliveryFrom").innerText =
-          "Từ: " + (active.startLocName || "");
+          "Từ: " + (orderDetail.StartLocName || "");
 
         document.getElementById("deliveryTo").innerText =
-          "Đến: " + (active.endLocName || "");
+          "Đến: " + (orderDetail.EndLocName || "");
       }
+
       function logToMaui(msg) {
         if (window.external && window.external.notify) {
           window.external.notify("[JS] " + msg);
@@ -1057,7 +1061,7 @@
           return;
         }
 
-        renderDeliveryCard(raw);
+        renderDeliveryCard(rawTransport);
 
         let html = "";
 
