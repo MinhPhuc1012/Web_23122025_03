@@ -1044,7 +1044,7 @@
         // 🔥 kiểm tra đơn đang chạy dựa trên TRANSPORT
         const hasActiveOrder =
           Array.isArray(transports) &&
-          transports.some((t) => t.CheckOut === null);
+          transports.some((t) => t.checkOut === null);
 
         // Lưu storage
         localStorage.setItem("ordersData", JSON.stringify(orders));
