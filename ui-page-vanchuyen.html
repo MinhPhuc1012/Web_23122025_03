@@ -1019,29 +1019,7 @@
       function closeProfile() {
         document.getElementById("popupProfile").style.display = "none";
       }
-      function openDetail(
-        soDH,
-        nguoiTao,
-        trangThai,
-        ngay,
-        diemDau,
-        diemCuoi,
-        khoiLuong,
-        soChuyen
-      ) {
-        const params = new URLSearchParams({
-          soDH,
-          nguoiTao,
-          trangThai,
-          ngay,
-          diemDau,
-          diemCuoi,
-          khoiLuong,
-          soChuyen,
-        }).toString();
 
-        window.location.href = "ui-pages-checkin.html?" + params;
-      }
       function renderDeliveryCard(orders) {
         // orders đã là ARRAY từ MAUI
         if (!Array.isArray(orders)) return;
@@ -1152,6 +1130,50 @@
       function showEmpty() {
         document.getElementById("orderList").innerHTML =
           "<li class='collection-item'>Không có dữ liệu</li>";
+      }
+
+      function onCheckinSuccess(distance, latitude, longitude, startLocName) {
+        checkinResult = "success";
+        document.getElementById("confirmOverlay").style.display = "block";
+        document.getElementById("confirmBox1").style.display = "block";
+
+        const now = new Date();
+        document.getElementById("cfTime").innerText =
+          now.toLocaleTimeString("vi-VN") +
+          " " +
+          now.toLocaleDateString("vi-VN", { weekday: "long" });
+
+        document.getElementById("cfLocation").innerText = startLocName;
+
+        document.getElementById("cfDistance").innerText =
+          Math.round(distance) + "m ";
+
+        document.querySelector(
+          ".confirm-sub1.small"
+        ).innerText = `(${latitude} - ${longitude})`;
+      }
+
+      function onCheckinFail(
+        message,
+        distance,
+        latitude,
+        longitude,
+        startLocName
+      ) {
+        checkinResult = "fail";
+        document.getElementById("confirmOverlay").style.display = "block";
+        document.getElementById("confirmBox1").style.display = "block";
+
+        document.querySelector(".confirm-icon1").innerText = "✕";
+        document.querySelector(".confirm-title1").innerText = message;
+
+        document.getElementById("cfLocation").innerText = startLocName ?? "";
+        document.getElementById("cfDistance").innerText = distance
+          ? Math.round(distance) + "m "
+          : "";
+
+        document.querySelector(".confirm-sub1.small").innerText =
+          latitude && longitude ? `(${latitude} - ${longitude})` : "";
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->

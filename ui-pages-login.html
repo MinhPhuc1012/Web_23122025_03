@@ -1013,14 +1013,26 @@
       function onLoginSuccess(ordersJson) {
         localStorage.removeItem("ordersData");
 
+        // Không có đơn nào
         if (!Array.isArray(ordersJson) || ordersJson.length === 0) {
-          // KHÔNG lưu gì cả
           window.location.href = "ui-pages-order.html";
           return;
         }
 
+        // 🔥 Kiểm tra có đơn đang vận chuyển không (CheckOut === null)
+        const hasActiveOrder = ordersJson.some((o) => o.CheckOut === null);
+
+        // Lưu localStorage
         localStorage.setItem("ordersData", JSON.stringify(ordersJson));
-        window.location.href = "ui-pages-order.html";
+
+        // 👉 Điều hướng theo điều kiện
+        if (hasActiveOrder) {
+          // Có đơn đang chạy
+          window.location.href = "ui-pages-order.html";
+        } else {
+          // Không có đơn nào đang chạy
+          window.location.href = "ui-pages-order-1.html";
+        }
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
