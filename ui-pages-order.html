@@ -1048,21 +1048,20 @@
           "Đến: " + (active.licensePlate || "");
       }
       document.addEventListener("DOMContentLoaded", () => {
-        const raw = localStorage.getItem("ordersData");
+        let raw = localStorage.getItem("ordersData");
 
         if (!raw) {
           showEmpty();
-          renderDeliveryCard([]); // không có chuyến
+          renderDeliveryCard([]);
           return;
         }
 
-        if (typeof raw === "string") {
-          try {
-            raw = JSON.parse(raw);
-          } catch {
-            showEmpty();
-            return;
-          }
+        try {
+          raw = JSON.parse(raw);
+        } catch (e) {
+          console.error("JSON parse error", e);
+          showEmpty();
+          return;
         }
 
         if (!Array.isArray(raw) || raw.length === 0) {
@@ -1071,31 +1070,32 @@
           return;
         }
 
-        // ✅ render card "chuyến đang vận chuyển"
         renderDeliveryCard(raw);
 
         let html = "";
 
         raw.forEach((o, index) => {
           let statusClass = "new";
-          if (o.status === "Hoàn thành") statusClass = "success";
-          if (o.status === "Đang vận chuyển") statusClass = "warning";
+          if (o.Status === "Hoàn thành") statusClass = "success";
+          if (o.Status === "Đang vận chuyển") statusClass = "warning";
 
           html += `
-        <li class="collection-item avatar" style="padding-left:5px">
-          <div class="item-det">
-            <span class="title ${statusClass}">
-              ${o.OrderId} - ${o.OrderName}
-            </span>
-            <p>Từ: ${o.StartLocName || ""}</p>
-            <p>Đến: ${o.EndLocName || ""}</p>
-            <p>Trạng thái: ${
-              o.Status || ""
-            }<button type="button" onclick="getCheckin(${index})">Xác nhận</button></p>
-
-          </div>
-        </li>
-      `;
+      <li class="collection-item avatar" style="padding-left:5px">
+        <div class="item-det">
+          <span class="title ${statusClass}">
+            ${o.OrderId} - ${o.OrderName}
+          </span>
+          <p>Từ: ${o.StartLocName ?? ""}</p>
+          <p>Đến: ${o.EndLocName ?? ""}</p>
+          <p>
+            Trạng thái: ${o.Status ?? ""}
+            <button type="button" onclick="getCheckin(${index})">
+              Xác nhận
+            </button>
+          </p>
+        </div>
+      </li>
+    `;
         });
 
         document.getElementById("orderList").innerHTML = html;
@@ -1105,6 +1105,7 @@
         document.getElementById("orderList").innerHTML =
           "<li class='collection-item'>Không có dữ liệu</li>";
       }
+
       function getCheckin(index) {
         const user = localStorage.getItem("user") || "";
 
