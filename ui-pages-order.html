@@ -1021,10 +1021,10 @@
           active.orderId || "";
 
         document.getElementById("deliveryFrom").innerText =
-          "Từ: " + (active.StartLocName || "");
+          "Từ: " + (active.startLocName || "");
 
         document.getElementById("deliveryTo").innerText =
-          "Đến: " + (active.EndLocName || "");
+          "Đến: " + (active.endLocName || "");
       }
       function logToMaui(msg) {
         if (window.external && window.external.notify) {
