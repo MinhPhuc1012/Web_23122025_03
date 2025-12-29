@@ -1103,9 +1103,19 @@
         const user = localStorage.getItem("user");
         window.location.href = `hybrid://getordertransport?user=${user}`;
       });
-      function renderTransportOrders(data) {
-        let orders = data;
-
+      function renderTransportOrders(data, ordersJson) {
+        localStorage.removeItem("transportData");
+        let orders = ordersJson;
+        let transports = data;
+        if (typeof transports === "string") {
+          try {
+            transports = JSON.parse(transports);
+          } catch {
+            transports = [];
+            showEmpty();
+            return;
+          }
+        }
         // MAUI truyền string
         if (typeof orders === "string") {
           try {
@@ -1117,38 +1127,37 @@
           }
         }
 
-        // API trả { items: [] }
-        if (!Array.isArray(orders) && Array.isArray(orders.items)) {
-          orders = orders.items;
-        }
-
         if (!Array.isArray(orders) || orders.length === 0) {
           showEmpty();
-          renderDeliveryCard([]);
           return;
         }
 
-        // card chuyến đang chạy
-        renderDeliveryCard(orders);
+        renderDeliveryCard(transports);
 
         let html = "";
-
-        orders.forEach((item) => {
-          // ✅ chỉ hiển thị chuyến ĐÃ HOÀN THÀNH
-          if (item.checkOut == null) return;
-
+        const orderMap = {};
+        orders.forEach((o) => {
+          orderMap[o.OrderId || o.orderId] = o;
+        });
+        transports.forEach((t) => {
+          const order = orderMap[t.orderId];
           html += `
       <li class="collection-item avatar" style="padding-left:5px">
         <div class="item-det">
-          <span class="title success">
-            ${item.orderId ?? ""}
+          <span class="title warning">
+            ${item.orderId}
           </span>
-          <p>Tài xế: ${item.driverName ?? ""}</p>
+            <p>Từ: ${order?.StartLocName || ""}</p>
+          <p>Đến: ${order?.EndLocName || ""}</p>
+
+          <p>Check-in: ${t.checkIn ? formatDate(t.checkIn) : "-"}</p>
+          <p>Check-out: ${t.checkOut ? formatDate(t.checkOut) : "-"}</p>
           <p>Trạng thái: Hoàn thành</p>
         </div>
       </li>
     `;
         });
+        localStorage.setItem("transportData", JSON.stringify(transports));
 
         if (!html) {
           showEmpty();
