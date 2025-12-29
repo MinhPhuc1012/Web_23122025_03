@@ -1033,6 +1033,8 @@
 
         document.getElementById("deliveryTo").innerText =
           "Đến: " + (orderDetail.EndLocName || "");
+        const btn = document.getElementById("btnConfirmDelivery");
+        btn.dataset.orderId = active.orderId;
       }
 
       function logToMaui(msg) {
