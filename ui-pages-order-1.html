@@ -972,50 +972,62 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        const raw = localStorage.getItem("ordersData");
+        let raw = localStorage.getItem("ordersData");
+        let rawTransport = localStorage.getItem("transportData");
 
         if (!raw) {
           showEmpty();
+          renderDeliveryCard([]);
           return;
         }
 
-        if (typeof raw === "string") {
-          try {
-            raw = JSON.parse(raw);
-          } catch {
-            showEmpty();
-            return;
-          }
+        try {
+          raw = JSON.parse(raw);
+          rawTransport = JSON.parse(rawTransport);
+        } catch (e) {
+          console.error("JSON parse error", e);
+          showEmpty();
+          return;
         }
 
         if (!Array.isArray(raw) || raw.length === 0) {
           showEmpty();
+          renderDeliveryCard([]);
           return;
         }
+
+        renderDeliveryCard(rawTransport);
 
         let html = "";
 
         raw.forEach((o, index) => {
           let statusClass = "new";
-          if (o.status === "Hoàn thành") statusClass = "success";
-          if (o.status === "Đang vận chuyển") statusClass = "warning";
+          if (o.Status === "Hoàn thành") statusClass = "success";
+          if (o.Status === "Đang vận chuyển") statusClass = "warning";
 
           html += `
-        <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin(${index})">
-          <div class="item-det">
-            <span class="title ${statusClass}">
-              ${o.orderId} - ${o.orderName}
-            </span>
-            <p>Từ: ${o.startLocName || ""}</p>
-            <p>Đến: ${o.endLocName || ""}</p>
-            <p>Trạng thái: ${o.status || ""}</p>
-          </div>
-        </li>
-      `;
+      <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin(${index})">
+        <div class="item-det">
+          <span class="title ${statusClass}">
+            ${o.OrderId} - ${o.OrderName}
+          </span>
+          <p>Từ: ${o.StartLocName ?? ""}</p>
+          <p>Đến: ${o.EndLocName ?? ""}</p>
+          <p>
+            Trạng thái: ${o.Status ?? ""}
+          </p>
+        </div>
+      </li>
+    `;
         });
 
         document.getElementById("orderList").innerHTML = html;
       });
+
+      function showEmpty() {
+        document.getElementById("orderList").innerHTML =
+          "<li class='collection-item'>Không có dữ liệu</li>";
+      }
       function goOrderPage() {
         const raw = localStorage.getItem("transportData");
 
@@ -1039,11 +1051,6 @@
         } else {
           window.location.href = "ui-pages-order-1.html";
         }
-      }
-
-      function showEmpty() {
-        document.getElementById("orderList").innerHTML =
-          "<li class='collection-item'>Không có dữ liệu</li>";
       }
 
       function closeConfirm() {
