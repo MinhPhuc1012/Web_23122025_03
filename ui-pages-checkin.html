@@ -779,11 +779,11 @@
 
           <div class="secondary-content" style="float: none">
             <a
-              class="waves-effect waves-light btn red lighten-1"
+              class="waves-effect waves-light btn Pactive"
               id="confirmBtn"
               href="#"
               ><i class="mdi mdi-message-text-outline right"></i>
-              <span id="confirmText">Xác nhận</span></a
+              <span id="confirmText">Xác nhận điểm nhận</span></a
             >
           </div>
         </div>
@@ -860,7 +860,7 @@
       </div>
 
       <div class="confirm-sub1">
-        Khoảng: <span id="cfDistance"></span>50m Bán kính:
+        Khoảng: <span id="cfDistance"></span>Bán kính:
         <span id="cfRadius">30.000m</span>
       </div>
 
@@ -997,9 +997,9 @@
         document.getElementById("cfDistance").innerText =
           Math.round(distance) + "m ";
 
-        document.querySelector(
-          ".confirm-sub1.small"
-        ).innerText = `(${latitude} - ${longitude})`;
+        document.querySelector(".confirm-sub1.small").innerText = `(${Number(
+          latitude
+        ).toFixed(6)}  ${Number(longitude).toFixed(6)})`;
       }
 
       function onCheckinFail(
@@ -1022,7 +1022,11 @@
           : "";
 
         document.querySelector(".confirm-sub1.small").innerText =
-          latitude && longitude ? `(${latitude} - ${longitude})` : "";
+          Number(latitude).toFixed(6) && Number(longitude).toFixed(6)
+            ? `(${Number(latitude).toFixed(6)}  ${Number(longitude).toFixed(
+                6
+              )})`
+            : "";
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->

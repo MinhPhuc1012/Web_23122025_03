@@ -892,7 +892,7 @@
             <span>Tra cứu</span>
           </a>
         </li>
-        <li>
+        <li class="Pactive">
           <a onclick="goOrderPage()">
             <i class="mdi mdi-shopping"></i>
             <span>Đơn hàng</span>
@@ -1118,9 +1118,9 @@
         document.getElementById("cfDistance").innerText =
           Math.round(distance) + "m ";
 
-        document.querySelector(
-          ".confirm-sub1.small"
-        ).innerText = `(${latitude} - ${longitude})`;
+        document.querySelector(".confirm-sub1.small").innerText = `(${Number(
+          latitude
+        ).toFixed(6)}  ${Number(longitude).toFixed(6)})`;
       }
 
       function onCheckinFail(
@@ -1143,7 +1143,11 @@
           : "";
 
         document.querySelector(".confirm-sub1.small").innerText =
-          latitude && longitude ? `(${latitude} - ${longitude})` : "";
+          Number(latitude).toFixed(6) && Number(longitude).toFixed(6)
+            ? `(${Number(latitude).toFixed(6)}  ${Number(longitude).toFixed(
+                6
+              )})`
+            : "";
       }
     </script>
 

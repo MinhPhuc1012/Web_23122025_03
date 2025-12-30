@@ -973,14 +973,21 @@
       function confirmDelivery() {
         const btn = document.getElementById("btnConfirmDelivery");
         const orderId = btn?.dataset?.orderId;
+        const transportOrderId = btn?.dataset?.transportOrderId;
         const user = localStorage.getItem("user");
-        if (!orderId) {
-          alert("Không xác định được đơn hàng");
+        if (!orderId || !transportOrderId) {
+          alert("Không xác định được đơn / chuyến");
           return;
         }
 
         window.location.href =
-          "hybrid://checkout?orderId=" + orderId + "&user=" + user;
+          "hybrid://checkout" +
+          "?orderId=" +
+          orderId +
+          "&transportOrderId=" +
+          transportOrderId +
+          "&user=" +
+          user;
       }
       function closeConfirm() {
         document.getElementById("confirmOverlay").style.display = "none";
@@ -1046,6 +1053,7 @@
           "Đến: " + (orderDetail?.EndLocName || "—");
         const btn = document.getElementById("btnConfirmDelivery");
         btn.dataset.orderId = active.orderId;
+        btn.dataset.transportOrderId = active.transportOrderId;
       }
 
       document.addEventListener("DOMContentLoaded", () => {
@@ -1129,9 +1137,9 @@
         document.getElementById("cfDistance").innerText =
           Math.round(distance) + "m ";
 
-        document.querySelector(
-          ".confirm-sub1.small"
-        ).innerText = `(${latitude} - ${longitude})`;
+        document.querySelector(".confirm-sub1.small").innerText = `(${Number(
+          latitude
+        ).toFixed(6)}  ${Number(longitude).toFixed(6)})`;
       }
 
       function onCheckinFail(
@@ -1154,7 +1162,11 @@
           : "";
 
         document.querySelector(".confirm-sub1.small").innerText =
-          latitude && longitude ? `(${latitude} - ${longitude})` : "";
+          Number(latitude).toFixed(6) && Number(longitude).toFixed(6)
+            ? `(${Number(latitude).toFixed(6)}  ${Number(longitude).toFixed(
+                6
+              )})`
+            : "";
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
