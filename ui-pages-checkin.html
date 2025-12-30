@@ -944,7 +944,7 @@
         document.getElementById("orderTo").innerText =
           "Đến: " + (order.EndLocName || "");
         const btn = document.getElementById("confirmBtn");
-        btn.dataset.orderId = order.orderId;
+        btn.dataset.orderId = order.OrderId;
       }
       document.addEventListener("DOMContentLoaded", () => {
         const user = localStorage.getItem("user");
