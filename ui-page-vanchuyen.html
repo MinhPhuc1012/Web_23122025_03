@@ -985,9 +985,11 @@
           "?orderId=" +
           orderId +
           "&transportOrderId=" +
-          transportOrderId +
+          (transportOrderId ?? "") +
           "&user=" +
-          user;
+          user +
+          "&ts=" +
+          Date.now();
       }
       function closeConfirm() {
         document.getElementById("confirmOverlay").style.display = "none";
