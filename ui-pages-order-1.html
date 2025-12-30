@@ -935,7 +935,6 @@
 
         if (!raw) {
           showEmpty();
-          renderDeliveryCard([]);
           return;
         }
 
@@ -947,7 +946,6 @@
           return;
         }
 
-        // 🔥 transport có thể chưa có → cho mảng rỗng
         try {
           rawTransport = rawTransport ? JSON.parse(rawTransport) : [];
         } catch (e) {
@@ -957,11 +955,8 @@
 
         if (!Array.isArray(raw) || raw.length === 0) {
           showEmpty();
-          renderDeliveryCard([]);
           return;
         }
-
-        renderDeliveryCard(rawTransport);
 
         let html = "";
 
