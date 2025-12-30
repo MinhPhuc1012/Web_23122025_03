@@ -967,14 +967,21 @@
       function confirmDelivery() {
         const btn = document.getElementById("btnConfirmDelivery");
         const orderId = btn?.dataset?.orderId;
+        const transportOrderId = btn?.dataset?.transportOrderId;
         const user = localStorage.getItem("user");
-        if (!orderId) {
-          alert("Không xác định được đơn hàng");
+        if (!orderId || !transportOrderId) {
+          alert("Không xác định được đơn / chuyến");
           return;
         }
 
         window.location.href =
-          "hybrid://checkout?orderId=" + orderId + "&user=" + user;
+          "hybrid://checkout" +
+          "?orderId=" +
+          orderId +
+          "&transportOrderId=" +
+          transportOrderId +
+          "&user=" +
+          user;
       }
       function closeConfirm() {
         document.getElementById("confirmBox1").style.display = "none";
@@ -1036,6 +1043,7 @@
           "Đến: " + (orderDetail.EndLocName || "");
         const btn = document.getElementById("btnConfirmDelivery");
         btn.dataset.orderId = active.orderId;
+        btn.dataset.transportOrderId = active.transportOrderId;
       }
 
       function logToMaui(msg) {
