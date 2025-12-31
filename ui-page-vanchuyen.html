@@ -947,15 +947,17 @@
       }
 
       function getStatusClass(status) {
-        switch ((status || "").toLowerCase()) {
+        if (!status) return "blues";
+
+        switch (status.trim().toLowerCase()) {
           case "mới":
             return "blues";
           case "đang vận chuyển":
             return "purples";
           case "hoàn thành":
-            return "green";
+            return "done";
           default:
-            return "";
+            return "blues"; // fallback
         }
       }
       function goOrderPage() {
