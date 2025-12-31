@@ -966,9 +966,9 @@
           if (o.Status === "Đang vận chuyển") statusClass = "warning";
 
           html += `
-      <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin(${
+      <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin('${
         o.OrderId
-      })">
+      }')">
         <div class="item-det">
           <span class="title ${statusClass}">
             ${o.OrderId} - ${o.OrderName}
