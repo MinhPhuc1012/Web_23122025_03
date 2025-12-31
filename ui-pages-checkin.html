@@ -949,10 +949,14 @@
       document.addEventListener("DOMContentLoaded", () => {
         const user = localStorage.getItem("user");
         const btn = document.getElementById("confirmBtn");
-        const orderId = btn?.dataset?.orderId;
         if (!btn) return;
 
         btn.addEventListener("click", () => {
+          const orderId = btn.dataset.orderId;
+          if (!orderId) {
+            alert("Không tìm thấy OrderId");
+            return;
+          }
           // 🔥 CHỈ GỬI TÍN HIỆU
           window.location.href =
             "hybrid://checkinorder?user=" + user + "&orderId=" + orderId;
