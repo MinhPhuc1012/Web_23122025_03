@@ -916,12 +916,12 @@
           link.parentElement.classList.add("Pactive");
         }
       });
-      function getCheckin(index) {
+      function getCheckin(orderId) {
         const user = localStorage.getItem("user") || "";
 
         // chuyển sang trang checkin
         window.location.href =
-          "hybrid://selectorder?i=" + index + "&user=" + user;
+          "hybrid://selectorder?orderId=" + orderId + "&user=" + user;
       }
       function goToCheckin(ordersJson) {
         localStorage.removeItem("ordersCheckin");
@@ -960,13 +960,15 @@
 
         let html = "";
 
-        raw.forEach((o, index) => {
+        raw.forEach((o) => {
           let statusClass = "new";
           if (o.Status === "Hoàn thành") statusClass = "success";
           if (o.Status === "Đang vận chuyển") statusClass = "warning";
 
           html += `
-      <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin(${index})">
+      <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin(${
+        o.OrderId
+      })">
         <div class="item-det">
           <span class="title ${statusClass}">
             ${o.OrderId} - ${o.OrderName}
