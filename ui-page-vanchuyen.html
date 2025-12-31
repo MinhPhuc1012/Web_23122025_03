@@ -960,6 +960,15 @@
             return "blues"; // fallback
         }
       }
+
+      function formatDate(dateStr) {
+        if (!dateStr) return "";
+        const d = new Date(dateStr);
+        if (isNaN(d)) return dateStr;
+
+        return d.toLocaleDateString("vi-VN");
+      }
+
       function goOrderPage() {
         const raw = localStorage.getItem("transportData");
 
@@ -1122,9 +1131,9 @@
             ${t.orderId}
           </span>
           <p>Từ: <b>${order?.StartLocName || ""}</b></p>
-          <p>    ${t.checkIn}</p>
+          <p>     ${formatDate(t.checkIn)} </p>
           <p>Đến: <b>${order?.EndLocName || ""}</b></p>
-          <p>    ${t.checkOut}</p>
+          <p>    ${formatDate(t.checkOut)}</p>
           <p>Trạng thái: Hoàn thành</p>
         </blockquote>
       </li>
