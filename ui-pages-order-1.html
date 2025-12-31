@@ -916,6 +916,20 @@
           link.parentElement.classList.add("Pactive");
         }
       });
+
+      function getStatusClass(status) {
+        switch ((status || "").toLowerCase()) {
+          case "mới":
+            return "blues";
+          case "đang vận chuyển":
+            return "purples";
+          case "hoàn thành":
+            return "greens";
+          default:
+            return "";
+        }
+      }
+
       function getCheckin(orderId) {
         const user = localStorage.getItem("user") || "";
 
@@ -969,14 +983,17 @@
       <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin('${
         o.OrderId
       }')">
-        <div class="item-det">
+        <blockquote class="${getStatusClass(o.Status)}">
           <span class="title ${statusClass}">
             ${o.OrderId} - ${o.OrderName}
           </span>
-          <p>Từ: ${o.StartLocName ?? ""}</p>
-          <p>Đến: ${o.EndLocName ?? ""}</p>
+          <p><b>${o.LicensePlate} - ${o.StartDate} - ${o.EndDate} - KL: ${
+            o.WeightMass
+          }</b></p>
+          <p>Từ: <b>${o.StartLocName ?? ""}</b></p>
+          <p>Đến: <b>${o.EndLocName ?? ""}</b></p>
           <p>Trạng thái: ${o.Status ?? ""}</p>
-        </div>
+        </blockquote>
       </li>
     `;
         });

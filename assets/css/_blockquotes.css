@@ -2,11 +2,28 @@
   Blockquote
 ------------------------------------------*/
 
-blockquote{
+blockquote {
   border-color: var(--primary-color);
+  color: var(--primary-color);
   padding-top: 8px;
   padding-bottom: 8px;
 }
-blockquote.accent{
+blockquote.purples {
+  border-color: #b724df;
+  color: #c22fb3;
+}
+blockquote.blues {
+  border-color: #42a5f5;
+  color: #42a5f5;
+}
+blockquote.greens {
+  border-color: #66bb6a;
+  color: #66bb6a;
+}
+blockquote.accent {
   border-color: var(--accent-color);
+}
+blockquote .title {
+  color: inherit;
+  font-weight: 600;
 }

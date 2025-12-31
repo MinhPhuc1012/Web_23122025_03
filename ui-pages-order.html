@@ -835,7 +835,7 @@
               <a
                 id="btnConfirmDelivery"
                 href="#"
-                class="waves-effect waves-light btn Pactive"
+                class="waves-effect pulse waves-light btn Pactive"
                 onclick="confirmDelivery(); return false;"
               >
                 <i class="mdi mdi-message-text-outline right"></i>
@@ -985,6 +985,18 @@
           "&ts=" +
           Date.now();
       }
+      function getStatusClass(status) {
+        switch ((status || "").toLowerCase()) {
+          case "mới":
+            return "blues";
+          case "đang vận chuyển":
+            return "purples";
+          case "hoàn thành":
+            return "greens";
+          default:
+            return "";
+        }
+      }
       function closeConfirm() {
         document.getElementById("confirmBox1").style.display = "none";
         document.getElementById("confirmOverlay").style.display = "none";
@@ -1090,16 +1102,17 @@
 
           html += `
       <li class="collection-item avatar" style="padding-left:5px">
-        <div class="item-det">
+        <blockquote class="${getStatusClass(o.Status)}">
           <span class="title ${statusClass}">
             ${o.OrderId} - ${o.OrderName}
           </span>
-          <p>Từ: ${o.StartLocName ?? ""}</p>
-          <p>Đến: ${o.EndLocName ?? ""}</p>
-          <p>
-            Trạng thái: ${o.Status ?? ""}
-          </p>
-        </div>
+          <p><b>${o.LicensePlate} - ${o.StartDate} - ${o.EndDate} - KL: ${
+            o.WeightMass
+          }</b></p>
+          <p>Từ: <b>${o.StartLocName ?? ""}</b></p>
+          <p>Đến: <b>${o.EndLocName ?? ""}</b></p>
+          <p>Trạng thái: ${o.Status ?? ""}</p>
+        </blockquote>
       </li>
     `;
         });

@@ -840,7 +840,7 @@
                 <a
                   id="btnConfirmDelivery"
                   href="#"
-                  class="waves-effect waves-light btn Pactive"
+                  class="waves-effect pulse waves-light btn Pactive"
                   onclick="confirmDelivery(); return false;"
                 >
                   <i class="mdi mdi-message-text-outline right"></i>
@@ -944,6 +944,19 @@
       const btn = document.getElementById("selectBtn");
       function selectbtn() {
         btn.classList.add("green");
+      }
+
+      function getStatusClass(status) {
+        switch ((status || "").toLowerCase()) {
+          case "mới":
+            return "blues";
+          case "đang vận chuyển":
+            return "purples";
+          case "hoàn thành":
+            return "green";
+          default:
+            return "";
+        }
       }
       function goOrderPage() {
         const raw = localStorage.getItem("transportData");
@@ -1102,14 +1115,16 @@
           const order = orderMap[t.orderId];
           html += `
       <li class="collection-item avatar" style="padding-left:5px">
-        <div class="item-det">
+        <blockquote class="${getStatusClass(order.Status)}">
           <span class="title warning">
             ${t.orderId}
           </span>
-          <p>Từ: ${order?.StartLocName || ""}</p>
-          <p>Đến: ${order?.EndLocName || ""}</p>
+          <p>Từ: <b>${order?.StartLocName || ""}</b></p>
+          <p>    ${t.checkIn}</p>
+          <p>Đến: <b>${order?.EndLocName || ""}</b></p>
+          <p>    ${t.checkOut}</p>
           <p>Trạng thái: Hoàn thành</p>
-        </div>
+        </blockquote>
       </li>
     `;
         });
