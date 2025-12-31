@@ -963,10 +963,18 @@
 
       function formatDate(dateStr) {
         if (!dateStr) return "";
-        const d = new Date(dateStr);
-        if (isNaN(d)) return dateStr;
 
-        return d.toLocaleDateString("vi-VN");
+        const d = new Date(dateStr);
+        if (isNaN(d)) return "";
+
+        return d.toLocaleString("vi-VN", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        });
       }
 
       function goOrderPage() {
@@ -1128,8 +1136,9 @@
       <li class="collection-item avatar" style="padding-left:5px">
         <blockquote class="${getStatusClass(order.Status)}">
           <span class="title warning">
-            ${t.orderId}
+            ${t.transportOrderId}
           </span>
+          <span>${order.OrderName}</span>
           <p>Từ: <b>${order?.StartLocName || ""}</b></p>
           <p>     ${formatDate(t.checkIn)} </p>
           <p>Đến: <b>${order?.EndLocName || ""}</b></p>
