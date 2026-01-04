@@ -989,7 +989,10 @@
 
         // 2️⃣ Check array
         if (!Array.isArray(users) || users.length === 0) {
-          alert("Không có dữ liệu user");
+          M.toast({
+            html: "Không có dữ liệu user",
+            classes: "deep-orange lighten-1 white-text",
+          });
           return;
         }
 
@@ -997,7 +1000,10 @@
 
         // 3️⃣ CHECK PASSWORD
         if (user.Password !== inputPassword) {
-          alert("Sai mật khẩu");
+          M.toast({
+            html: "Sai mật khẩu",
+            classes: "deep-orange lighten-1 white-text",
+          });
           return;
         }
         // 4️⃣ CHUYỂN TRANG + PARAM

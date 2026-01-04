@@ -881,7 +881,8 @@
         <span id="cfRadius">Bán kính: 30.000m</span>
       </div>
 
-      <div class="confirm-sub1 small">(10.745231 - 106.634654)</div>
+      <div class="confirm-sub1 small">(10.745231 106.634654)</div>
+      <div class="qr-icon"></div>
     </div>
 
     <div class="footer-menu circular">
@@ -970,7 +971,10 @@
         const transportOrderId = btn?.dataset?.transportOrderId;
         const user = localStorage.getItem("user");
         if (!orderId || !transportOrderId) {
-          alert("Không xác định được đơn / chuyến");
+          M.toast({
+            html: "Không xác định được đơn / chuyến",
+            classes: "deep-orange lighten-1 white-text",
+          });
           return;
         }
 
@@ -1159,13 +1163,15 @@
         distance,
         latitude,
         longitude,
-        startLocName
+        startLocName,
+        transportOrderId
       ) {
         checkinResult = "fail";
         document.getElementById("confirmOverlay").style.display = "block";
         document.getElementById("confirmBox1").style.display = "block";
 
         document.querySelector(".confirm-icon1").innerText = "✕";
+        document.querySelector(".confirm-icon1").style.color = "red";
         document.querySelector(".confirm-title1").innerText = message;
 
         document.getElementById("cfLocation").innerText = startLocName ?? "";
@@ -1179,6 +1185,22 @@
                 6
               )})`
             : "";
+        const qrDiv = document.querySelector(".qr-icon");
+        if (qrDiv) {
+          const img = document.createElement("img");
+          img.src = "QR.jpg";
+          img.alt = "QR Code";
+          img.onclick = function () {
+            // đổi src sang QR
+            img.src =
+              "https://quickchart.io/qr?text=" +
+              encodeURIComponent(transportOrderId);
+
+            // đổi class
+            img.classList.add("qr-modal");
+          };
+          qrDiv.appendChild(img);
+        }
       }
     </script>
 

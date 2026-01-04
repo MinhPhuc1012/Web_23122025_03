@@ -1023,7 +1023,10 @@
         const toDate = document.getElementById("toDate").value;
 
         if (!fromDate || !toDate) {
-          alert("Vui lòng chọn đủ ngày");
+          M.toast({
+            html: "Vui lòng chọn đủ ngày",
+            classes: "deep-orange lighten-1 white-text",
+          });
           return;
         }
 
