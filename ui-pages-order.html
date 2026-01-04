@@ -990,10 +990,14 @@
           Date.now();
       }
 
-      function getStatusClass(status) {
-        if (!status) return "blues";
+      function normalizeStatus(s) {
+        return s?.toLowerCase().normalize("NFC").replace(/\s+/g, " ").trim();
+      }
 
-        switch (status.trim().toLowerCase()) {
+      function getStatusClass(status) {
+        const s = normalizeStatus(status);
+
+        switch (s) {
           case "mới":
             return "blues";
           case "đang vận chuyển":
@@ -1001,7 +1005,7 @@
           case "hoàn thành":
             return "done";
           default:
-            return "blues"; // fallback
+            return "blues";
         }
       }
       function closeConfirm() {
@@ -1103,14 +1107,10 @@
         let html = "";
 
         raw.forEach((o, index) => {
-          let statusClass = "new";
-          if (o.Status === "Hoàn thành") statusClass = "success";
-          if (o.Status === "Đang vận chuyển") statusClass = "warning";
-
           html += `
       <li class="collection-item avatar" style="padding-left:5px">
         <blockquote class="${getStatusClass(o.Status)}">
-          <span class="title ${statusClass}">
+          <span class="title">
             ${o.OrderId}
           </span>
           <p><b>${o.LicensePlate} -  ${formatDate(o.StartDate)} - 

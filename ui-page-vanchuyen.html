@@ -947,10 +947,14 @@
         btn.classList.add("green");
       }
 
-      function getStatusClass(status) {
-        if (!status) return "blues";
+      function normalizeStatus(s) {
+        return s?.toLowerCase().normalize("NFC").replace(/\s+/g, " ").trim();
+      }
 
-        switch (status.trim().toLowerCase()) {
+      function getStatusClass(status) {
+        const s = normalizeStatus(status);
+
+        switch (s) {
           case "mới":
             return "blues";
           case "đang vận chuyển":
@@ -958,10 +962,9 @@
           case "hoàn thành":
             return "done";
           default:
-            return "blues"; // fallback
+            return "blues";
         }
       }
-
       function formatDate(dateStr) {
         if (!dateStr) return "";
 
