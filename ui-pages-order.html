@@ -882,7 +882,8 @@
       </div>
 
       <div class="confirm-sub1 small">(10.745231 106.634654)</div>
-      <div class="qr-icon"></div>
+      <div class="qr-box"></div>
+      <div class="qr-modal"></div>
     </div>
 
     <div class="footer-menu circular">
@@ -990,23 +991,21 @@
           Date.now();
       }
 
-      function normalizeStatus(s) {
-        return s?.toLowerCase().normalize("NFC").replace(/\s+/g, " ").trim();
-      }
-
       function getStatusClass(status) {
-        const s = normalizeStatus(status);
+        if (!status) return "blues";
 
-        switch (s) {
-          case "mới":
-            return "blues";
-          case "đang vận chuyển":
-            return "purples";
-          case "hoàn thành":
-            return "done";
-          default:
-            return "blues";
-        }
+        const s = status
+          .toLowerCase()
+          .normalize("NFC")
+          .replace(/[\u200B-\u200D\uFEFF]/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+
+        if (s.includes("vận chuyển")) return "purples";
+        if (s.includes("hoàn thành")) return "done";
+        if (s.includes("mới")) return "blues";
+
+        return "blues";
       }
       function closeConfirm() {
         document.getElementById("confirmBox1").style.display = "none";
@@ -1167,40 +1166,66 @@
         transportOrderId
       ) {
         checkinResult = "fail";
+
         document.getElementById("confirmOverlay").style.display = "block";
         document.getElementById("confirmBox1").style.display = "block";
 
-        document.querySelector(".confirm-icon1").innerText = "✕";
-        document.querySelector(".confirm-icon1").style.color = "red";
+        const icon = document.querySelector(".confirm-icon1");
+        icon.innerText = "✕";
+        icon.style.color = "red";
+
         document.querySelector(".confirm-title1").innerText = message;
 
         document.getElementById("cfLocation").innerText = startLocName ?? "";
         document.getElementById("cfDistance").innerText = distance
-          ? Math.round(distance) + "m "
+          ? Math.round(distance) + "m"
           : "";
 
         document.querySelector(".confirm-sub1.small").innerText =
-          Number(latitude).toFixed(6) && Number(longitude).toFixed(6)
+          latitude && longitude
             ? `(${Number(latitude).toFixed(6)}  ${Number(longitude).toFixed(
                 6
               )})`
             : "";
-        const qrDiv = document.querySelector(".qr-icon");
-        if (qrDiv) {
-          const img = document.createElement("img");
-          img.src = "assets/images/QR.jpg";
-          img.alt = "QR Code";
-          img.onclick = function () {
-            // đổi src sang QR
-            img.src =
-              "https://quickchart.io/qr?text=" +
-              encodeURIComponent(transportOrderId);
 
-            // đổi class
-            img.classList.add("qr-modal");
-          };
-          qrDiv.appendChild(img);
-        }
+        const qrDiv = document.querySelector(".qr-box");
+        const qrModal = document.querySelector(".qr-modal");
+
+        if (!qrDiv || !qrModal) return;
+
+        // 🔥 clear cũ (rất quan trọng)
+        qrDiv.innerHTML = "";
+
+        const img = document.createElement("img");
+        img.src = "assets/images/QR.jpg";
+        img.alt = "QR Code";
+        img.classList.add("qr-icon");
+
+        img.onclick = function () {
+          qrModal.innerHTML = "";
+
+          const qrImg = document.createElement("img");
+          qrImg.src =
+            "https://quickchart.io/qr?text=" +
+            encodeURIComponent(transportOrderId);
+          qrImg.alt = "QR Code";
+
+          qrModal.appendChild(qrImg);
+          qrModal.classList.add("show");
+        };
+
+        qrDiv.appendChild(img);
+      }
+
+      // ✅ gán 1 lần duy nhất
+      const qrModal = document.querySelector(".qr-modal");
+      if (qrModal) {
+        qrModal.onclick = function (e) {
+          if (e.target === qrModal) {
+            qrModal.classList.remove("show");
+            qrModal.innerHTML = "";
+          }
+        };
       }
     </script>
 

@@ -926,23 +926,21 @@
         }
       });
 
-      function normalizeStatus(s) {
-        return s?.toLowerCase().normalize("NFC").replace(/\s+/g, " ").trim();
-      }
-
       function getStatusClass(status) {
-        const s = normalizeStatus(status);
+        if (!status) return "blues";
 
-        switch (s) {
-          case "mới":
-            return "blues";
-          case "đang vận chuyển":
-            return "purples";
-          case "hoàn thành":
-            return "done";
-          default:
-            return "blues";
-        }
+        const s = status
+          .toLowerCase()
+          .normalize("NFC")
+          .replace(/[\u200B-\u200D\uFEFF]/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+
+        if (s.includes("vận chuyển")) return "purples";
+        if (s.includes("hoàn thành")) return "done";
+        if (s.includes("mới")) return "blues";
+
+        return "blues";
       }
       function formatDate(dateStr) {
         if (!dateStr) return "";
