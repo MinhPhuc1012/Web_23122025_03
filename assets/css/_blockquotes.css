@@ -10,15 +10,12 @@ blockquote {
 }
 blockquote.purples {
   border-color: #b724df;
-  color: #c22fb3;
 }
 blockquote.blues {
   border-color: #42a5f5;
-  color: #42a5f5;
 }
 blockquote.greens {
   border-color: #66bb6a;
-  color: #66bb6a;
 }
 blockquote.accent {
   border-color: var(--accent-color);

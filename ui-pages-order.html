@@ -192,13 +192,6 @@
 
         <a
           href="#"
-          data-target=""
-          class="waves-effect waves-circle navicon back-button htmlmode show-on-large"
-          ><i class="mdi mdi-arrow-left" data-page=""></i
-        ></a>
-
-        <a
-          href="#"
           data-target="slide-nav"
           class="waves-effect waves-circle navicon sidenav-trigger show-on-large"
           ><i class="app-icon-menu1"></i
@@ -917,19 +910,29 @@
     <div id="popupProfile" class="profile-overlay">
       <div class="profile-box">
         <div class="header">
-          <span id="profileCode">2507165</span>
+          <span id="profileCode"></span>
           <button class="close-btn" onclick="closeProfile()">✖</button>
         </div>
 
-        <h3 id="profileName">Người duyệt SC - Test</h3>
+        <h3 id="profileName"></h3>
 
         <p>Nhân Viên Dịch Vụ vận Tải</p>
-        <p>Công ty Cổ Phần Phát Triển Châu Á</p>
-        <p>Chức năng quyền: Cấp nhiên liệu</p>
 
-        <button class="logout-btn">ĐĂNG XUẤT</button>
+        <button class="logout-btn" id="logoutBtn">ĐĂNG XUẤT</button>
       </div>
     </div>
+    <script>
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        // Xóa toàn bộ localStorage
+        localStorage.clear();
+
+        // Chuyển về trang login
+        window.location.href = "ui-pages-login.html";
+      });
+      document.getElementById("profileCode").innerText =
+        localStorage.getItem("user") || "";
+    </script>
+
     <script>
       let checkinResult = null; // 'success' | 'fail'
       const currentPage = window.location.pathname.split("/").pop();
@@ -1193,7 +1196,6 @@
 
         if (!qrDiv || !qrModal) return;
 
-        // 🔥 clear cũ (rất quan trọng)
         qrDiv.innerHTML = "";
 
         const img = document.createElement("img");
