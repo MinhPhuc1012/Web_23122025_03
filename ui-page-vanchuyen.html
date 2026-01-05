@@ -930,6 +930,17 @@
         <button class="logout-btn" id="logoutBtn">ĐĂNG XUẤT</button>
       </div>
     </div>
+    <div
+      id="debugLog"
+      style="
+        background: #111;
+        color: #0f0;
+        font-size: 12px;
+        padding: 8px;
+        margin: 8px;
+        white-space: pre-wrap;
+      "
+    ></div>
     <script>
       document.getElementById("logoutBtn").addEventListener("click", () => {
         localStorage.clear();
@@ -1143,15 +1154,25 @@
         renderDeliveryCard(transports);
 
         let html = "";
+
         const orderMap = {};
         orders.forEach((o) => {
           orderMap[o.OrderId || o.orderId] = o;
         });
         transports.forEach((t) => {
           const order = orderMap[t.orderId];
+          const cls = getStatusClass(o.Status);
+
+          // log ra màn hình
+          debug += `#${index}
+STATUS: ${o.Status}
+RETURN: ${cls}
+------------------
+`;
+
           html += `
       <li class="collection-item avatar" style="padding-left:5px">
-        <blockquote class="${getStatusClass(order.Status)}">
+        <blockquote class="${cls}">
           <span class="title warning">
             ${t.transportOrderId}
           </span>
@@ -1167,6 +1188,7 @@
         localStorage.setItem("transportData", JSON.stringify(transports));
 
         document.getElementById("orderList").innerHTML = html;
+        document.getElementById("debugLog").innerText = debug;
       }
 
       function showEmpty() {

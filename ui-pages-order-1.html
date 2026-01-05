@@ -998,16 +998,12 @@
         let html = "";
 
         raw.forEach((o) => {
-          let statusClass = "new";
-          if (o.Status === "Hoàn thành") statusClass = "success";
-          if (o.Status === "Đang vận chuyển") statusClass = "warning";
-
           html += `
       <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin('${
         o.OrderId
       }')">
         <blockquote class="${getStatusClass(o.Status)}">
-          <span class="title ${statusClass}">
+          <span class="title">
             ${o.OrderId}
           </span>
           <p><b>${o.LicensePlate} - ${formatDate(o.StartDate)} - 
