@@ -1161,10 +1161,10 @@
         });
         transports.forEach((t) => {
           const order = orderMap[t.orderId];
-          const cls = getStatusClass(o.Status);
+          const cls = getStatusClass(order.Status);
 
           // log ra màn hình
-          debug += `#${index}
+          debug += `
 STATUS: ${order.Status}
 RETURN: ${cls}
 ------------------
