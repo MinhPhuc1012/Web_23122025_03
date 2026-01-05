@@ -1075,7 +1075,7 @@
           card.style.display = "none";
           return;
         }
-        const raw = localStorage.getItem("ordersCheckin");
+        const raw = localStorage.getItem("ordersData");
         let orderDetail = null;
 
         if (raw) {
@@ -1098,10 +1098,10 @@
         document.getElementById("deliveryTitle").innerText = active.orderId;
 
         document.getElementById("deliveryFrom").innerText =
-          "Từ: " + (active?.StartLocName || "—");
+          "Từ: " + (orderDetail?.StartLocName || "—");
 
         document.getElementById("deliveryTo").innerText =
-          "Đến: " + (active?.EndLocName || "—");
+          "Đến: " + (orderDetail?.EndLocName || "—");
         const btn = document.getElementById("btnConfirmDelivery");
         btn.dataset.orderId = active.orderId;
         btn.dataset.transportOrderId = active.transportOrderId;
