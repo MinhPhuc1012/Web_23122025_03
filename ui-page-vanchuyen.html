@@ -930,17 +930,6 @@
         <button class="logout-btn" id="logoutBtn">ĐĂNG XUẤT</button>
       </div>
     </div>
-    <div
-      id="debugLog"
-      style="
-        background: #111;
-        color: #0f0;
-        font-size: 12px;
-        padding: 8px;
-        margin: 8px;
-        white-space: pre-wrap;
-      "
-    ></div>
     <script>
       document.getElementById("logoutBtn").addEventListener("click", () => {
         localStorage.clear();
@@ -1154,25 +1143,18 @@
         renderDeliveryCard(transports);
 
         let html = "";
-        let debug = "";
         const orderMap = {};
         orders.forEach((o) => {
           orderMap[o.OrderId || o.orderId] = o;
         });
-        transports.forEach((t) => {
-          const order = orderMap[t.orderId];
-          const cls = getStatusClass(order.Status);
+        transports
+          .filter((t) => t.checkin !== null)
+          .forEach((t) => {
+            const order = orderMap[t.orderId];
 
-          // log ra màn hình
-          debug += `
-STATUS: ${order.Status}
-RETURN: ${cls}
-------------------
-`;
-
-          html += `
+            html += `
       <li class="collection-item avatar" style="padding-left:5px">
-        <blockquote class="${getStatusClass(order.Status)}">
+        <blockquote class="greens">
           <span class="title warning">
             ${t.transportOrderId}
           </span>
@@ -1184,7 +1166,7 @@ RETURN: ${cls}
         </blockquote>
       </li>
     `;
-        });
+          });
         localStorage.setItem("transportData", JSON.stringify(transports));
 
         document.getElementById("orderList").innerHTML = html;

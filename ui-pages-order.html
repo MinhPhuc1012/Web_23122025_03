@@ -1122,7 +1122,9 @@
     ${formatDate(o.EndDate)} - KL: ${o.WeightMass}</b></p>
           <p>Từ: <b>${o.StartLocName ?? ""}</b></p>
           <p>Đến: <b>${o.EndLocName ?? ""}</b></p>
-          <p>Trạng thái: ${o.Status ?? ""}</p>
+            <p> Trạng thái:
+  <span class="order-status">${o.Status ?? ""}</span>
+</p>
         </blockquote>
       </li>
     `;

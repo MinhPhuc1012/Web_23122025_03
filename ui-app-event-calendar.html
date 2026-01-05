@@ -1054,6 +1054,9 @@
 
         data.forEach((item) => {
           switch (item.distanceRangeCode) {
+            case "00-02":
+              inc("d02");
+              break;
             case "02-05":
               inc("d05");
               break;
