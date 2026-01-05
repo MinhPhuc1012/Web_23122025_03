@@ -9,13 +9,13 @@ blockquote {
   padding-bottom: 8px;
 }
 blockquote.purples {
-  border-color: #b724df;
+  border-color: #b724df !important;
 }
 blockquote.blues {
-  border-color: #42a5f5;
+  border-color: #42a5f5 !important;
 }
 blockquote.greens {
-  border-color: #66bb6a;
+  border-color: #66bb6a !important;
 }
 blockquote.accent {
   border-color: var(--accent-color);
