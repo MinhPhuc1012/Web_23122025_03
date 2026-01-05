@@ -961,19 +961,23 @@
         btn.classList.add("green");
       }
 
+      function normalizeText(str) {
+        return str
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+
       function getStatusClass(status) {
         if (!status) return "blues";
 
-        const s = status
-          .toLowerCase()
-          .normalize("NFC")
-          .replace(/[\u200B-\u200D\uFEFF]/g, "")
-          .replace(/\s+/g, " ")
-          .trim();
+        const s = normalizeText(status);
 
-        if (s.includes("vận chuyển")) return "purples";
-        if (s.includes("hoàn thành")) return "done";
-        if (s.includes("mới")) return "blues";
+        if (s.includes("van chuyen")) return "purples";
+        if (s.includes("hoan thanh")) return "greens";
+        if (s.includes("moi")) return "blues";
 
         return "blues";
       }
