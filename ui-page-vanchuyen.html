@@ -1098,10 +1098,10 @@
         document.getElementById("deliveryTitle").innerText = active.orderId;
 
         document.getElementById("deliveryFrom").innerText =
-          "Từ: " + (orderDetail?.StartLocName || "—");
+          "Từ: " + (active?.StartLocName || "—");
 
         document.getElementById("deliveryTo").innerText =
-          "Đến: " + (orderDetail?.EndLocName || "—");
+          "Đến: " + (active?.EndLocName || "—");
         const btn = document.getElementById("btnConfirmDelivery");
         btn.dataset.orderId = active.orderId;
         btn.dataset.transportOrderId = active.transportOrderId;
@@ -1159,9 +1159,9 @@
             ${t.transportOrderId}
           </span>
           <span>${order.OrderName}</span>
-          <p>Từ: <b>${order?.startLocName || ""}</b></p>
+          <p>Từ: <b>${order?.StartLocName || ""}</b></p>
           <p>     ${formatDate(t.checkIn)} </p>
-          <p>Đến: <b>${order?.endLocName || ""}</b></p>
+          <p>Đến: <b>${order?.EndLocName || ""}</b></p>
           <p>    ${formatDate(t.checkOut)}</p>
         </blockquote>
       </li>
