@@ -1165,14 +1165,14 @@
 
           // log ra màn hình
           debug += `#${index}
-STATUS: ${o.Status}
+STATUS: ${order.Status}
 RETURN: ${cls}
 ------------------
 `;
 
           html += `
       <li class="collection-item avatar" style="padding-left:5px">
-        <blockquote class="${getStatusClass(o.Status)}">
+        <blockquote class="${getStatusClass(order.Status)}">
           <span class="title warning">
             ${t.transportOrderId}
           </span>
