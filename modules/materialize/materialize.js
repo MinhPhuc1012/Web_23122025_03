@@ -11645,8 +11645,8 @@ var $jscomp$this = this;
 
     // internationalization
     i18n: {
-      cancel: "Cancel",
-      clear: "Clear",
+      cancel: "Hủy",
+      clear: "Xóa",
       done: "Ok",
     },
 
