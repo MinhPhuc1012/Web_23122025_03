@@ -16,15 +16,19 @@ blockquote {
 }
 blockquote.purples {
   border-color: #b724df !important;
+  color: #b724df !important;
 }
 blockquote.blues {
   border-color: #42a5f5 !important;
+  color: #42a5f5 !important;
 }
 blockquote.greens {
   border-color: #66bb6a !important;
+  color: #66bb6a !important;
 }
 blockquote.accent {
   border-color: var(--accent-color);
+  color: var(--accent-color);
 }
 blockquote .title {
   color: inherit;

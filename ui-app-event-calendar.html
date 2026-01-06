@@ -11,7 +11,6 @@
     <title>Ensign PWA Mobile App: Calendar</title>
     <meta content="Ensign PWA Mobile App" name="description" />
     <meta content="themepassion" name="author" />
-
     <!-- App Icons -->
     <link
       rel="apple-touch-icon"
@@ -143,6 +142,13 @@
       media="screen"
       id="main-style"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
     <!-- CORE CSS TEMPLATE - END -->
   </head>
   <!-- END HEAD -->
@@ -835,12 +841,12 @@
         <div class="date-range-box">
           <div class="date-item">
             <label>Từ ngày</label>
-            <input type="date" id="fromDate" />
+            <input type="text" id="fromDate" />
           </div>
 
           <div class="date-item">
             <label>Đến ngày</label>
-            <input type="date" id="toDate" />
+            <input type="text" id="toDate" />
           </div>
           <div>
             <button class="btn-today" onclick="searchTransport()">
@@ -943,6 +949,7 @@
         localStorage.getItem("user") || "";
     </script>
     <script>
+      let fromPicker, toPicker;
       const currentPage = window.location.pathname.split("/").pop();
       const menuLinks = document.querySelectorAll("ul li a");
 
@@ -988,14 +995,6 @@
         }
       }
 
-      function setToday() {
-        const today = new Date().toISOString().split("T")[0];
-
-        document.getElementById("fromDate").value = today;
-        document.getElementById("toDate").value = today;
-      }
-
-      setToday();
       function confirmDelivery() {
         document.getElementById("deliveryCard").style.display = "none";
       }
@@ -1007,35 +1006,61 @@
         document.getElementById("popupProfile").style.display = "none";
       }
       document.addEventListener("DOMContentLoaded", () => {
-        const today = new Date().toISOString().split("T")[0];
+        const today = new Date();
 
-        // set default cho input date (nếu có)
-        const fromInput = document.getElementById("fromDate");
-        const toInput = document.getElementById("toDate");
+        fromPicker = flatpickr("#fromDate", {
+          locale: flatpickr.l10ns.vn,
+          dateFormat: "Y/m/d",
+          altInput: true,
+          altFormat: "d/m/Y",
+          defaultDate: today,
+          monthSelectorType: "static",
+        });
 
-        if (fromInput) fromInput.value = today;
-        if (toInput) toInput.value = today;
+        toPicker = flatpickr("#toDate", {
+          locale: flatpickr.l10ns.vn,
+          dateFormat: "Y/m/d",
+          altInput: true,
+          altFormat: "d/m/Y",
+          defaultDate: today,
+          monthSelectorType: "static",
+        });
+
+        fromPicker.config.onChange.push((dates) => {
+          toPicker.set("minDate", dates[0]);
+        });
 
         const user = localStorage.getItem("user") || "";
 
-        // GỌI XUỐNG MAUI NGAY KHI LOAD TRANG
-        window.location.href =
-          `hybrid://gethistory?user=${user}` +
-          `&fromDate=${today}` +
-          `&toDate=${today}`;
+        callMaui(user);
       });
+
+      function setToday() {
+        const today = new Date();
+        fromPicker.setDate(today, true);
+        toPicker.setDate(today, true);
+      }
+
       function searchTransport() {
         const user = localStorage.getItem("user") || "";
-        const fromDate = document.getElementById("fromDate").value;
-        const toDate = document.getElementById("toDate").value;
 
-        if (!fromDate || !toDate) {
+        if (
+          !fromPicker.selectedDates.length ||
+          !toPicker.selectedDates.length
+        ) {
           M.toast({
             html: "Vui lòng chọn đủ ngày",
             classes: "deep-orange lighten-1 white-text",
           });
           return;
         }
+
+        callMaui(user);
+      }
+
+      function callMaui(user) {
+        const fromDate = fromPicker.input.value;
+        const toDate = toPicker.input.value;
 
         window.location.href =
           `hybrid://gethistory?user=${user}` +
@@ -1087,6 +1112,7 @@
         });
       }
     </script>
+
     <script src="assets/js/pwa.js"></script>
 
     <!-- LOAD FILES AT PAGE END FOR FASTER LOADING -->
