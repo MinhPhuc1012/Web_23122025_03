@@ -859,9 +859,10 @@
           <button class="close-btn" onclick="closeProfile()">✖</button>
         </div>
 
-        <h3 id="profileName"></h3>
-
-        <p>Nhân Viên Dịch Vụ vận Tải</p>
+        <h3 id="userName"></h3>
+        <p id="userPhone"></p>
+        <p id="userPosition"></p>
+        <p id="userCompany"></p>
 
         <button class="logout-btn" id="logoutBtn">ĐĂNG XUẤT</button>
       </div>
@@ -874,6 +875,18 @@
       });
       document.getElementById("profileCode").innerText =
         localStorage.getItem("user") || "";
+
+      document.getElementById("userName").innerText =
+        localStorage.getItem("userName") || "";
+
+      document.getElementById("userPhone").innerText =
+        localStorage.getItem("userPhone") || "";
+
+      document.getElementById("userPosition").innerText =
+        localStorage.getItem("userPosition") || "";
+
+      document.getElementById("userCompany").innerText =
+        localStorage.getItem("userCompany") || "";
     </script>
     <script>
       let checkinResult = null; // 'success' | 'fail'

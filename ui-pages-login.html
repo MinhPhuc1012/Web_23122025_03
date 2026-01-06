@@ -1013,6 +1013,10 @@
           department: user.Department,
         }).toString();
         localStorage.setItem("user", user.UserCode);
+        localStorage.setItem("userName", user.UserName);
+        localStorage.setItem("userPhone", user.PhoneNumber);
+        localStorage.setItem("userPosition", user.Position);
+        localStorage.setItem("userCompany", user.CompanyName);
         window.location.href = "hybrid://getOrder?" + params;
       }
 
