@@ -1234,8 +1234,7 @@
         document.getElementById("confirmBox1").style.display = "block";
 
         const icon = document.querySelector(".confirm-icon1");
-        icon.innerText = "❌";
-        icon.style.color = "red";
+        icon.innerHTML = `<i class="mdi mdi-map-marker-off"></i>`;
 
         document.querySelector(".confirm-title1").innerText = message;
         document.querySelector(".confirm-title1").style.color = "red";
