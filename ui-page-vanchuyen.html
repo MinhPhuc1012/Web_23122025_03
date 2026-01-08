@@ -1212,7 +1212,7 @@
 
         document.getElementById("cfDistance").innerText = distance + "m ";
         document.getElementById("cfRadius").innerText = radius
-          ? Math.round(radius) + "m"
+          ? "Bán kính: " + Math.round(radius) + "m"
           : "";
         document.querySelector(".confirm-sub1.small").innerText = `(${Number(
           latitude
@@ -1244,7 +1244,7 @@
           ? distance + "m"
           : "";
         document.getElementById("cfRadius").innerText = radius
-          ? Math.round(radius) + "m"
+          ? "Bán kính: " + Math.round(radius) + "m"
           : "";
         document.querySelector(".confirm-sub1.small").innerText =
           latitude && longitude
