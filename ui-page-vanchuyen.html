@@ -232,8 +232,8 @@
             /></a>
           </div>
           <div class="col s9 infoarea">
-            <a href="#"><span id="profileCode"></span></a>
-            <a href="#"><span id="userPosition"></span></a>
+            <a href="#"><span id="profileCodeHeader"></span></a>
+            <a href="#"><span id="userPositionHeader"></span></a>
           </div>
         </div>
       </li>
@@ -937,7 +937,8 @@
       });
       document.getElementById("profileCode").innerText =
         localStorage.getItem("user") || "";
-
+      document.getElementById("profileCodeHeader").innerText =
+        localStorage.getItem("user") || "";
       document.getElementById("userName").innerText =
         localStorage.getItem("userName") || "";
 
@@ -946,7 +947,8 @@
 
       document.getElementById("userPosition").innerText =
         localStorage.getItem("userPosition") || "";
-
+      document.getElementById("userPositionHeader").innerText =
+        localStorage.getItem("userPosition") || "";
       document.getElementById("userCompany").innerText =
         localStorage.getItem("userCompany") || "";
     </script>
@@ -1189,7 +1191,13 @@
           "<li class='collection-item'>Hôm nay bạn chưa vận chuyển</li>";
       }
 
-      function onCheckinSuccess(distance, latitude, longitude, startLocName) {
+      function onCheckinSuccess(
+        distance,
+        latitude,
+        longitude,
+        startLocName,
+        radius
+      ) {
         checkinResult = "success";
         document.getElementById("confirmOverlay").style.display = "block";
         document.getElementById("confirmBox1").style.display = "block";
@@ -1202,9 +1210,10 @@
 
         document.getElementById("cfLocation").innerText = startLocName;
 
-        document.getElementById("cfDistance").innerText =
-          Math.round(distance) + "m ";
-
+        document.getElementById("cfDistance").innerText = distance + "m ";
+        document.getElementById("cfRadius").innerText = radius
+          ? Math.round(radius) + "m"
+          : "";
         document.querySelector(".confirm-sub1.small").innerText = `(${Number(
           latitude
         ).toFixed(6)}  ${Number(longitude).toFixed(6)})`;
@@ -1216,6 +1225,7 @@
         latitude,
         longitude,
         startLocName,
+        radius,
         transportOrderId
       ) {
         checkinResult = "fail";
@@ -1231,9 +1241,11 @@
 
         document.getElementById("cfLocation").innerText = startLocName ?? "";
         document.getElementById("cfDistance").innerText = distance
-          ? Math.round(distance) + "m"
+          ? distance + "m"
           : "";
-
+        document.getElementById("cfRadius").innerText = radius
+          ? Math.round(radius) + "m"
+          : "";
         document.querySelector(".confirm-sub1.small").innerText =
           latitude && longitude
             ? `(${Number(latitude).toFixed(6)}  ${Number(longitude).toFixed(

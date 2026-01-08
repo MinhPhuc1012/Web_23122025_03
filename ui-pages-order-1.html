@@ -225,8 +225,8 @@
             /></a>
           </div>
           <div class="col s9 infoarea">
-            <a href="#"><span id="profileCode"></span></a>
-            <a href="#"><span id="userPosition"></span></a>
+            <a href="#"><span id="profileCodeHeader"></span></a>
+            <a href="#"><span id="userPositionHeader"></span></a>
           </div>
         </div>
       </li>
@@ -914,7 +914,8 @@
       });
       document.getElementById("profileCode").innerText =
         localStorage.getItem("user") || "";
-
+      document.getElementById("profileCodeHeader").innerText =
+        localStorage.getItem("user") || "";
       document.getElementById("userName").innerText =
         localStorage.getItem("userName") || "";
 
@@ -923,7 +924,8 @@
 
       document.getElementById("userPosition").innerText =
         localStorage.getItem("userPosition") || "";
-
+      document.getElementById("userPositionHeader").innerText =
+        localStorage.getItem("userPosition") || "";
       document.getElementById("userCompany").innerText =
         localStorage.getItem("userCompany") || "";
     </script>
