@@ -950,15 +950,15 @@
       }
 
       function getStatusClass(status) {
-        if (!status) return "blues";
+        if (!status) return "purples";
 
         const s = normalizeText(status);
 
-        if (s.includes("van chuyen")) return "purples";
+        if (s.includes("van chuyen")) return "blues";
         if (s.includes("hoan thanh")) return "greens";
-        if (s.includes("moi")) return "blues";
+        if (s.includes("moi")) return "purples";
 
-        return "blues";
+        return "purples";
       }
       function formatDate(dateStr) {
         if (!dateStr) return "";

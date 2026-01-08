@@ -394,10 +394,10 @@ ul li.active a i {
   width: 100%;
   padding: 14px;
   margin-top: 15px;
-  background: #e63946;
+  color: white;
   border: none;
   border-radius: 10px;
-  color: white;
+  background-color: var(--primary-color);
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;

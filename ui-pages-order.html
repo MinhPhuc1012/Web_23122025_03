@@ -852,7 +852,9 @@
     <div id="confirmOverlay" class="confirm-overlay"></div>
 
     <div id="confirmBox1" class="confirm-box1">
-      <button class="confirm-close" onclick="closeConfirm()">✕</button>
+      <button class="confirm-close" style="color: red" onclick="closeConfirm()">
+        ✕
+      </button>
 
       <div class="confirm-icon1">✔</div>
       <div class="confirm-title1">Xác nhận vị trí thành công!</div>
@@ -1016,15 +1018,15 @@
       }
 
       function getStatusClass(status) {
-        if (!status) return "blues";
+        if (!status) return "purples";
 
         const s = normalizeText(status);
 
-        if (s.includes("van chuyen")) return "purples";
+        if (s.includes("van chuyen")) return "blues";
         if (s.includes("hoan thanh")) return "greens";
-        if (s.includes("moi")) return "blues";
+        if (s.includes("moi")) return "purples";
 
-        return "blues";
+        return "purples";
       }
       function closeConfirm() {
         document.getElementById("confirmBox1").style.display = "none";
@@ -1204,7 +1206,7 @@
         icon.style.color = "red";
 
         document.querySelector(".confirm-title1").innerText = message;
-
+        document.querySelector(".confirm-title1").style.color = "red";
         document.getElementById("cfLocation").innerText = startLocName ?? "";
         document.getElementById("cfDistance").innerText = distance ?? "";
 
