@@ -301,7 +301,7 @@ TABLE OF CONTENTS:
 }
 
 .loc-label {
-  width: 80px; /* cố định cột Từ / Đến */
+  width: 40px; /* cố định cột Từ / Đến */
   color: #666;
 }
 
