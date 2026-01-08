@@ -292,10 +292,32 @@ TABLE OF CONTENTS:
   z-index: 1000;
   display: none;
 }
+.loc-block {
+  margin-bottom: 8px; /* khoảng cách giữa Từ & Đến */
+}
+
+.loc-row {
+  display: flex;
+}
+
+.loc-label {
+  width: 80px; /* cố định cột Từ / Đến */
+  color: #666;
+}
+
+.loc-name {
+  font-weight: 700;
+}
+
+.loc-time {
+  margin-left: 40px; /* thụt vào đúng dưới tên kho */
+  font-weight: 600;
+  color: #444;
+}
 
 /* icon xác nhận */
 .confirm-icon1 {
-  font-size: 36px;
+  font-size: 50px;
   color: #22c55e;
   margin-bottom: 8px;
 }

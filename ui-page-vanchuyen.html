@@ -1166,18 +1166,31 @@
             const order = orderMap[t.orderId];
 
             html += `
-      <li class="collection-item avatar" style="padding-left:5px">
-        <blockquote class="greens">
-          <span class="title warning">
-            ${t.transportOrderId}
-          </span>
-          <span>${order.OrderName}</span>
-          <p>Từ: <b>${order?.StartLocName || ""}</b></p>
-          <p>     ${formatDate(t.checkIn)} </p>
-          <p>Đến: <b>${order?.EndLocName || ""}</b></p>
-          <p>    ${formatDate(t.checkOut)}</p>
-        </blockquote>
-      </li>
+      <li class="collection-item avatar" style="padding-left: 5px">
+                  <blockquote class="greens">
+                    <span class="title"> ${t.transportOrderId} </span>
+                    <p style="font-weight: 800">${order.OrderName}</p>
+                    <div class="loc-block">
+                      <div class="loc-row">
+                        <span class="loc-label">Từ:</span>
+                        <p class="loc-name">
+                          <b>${order?.StartLocName || ""}</b>
+                        </p>
+                      </div>
+                      <div class="loc-time">${formatDate(t.checkIn)}</div>
+                    </div>
+
+                    <div class="loc-block">
+                      <div class="loc-row">
+                        <span class="loc-label">Đến:</span>
+                        <p class="loc-name"></p>
+                          <b>${order?.EndLocName || ""}</b>
+                        </p>
+                      </div>
+                      <div class="loc-time">${formatDate(t.checkOut)}</div>
+                    </div>
+                  </blockquote>
+                </li>
     `;
           });
         localStorage.setItem("transportData", JSON.stringify(transports));
@@ -1235,6 +1248,7 @@
 
         const icon = document.querySelector(".confirm-icon1");
         icon.innerHTML = `<i class="mdi mdi-map-marker-off"></i>`;
+        icon.style.color = "red";
         icon.classList.add("iprev");
         document.querySelector(".confirm-title1").innerText = message;
         document.querySelector(".confirm-title1").style.color = "red";

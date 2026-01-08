@@ -1013,20 +1013,34 @@
 
         raw.forEach((o) => {
           html += `
-      <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin('${
-        o.OrderId
-      }')">
+     <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin('${
+       o.OrderName
+     }')">
         <blockquote class="${getStatusClass(o.Status)}">
           <span class="title">
             ${o.OrderId}
           </span>
-          <p><b>${o.LicensePlate} - ${formatDate(o.StartDate)} - 
-    ${formatDate(o.EndDate)} - KL: ${o.WeightMass}</b></p>
-          <p>Từ: <b>${o.StartLocName ?? ""}</b></p>
-          <p>Đến: <b>${o.EndLocName ?? ""}</b></p>
-         <p> Trạng thái:
-  <span class="order-status">${o.Status ?? ""}</span>
-</p>
+          <p style="font-weight: 800">${o.LicensePlate} - ${formatDate(
+            o.StartDate
+          )} - 
+    ${formatDate(o.EndDate)} - KL: ${o.WeightMass}</p>
+           <div class="loc-block">
+                      <div class="loc-row">
+                        <span class="loc-label">Từ:</span>
+                        <p class="loc-name">${o.StartLocName ?? ""}</p>
+                        </div>
+          <div class="loc-block">
+                      <div class="loc-row">
+                        <span class="loc-label">Đến:</span> 
+                        <p class="loc-name">${o.EndLocName ?? ""}</p>
+                      </div>
+                      </div>
+              <div class="loc-block">
+                      <div class="loc-row">             
+         <span class="loc-label"> Trạng thái:</span>
+  <p class="loc-name">${o.Status ?? ""}</p>
+                      </div>
+              </div>
         </blockquote>
       </li>
     `;
