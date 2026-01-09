@@ -246,17 +246,24 @@ TABLE OF CONTENTS:
 .collection.invoice-item .collection-item {
   margin-bottom: 20px; /* khoảng hở giữa 2 khung */
 }
-.confirm-close {
-  position: absolute;
-  top: 10px;
-  right: 12px;
+.confirm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #eee;
+}
 
-  background: none;
+.confirm-header-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.confirm-close {
+  background: transparent;
   border: none;
   font-size: 18px;
   cursor: pointer;
-  color: #888;
-
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -314,10 +321,22 @@ TABLE OF CONTENTS:
   font-weight: 600;
   color: #444;
 }
-
+.marker-icon {
+  font-size: 36px;
+  margin-bottom: 15px;
+  display: inline-block;
+  color: red;
+  background: #fff;
+  height: 60px;
+  width: 60px;
+  line-height: 60px;
+  text-align: center;
+  border-radius: 50%;
+  float: left;
+}
 /* icon xác nhận */
 .confirm-icon1 {
-  font-size: 50px;
+  font-size: 80px;
   color: #22c55e;
   margin-bottom: 8px;
 }
