@@ -1150,17 +1150,18 @@
            <div class="loc-block">
                       <div class="loc-row">
                         <span class="loc-label">Từ:</span>
-                        <p class="loc-name">${o.StartLocName ?? ""}</p>
+                        <span class="loc-name">${o.StartLocName ?? ""}</span>
+                        </div>
                         </div>
           <div class="loc-block">
                       <div class="loc-row">
                         <span class="loc-label">Đến:</span> 
-                        <p class="loc-name">${o.EndLocName ?? ""}</p>
+                        <span class="loc-name">${o.EndLocName ?? ""}</span>
                       </div>
                       </div>
               <div class="loc-block">
                       <div class="loc-row">             
-  <p class="loc-name">${o.Status ?? ""}</p>
+  <span class="loc-name">${o.Status ?? ""}</span>
                       </div>
               </div>
         </blockquote>
@@ -1226,6 +1227,8 @@
 
         const icon = document.querySelector(".confirm-icon1");
         icon.innerHTML = `<i class="mdi mdi-map-marker-off marker-icon"></i>`;
+        document.querySelector(".confirm-header-title").innerText =
+          "Check-in thất bại";
         document.querySelector(".confirm-title1").innerText = message;
         document.querySelector(".confirm-title1").style.color = "red";
         document.getElementById("cfLocation").innerText = startLocName ?? "";

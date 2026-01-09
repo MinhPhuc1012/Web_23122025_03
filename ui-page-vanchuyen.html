@@ -854,7 +854,17 @@
       <div id="confirmOverlay" class="confirm-overlay"></div>
 
       <div id="confirmBox1" class="confirm-box1">
-        <button class="confirm-close" onclick="closeConfirm()">✕</button>
+        <div class="confirm-header">
+          <div class="confirm-header-title"></div>
+
+          <button
+            class="confirm-close"
+            style="color: red"
+            onclick="closeConfirm()"
+          >
+            ✕
+          </button>
+        </div>
 
         <div class="confirm-icon1">✔</div>
         <div class="confirm-title1">Xác nhận vị trí thành công!</div>
@@ -1173,9 +1183,9 @@
                     <div class="loc-block">
                       <div class="loc-row">
                         <span class="loc-label">Từ:</span>
-                        <p class="loc-name">
+                        <span class="loc-name">
                           <b>${order?.StartLocName || ""}</b>
-                        </p>
+                        </span>
                       </div>
                       <div class="loc-time">${formatDate(t.checkIn)}</div>
                     </div>
@@ -1183,9 +1193,9 @@
                     <div class="loc-block">
                       <div class="loc-row">
                         <span class="loc-label">Đến:</span>
-                        <p class="loc-name"></p>
+                        <span class="loc-name">
                           <b>${order?.EndLocName || ""}</b>
-                        </p>
+                        </span>
                       </div>
                       <div class="loc-time">${formatDate(t.checkOut)}</div>
                     </div>
@@ -1248,6 +1258,8 @@
 
         const icon = document.querySelector(".confirm-icon1");
         icon.innerHTML = `<i class="mdi mdi-map-marker-off marker-icon"></i>`;
+        document.querySelector(".confirm-header-title").innerText =
+          "Check-in thất bại";
         document.querySelector(".confirm-title1").innerText = message;
         document.querySelector(".confirm-title1").style.color = "red";
         document.getElementById("cfLocation").innerText = startLocName ?? "";
