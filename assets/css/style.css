@@ -260,10 +260,16 @@ TABLE OF CONTENTS:
 }
 
 .confirm-close {
-  background: transparent;
+  position: absolute;
+  top: 10px;
+  right: 12px;
+
+  background: none;
   border: none;
   font-size: 18px;
   cursor: pointer;
+  color: #888;
+
   width: 32px;
   height: 32px;
   border-radius: 50%;
