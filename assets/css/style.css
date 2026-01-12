@@ -332,11 +332,10 @@ TABLE OF CONTENTS:
   line-height: 60px;
   text-align: center;
   border-radius: 50%;
-  float: left;
 }
 /* icon xác nhận */
 .confirm-icon1 {
-  font-size: 80px;
+  font-size: 40px;
   color: #22c55e;
   margin-bottom: 8px;
 }

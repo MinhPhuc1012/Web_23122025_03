@@ -788,6 +788,45 @@
           </div>
         </div>
       </div>
+      <div id="confirmOverlay" class="confirm-overlay"></div>
+
+      <div id="confirmBox1" class="confirm-box1" style="display: block">
+        <div class="confirm-header">
+          <div class="confirm-header-title">
+            <span class="confirm-icon1">✔</span>
+            <span>Xác nhận vị trí thành công!</span>
+          </div>
+
+          <button
+            class="confirm-close"
+            style="color: red"
+            onclick="closeConfirm()"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="confirm-title1"></div>
+
+        <div class="confirm-row1">
+          <span class="icon">🕒</span>
+          <span id="cfTime">16:23 Thứ Sáu 12/12/2025</span>
+        </div>
+
+        <div class="confirm-row1">
+          <span class="icon">📍</span>
+          <span id="cfLocation">Cuối cầu cảng 7</span>
+        </div>
+
+        <div class="confirm-sub1">
+          Khoảng: <span id="cfDistance"></span>
+          <span id="cfRadius">Bán kính: 30.000m</span>
+        </div>
+
+        <div class="confirm-sub1 small">(10.745231 106.634654)</div>
+        <div class="qr-box"></div>
+        <div class="qr-modal"></div>
+      </div>
 
       <div class="backtotop">
         <a class="btn-floating btn primary-bg">
@@ -828,18 +867,9 @@
     <div id="confirmOverlay" class="confirm-overlay"></div>
 
     <div id="confirmBox1" class="confirm-box1">
-      <div class="confirm-header">
-        <div class="confirm-header-title"></div>
-
-        <button
-          class="confirm-close"
-          style="color: red"
-          onclick="closeConfirm()"
-        >
-          ✕
-        </button>
-      </div>
-
+      <button class="confirm-close" style="color: red" onclick="closeConfirm()">
+        ✕
+      </button>
       <div class="confirm-icon1">✔</div>
       <div class="confirm-title1">Xác nhận vị trí thành công!</div>
 
@@ -1030,7 +1060,8 @@
         latitude,
         longitude,
         startLocName,
-        radius
+        radius,
+        checkInTime
       ) {
         checkinResult = "success";
         document.getElementById("confirmOverlay").style.display = "block";
@@ -1045,6 +1076,7 @@
         document.getElementById("cfLocation").innerText = startLocName;
 
         document.getElementById("cfDistance").innerText = distance ?? "";
+        document.getElementById("cfTime").innerText = checkInTime ?? "";
         document.getElementById("cfRadius").innerText = radius
           ? "Bán kính: " + Math.round(radius) + "m"
           : "";
@@ -1060,7 +1092,8 @@
         longitude,
         startLocName,
         radius,
-        transportOrderId
+        transportOrderId,
+        checkInTime
       ) {
         checkinResult = "fail";
 
@@ -1075,6 +1108,7 @@
         document.querySelector(".confirm-title1").style.color = "red";
         document.getElementById("cfLocation").innerText = startLocName ?? "";
         document.getElementById("cfDistance").innerText = distance;
+        document.getElementById("cfTime").innerText = checkInTime ?? "";
         document.getElementById("cfRadius").innerText = radius
           ? "Bán kính: " + Math.round(radius) + "m"
           : "";

@@ -854,18 +854,13 @@
       <div id="confirmOverlay" class="confirm-overlay"></div>
 
       <div id="confirmBox1" class="confirm-box1">
-        <div class="confirm-header">
-          <div class="confirm-header-title"></div>
-
-          <button
-            class="confirm-close"
-            style="color: red"
-            onclick="closeConfirm()"
-          >
-            ✕
-          </button>
-        </div>
-
+        <button
+          class="confirm-close"
+          style="color: red"
+          onclick="closeConfirm()"
+        >
+          ✕
+        </button>
         <div class="confirm-icon1">✔</div>
         <div class="confirm-title1">Xác nhận vị trí thành công!</div>
 
@@ -1219,7 +1214,8 @@
         latitude,
         longitude,
         startLocName,
-        radius
+        radius,
+        checkInTime
       ) {
         checkinResult = "success";
         document.getElementById("confirmOverlay").style.display = "block";
@@ -1232,7 +1228,7 @@
           now.toLocaleDateString("vi-VN", { weekday: "long" });
 
         document.getElementById("cfLocation").innerText = startLocName;
-
+        document.getElementById("cfTime").innerText = checkInTime ?? "";
         document.getElementById("cfDistance").innerText = distance ?? "";
         document.getElementById("cfRadius").innerText = radius
           ? "Bán kính: " + Math.round(radius) + "m"
@@ -1249,7 +1245,8 @@
         longitude,
         startLocName,
         radius,
-        transportOrderId
+        transportOrderId,
+        checkInTime
       ) {
         checkinResult = "fail";
 
@@ -1264,6 +1261,7 @@
         document.querySelector(".confirm-title1").style.color = "red";
         document.getElementById("cfLocation").innerText = startLocName ?? "";
         document.getElementById("cfDistance").innerText = distance ?? "";
+        document.getElementById("cfTime").innerText = checkInTime ?? "";
         document.getElementById("cfRadius").innerText = radius
           ? "Bán kính: " + Math.round(radius) + "m"
           : "";
