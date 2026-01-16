@@ -1012,10 +1012,11 @@
         let html = "";
 
         raw.forEach((o) => {
+          const canClick = o.Status !== "Hoàn Thành";
           html += `
-     <li class="collection-item avatar" style="padding-left:5px" onclick="getCheckin('${
-       o.OrderId
-     }')">
+     <li class="collection-item avatar" style="padding-left:5px; ${
+       canClick ? "cursor:pointer" : "cursor:default"
+     }" ${canClick ? `onclick="getCheckin('${o.OrderId}')"` : ""}>
         <blockquote class="${getStatusClass(o.Status)}">
           <span class="title">
             ${o.OrderName}

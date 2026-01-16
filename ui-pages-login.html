@@ -8,8 +8,8 @@
         -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ensign PWA Mobile App: Login</title>
-    <meta content="Ensign PWA Mobile App" name="description" />
+    <title>CLA Mobile App: Login</title>
+    <meta content="CLA Mobile App" name="description" />
     <meta content="themepassion" name="author" />
 
     <!-- App Icons -->
@@ -132,6 +132,7 @@
     <!-- CORE CSS FRAMEWORK - END -->
 
     <!-- OTHER SCRIPTS INCLUDED ON THIS PAGE - START -->
+
     <!-- OTHER SCRIPTS INCLUDED ON THIS PAGE - END -->
 
     <!-- CORE CSS TEMPLATE - START -->
@@ -394,7 +395,7 @@
           <li class="sh-wrap"><div class="subheader">Themes</div></li>
           <li class="lvl1 theme">
             <div
-              class="waves-effect appsettings"
+              class="waves-effect appsettings active"
               data-type="theme"
               data-value="red"
             >
@@ -932,11 +933,9 @@
 
     <div class="content-area">
       <div class="login-bg access-login"></div>
-
       <div class="container login-area">
         <div class="section">
           <h3 class="bot-20 center white-text">Đăng nhập</h3>
-
           <div class="row">
             <div class="spacer"></div>
             <div class="spacer"></div>
@@ -967,107 +966,144 @@
     </div>
     <!--.content-area-->
     <script>
+      // ===== Helpers =====
       let inputPassword = "";
+      let isLoggingIn = false;
+      function toast(msg, type = "error") {
+        const classesMap = {
+          error: "deep-orange lighten-1 white-text",
+          success: "green darken-1 white-text",
+          warning: "orange darken-2 white-text",
+        };
+        if (window.M?.toast) {
+          M.toast({
+            html: msg,
+            classes: classesMap[type] || classesMap.error,
+            displayLength: 3000,
+          });
+        } else {
+          alert(msg); // fallback nếu Materialize chưa load
+        }
+      }
+
+      function setLoginLoading(loading) {
+        const btn = document.querySelector("a.btn-large.bg-primary");
+        const email = document.getElementById("email311");
+        const pass = document.getElementById("pass311");
+        isLoggingIn = loading;
+        if (btn) {
+          btn.style.pointerEvents = loading ? "none" : "auto";
+          btn.style.opacity = loading ? "0.7" : "1";
+          btn.innerText = loading ? "Đang đăng nhập..." : "Đăng nhập";
+        }
+        if (email) email.disabled = loading;
+        if (pass) pass.disabled = loading;
+      }
+
+      function normalizeJson(data, fallback) {
+        if (data == null) return fallback;
+        if (typeof data === "string") {
+          try {
+            return JSON.parse(data);
+          } catch {
+            return fallback;
+          }
+        }
+        return data;
+      }
+      // ===== Action: click login =====
       function loginbtn() {
-        const user = document.getElementById("email311").value;
+        if (isLoggingIn) return;
+        const user = document.getElementById("email311").value.trim();
         const password = document.getElementById("pass311").value;
-        const params = new URLSearchParams({ user, password }).toString();
+        if (!user || !password) {
+          toast("Vui lòng nhập đầy đủ Mã nhân viên và Mật khẩu", "warning");
+          return;
+        }
         inputPassword = password;
+        setLoginLoading(true);
+        const params = new URLSearchParams({ user, password }).toString();
         window.location.href = "hybrid://loginbtn?" + params;
       }
-
+      // ===== Callback: native trả user =====
       function onLoginUpdated(users) {
-        // 1️⃣ Nếu là string → parse
-        if (typeof users === "string") {
-          try {
-            users = JSON.parse(users);
-          } catch (e) {
-            console.error("JSON parse lỗi:", users);
+        try {
+          users = normalizeJson(users, null);
+          if (!Array.isArray(users) || users.length === 0) {
+            setLoginLoading(false);
+            toast("Tài khoản không tồn tại hoặc đã bị vô hiệu", "warning");
             return;
           }
+          const user = users[0];
+          // CHECK PASSWORD (Nên kiểm tra pass ở C#)
+          if (user.Password !== inputPassword) {
+            setLoginLoading(false);
+            toast("Thông tin đăng nhập không chính xác", "error");
+            return;
+          }
+          toast(`Chào mừng ${user.UserName || "bạn"} 👋`, "success");
+          // Lưu storage (nên hạn chế lưu thông tin nhạy cảm)
+          localStorage.setItem("user", user.UserCode || "");
+          localStorage.setItem("userName", user.UserName || "");
+          localStorage.setItem("userPhone", user.PhoneNumber || "");
+          localStorage.setItem("userPosition", user.Position || "");
+          localStorage.setItem("userCompany", user.CompanyName || "");
+          // CHUYỂN TRANG + PARAM
+          const params = new URLSearchParams({
+            user: user.UserCode || "",
+            userName: user.UserName || "",
+            department: user.Department || "",
+          }).toString();
+          window.location.href = "hybrid://getOrder?" + params;
+        } catch (e) {
+          console.error(e);
+          setLoginLoading(false);
+          toast("Có lỗi khi xử lý đăng nhập. Vui lòng thử lại.", "error");
         }
-
-        // 2️⃣ Check array
-        if (!Array.isArray(users) || users.length === 0) {
-          M.toast({
-            html: "Không thể xác thực người dùng. Vui lòng đăng nhập lại.",
-            classes: "deep-orange lighten-1 white-text",
-          });
-          return;
-        }
-
-        const user = users[0]; // chỉ 1 user
-
-        // 3️⃣ CHECK PASSWORD
-        if (user.Password !== inputPassword) {
-          M.toast({
-            html: "Thông tin đăng nhập không hợp lệ.",
-            classes: "deep-orange lighten-1 white-text",
-          });
-          return;
-        }
-        // 4️⃣ CHUYỂN TRANG + PARAM
-        const params = new URLSearchParams({
-          user: user.UserCode,
-          userName: user.UserName,
-          department: user.Department,
-        }).toString();
-        localStorage.setItem("user", user.UserCode);
-        localStorage.setItem("userName", user.UserName);
-        localStorage.setItem("userPhone", user.PhoneNumber);
-        localStorage.setItem("userPosition", user.Position);
-        localStorage.setItem("userCompany", user.CompanyName);
-        window.location.href = "hybrid://getOrder?" + params;
       }
-
+      // ===== Callback: native trả orders/transport =====
       function onLoginSuccess(ordersJson, transportJson) {
-        // clear cũ
-        localStorage.removeItem("ordersData");
-        localStorage.removeItem("transportData");
-
-        // normalize orders
-        let orders = ordersJson;
-        if (typeof orders === "string") {
-          try {
-            orders = JSON.parse(orders);
-          } catch {
-            orders = [];
+        try {
+          // clear cũ
+          localStorage.removeItem("ordersData");
+          localStorage.removeItem("transportData");
+          const orders = normalizeJson(ordersJson, []);
+          const transports = normalizeJson(transportJson, []);
+          // Không có đơn
+          if (!Array.isArray(orders) || orders.length === 0) {
+            setLoginLoading(false);
+            window.location.href = "ui-pages-order-1.html";
+            return;
           }
-        }
-
-        // normalize transport
-        let transports = transportJson;
-        if (typeof transports === "string") {
-          try {
-            transports = JSON.parse(transports);
-          } catch {
-            transports = [];
-          }
-        }
-
-        // Không có đơn
-        if (!Array.isArray(orders) || orders.length === 0) {
-          window.location.href = "ui-pages-order-1.html";
-          return;
-        }
-
-        // 🔥 kiểm tra đơn đang chạy dựa trên TRANSPORT
-        const hasActiveOrder =
-          Array.isArray(transports) &&
-          transports.some((t) => t.checkOut === null);
-
-        // Lưu storage
-        localStorage.setItem("ordersData", JSON.stringify(orders));
-        localStorage.setItem("transportData", JSON.stringify(transports));
-
-        // Điều hướng
-        if (hasActiveOrder) {
-          window.location.href = "ui-pages-order.html";
-        } else {
-          window.location.href = "ui-pages-order-1.html";
+          // Kiểm tra đơn đang chạy dựa trên TRANSPORT
+          const hasActiveOrder =
+            Array.isArray(transports) &&
+            transports.some((t) => t?.checkOut == null || t?.checkOut === "");
+          // Lưu storage
+          localStorage.setItem("ordersData", JSON.stringify(orders));
+          localStorage.setItem("transportData", JSON.stringify(transports));
+          setLoginLoading(false);
+          // Điều hướng
+          window.location.href = hasActiveOrder
+            ? "ui-pages-order.html"
+            : "ui-pages-order-1.html";
+        } catch (e) {
+          console.error(e);
+          setLoginLoading(false);
+          toast("Có lỗi khi tải dữ liệu đơn hàng. Vui lòng thử lại.", "error");
         }
       }
+      // ===== UX: Enter để login =====
+      document.addEventListener("DOMContentLoaded", () => {
+        const pass = document.getElementById("pass311");
+        if (pass) {
+          pass.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") loginbtn();
+          });
+        }
+      });
     </script>
+
     <!-- CORE JS FRAMEWORK - START -->
     <script src="modules/jquery/jquery-2.2.4.min.js"></script>
     <script src="modules/materialize/materialize.js"></script>
