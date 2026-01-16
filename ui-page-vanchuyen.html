@@ -162,7 +162,7 @@
     data-footer_menu="show"
     data-footer_menu_style="light"
   >
-    <div class="preloader-background">
+    <div class="preloader-background" id="preloaders">
       <div class="preloader-wrapper">
         <div class="configure-border-1"></div>
         <div class="configure-border-2"></div>
@@ -1033,7 +1033,15 @@
           window.location.href = "ui-pages-order-1.html";
         }
       }
+      function showPreloader() {
+        const el = document.getElementById("preloaders");
+        if (el) el.style.display = "flex";
+      }
 
+      function hidePreloader() {
+        const el = document.getElementById("preloaders");
+        if (el) el.style.display = "none";
+      }
       function confirmDelivery() {
         const btn = document.getElementById("btnConfirmDelivery");
         const orderId = btn?.dataset?.orderId;
@@ -1041,12 +1049,12 @@
         const user = localStorage.getItem("user");
         if (!orderId || !transportOrderId) {
           M.toast({
-            html: "Không xác định được đơn / chuyến",
+            html: "Không thể xử lý yêu cầu. Vui lòng thử lại hoặc tải lại trang.",
             classes: "deep-orange lighten-1 white-text",
           });
           return;
         }
-
+        showPreloader();
         window.location.href =
           "hybrid://checkout" +
           "?orderId=" +
@@ -1217,6 +1225,7 @@
         radius,
         checkInTime
       ) {
+        hidePreloader();
         checkinResult = "success";
         document.getElementById("confirmOverlay").style.display = "block";
         document.getElementById("confirmBox1").style.display = "block";
@@ -1248,6 +1257,7 @@
         transportOrderId,
         checkInTime
       ) {
+        hidePreloader();
         checkinResult = "fail";
 
         document.getElementById("confirmOverlay").style.display = "block";

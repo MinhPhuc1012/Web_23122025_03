@@ -990,7 +990,7 @@
         // 2️⃣ Check array
         if (!Array.isArray(users) || users.length === 0) {
           M.toast({
-            html: "Không có dữ liệu user",
+            html: "Không thể xác thực người dùng. Vui lòng đăng nhập lại.",
             classes: "deep-orange lighten-1 white-text",
           });
           return;
@@ -1001,7 +1001,7 @@
         // 3️⃣ CHECK PASSWORD
         if (user.Password !== inputPassword) {
           M.toast({
-            html: "Sai mật khẩu",
+            html: "Thông tin đăng nhập không hợp lệ.",
             classes: "deep-orange lighten-1 white-text",
           });
           return;

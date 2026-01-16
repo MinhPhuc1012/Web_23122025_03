@@ -168,7 +168,7 @@
     data-footer_menu="show"
     data-footer_menu_style="light"
   >
-    <div class="preloader-background">
+    <div class="preloader-background" id="preloaders">
       <div class="preloader-wrapper">
         <div class="configure-border-1"></div>
         <div class="configure-border-2"></div>
@@ -819,22 +819,6 @@
 
     <div class="container has-pagehead is-pagetitle">
       <div class="section">
-        <div
-          id="debugBox"
-          style="
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid red;
-            background: #fff3f3;
-            max-height: 200px;
-            overflow: auto;
-            font-size: 12px;
-            white-space: pre-wrap;
-            display: none;
-          "
-        >
-          DEBUG:
-        </div>
         <h5 class="pagetitle">Tra cứu</h5>
         <div class="date-range-box">
           <div class="date-item">
@@ -944,6 +928,7 @@
         <button class="logout-btn" id="logoutBtn">ĐĂNG XUẤT</button>
       </div>
     </div>
+
     <script>
       document.getElementById("logoutBtn").addEventListener("click", () => {
         localStorage.clear();
@@ -1028,7 +1013,7 @@
         const today = new Date();
 
         fromPicker = flatpickr("#fromDate", {
-          locale: flatpickr.l10ns.vn,
+          locale: "vn",
           dateFormat: "Y/m/d",
           altInput: true,
           altFormat: "d/m/Y",
@@ -1037,7 +1022,7 @@
         });
 
         toPicker = flatpickr("#toDate", {
-          locale: flatpickr.l10ns.vn,
+          locale: "vn",
           dateFormat: "Y/m/d",
           altInput: true,
           altFormat: "d/m/Y",
@@ -1060,7 +1045,15 @@
         toPicker.setDate(today, true);
         searchTransport();
       }
+      function showPreloader() {
+        const el = document.getElementById("preloaders");
+        if (el) el.style.display = "flex";
+      }
 
+      function hidePreloader() {
+        const el = document.getElementById("preloaders");
+        if (el) el.style.display = "none";
+      }
       function searchTransport() {
         const user = localStorage.getItem("user") || "";
 
@@ -1074,11 +1067,12 @@
           });
           return;
         }
-
+        showPreloader();
         callMaui(user);
       }
 
       function callMaui(user) {
+        hidePreloader();
         const fromDate = fromPicker.input.value;
         const toDate = toPicker.input.value;
 

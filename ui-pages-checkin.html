@@ -162,7 +162,7 @@
     data-footer_menu="show"
     data-footer_menu_style="light"
   >
-    <div class="preloader-background">
+    <div class="preloader-background" id="preloaders">
       <div class="preloader-wrapper">
         <div class="configure-border-1"></div>
         <div class="configure-border-2"></div>
@@ -923,6 +923,15 @@
     </script>
     <script>
       let checkinResult = null; // 'success' | 'fail'
+      function showPreloader() {
+        const el = document.getElementById("preloaders");
+        if (el) el.style.display = "flex";
+      }
+
+      function hidePreloader() {
+        const el = document.getElementById("preloaders");
+        if (el) el.style.display = "none";
+      }
       function goMenu(el) {
         const raw = localStorage.getItem("ordersData");
         let orders = [];
@@ -1015,6 +1024,7 @@
             });
             return;
           }
+          showPreloader();
           // 🔥 CHỈ GỬI TÍN HIỆU
           window.location.href =
             "hybrid://checkinorder?user=" + user + "&orderId=" + orderId;
@@ -1048,6 +1058,7 @@
         const el = document.getElementById("emptyText");
         if (el) el.innerText = "Không có dữ liệu";
       }
+
       function onCheckinSuccess(
         distance,
         latitude,
@@ -1056,6 +1067,7 @@
         radius,
         checkInTime
       ) {
+        hidePreloader();
         checkinResult = "success";
         document.getElementById("confirmOverlay").style.display = "block";
         document.getElementById("confirmBox1").style.display = "block";
@@ -1088,6 +1100,7 @@
         transportOrderId,
         checkInTime
       ) {
+        hidePreloader();
         checkinResult = "fail";
 
         document.getElementById("confirmOverlay").style.display = "block";
