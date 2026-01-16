@@ -250,7 +250,7 @@
           <li class="sh-wrap"><div class="subheader">App</div></li>
           <li class="lvl1">
             <div class="waves-effect index">
-              <a href="sub-home.html">
+              <a>
                 <i class="mdi mdi-home-outline"></i>
                 <span class="title">VMS</span>
                 <div class="lvl1-tag">App nhiên liệu</div></a
@@ -259,7 +259,7 @@
           </li>
           <li class="lvl1">
             <div class="waves-effect index">
-              <a href="sub-screens.html">
+              <a>
                 <i class="mdi mdi-script"></i>
                 <span class="title">Canteen</span>
                 <div class="lvl1-tag">App cơm</div></a
@@ -1013,7 +1013,7 @@
         const today = new Date();
 
         fromPicker = flatpickr("#fromDate", {
-          locale: "vn",
+          locale: flatpickr.l10ns.vn,
           dateFormat: "Y/m/d",
           altInput: true,
           altFormat: "d/m/Y",
@@ -1022,7 +1022,7 @@
         });
 
         toPicker = flatpickr("#toDate", {
-          locale: "vn",
+          locale: flatpickr.l10ns.vn,
           dateFormat: "Y/m/d",
           altInput: true,
           altFormat: "d/m/Y",
