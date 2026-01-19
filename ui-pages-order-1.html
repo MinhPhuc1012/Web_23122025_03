@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vn" class=" ">
   <head>
     <!-- 
@@ -940,7 +940,7 @@
       document.getElementById("userPosition").innerText =
         localStorage.getItem("userPosition") || "";
       document.getElementById("userPositionHeader").innerText =
-        localStorage.getItem("userPosition") || "";
+        localStorage.getItem("userName") || "";
       document.getElementById("userCompany").innerText =
         localStorage.getItem("userCompany") || "";
     </script>
@@ -1037,7 +1037,7 @@
             ${o.OrderName}
           </span>
           <p style="font-weight: 800">${o.LicensePlate} - ${formatDate(
-            o.StartDate
+            o.StartDate,
           )} - 
     ${formatDate(o.EndDate)} - KL: ${o.WeightMass}</p>
            <div class="loc-block">

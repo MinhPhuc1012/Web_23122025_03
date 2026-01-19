@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vn" class=" ">
   <head>
     <!-- 
@@ -862,7 +862,10 @@
                 id="btnConfirmDelivery"
                 href="#"
                 class="waves-effect pulse waves-light btn Pactive"
-                onclick="confirmDelivery(); return false;"
+                onclick="
+                  confirmDelivery();
+                  return false;
+                "
               >
                 <i class="mdi mdi-message-text-outline right"></i>
                 Xác nhận điểm giao
@@ -977,7 +980,7 @@
       document.getElementById("userPosition").innerText =
         localStorage.getItem("userPosition") || "";
       document.getElementById("userPositionHeader").innerText =
-        localStorage.getItem("userPositionHeader") || "";
+        localStorage.getItem("userName") || "";
       document.getElementById("userCompany").innerText =
         localStorage.getItem("userCompany") || "";
     </script>
@@ -1097,7 +1100,7 @@
 
         // 🔥 tìm chuyến đang chạy từ TRANSPORT
         const active = transports.find(
-          (x) => x.checkIn != null && x.checkOut == null
+          (x) => x.checkIn != null && x.checkOut == null,
         );
 
         if (!active) {
@@ -1128,12 +1131,12 @@
         document.getElementById("deliveryFrom").innerText =
           "Từ: " + (orderDetail?.StartLocName || "—");
         document.getElementById("fromTime").innerText = formatDate(
-          active.checkIn
+          active.checkIn,
         );
         document.getElementById("deliveryTo").innerText =
           "Đến: " + (orderDetail?.EndLocName || "—");
         document.getElementById("toTime").innerText = formatDate(
-          active.checkOut
+          active.checkOut,
         );
         const btn = document.getElementById("btnConfirmDelivery");
         btn.dataset.orderId = active.orderId;
@@ -1183,7 +1186,7 @@
             ${o.OrderName}
           </span>
           <p style="font-weight: 800">${o.LicensePlate} - ${formatDate(
-            o.StartDate
+            o.StartDate,
           )} - 
     ${formatDate(o.EndDate)} - KL: ${o.WeightMass}</p>
            <div class="loc-block">
@@ -1228,7 +1231,7 @@
         longitude,
         startLocName,
         radius,
-        checkInTime
+        checkInTime,
       ) {
         hidePreloader();
         checkinResult = "success";
@@ -1248,7 +1251,7 @@
           ? "Bán kính: " + Math.round(radius) + "m"
           : "";
         document.querySelector(".confirm-sub1.small").innerText = `(${Number(
-          latitude
+          latitude,
         ).toFixed(6)}  ${Number(longitude).toFixed(6)})`;
       }
 
@@ -1260,7 +1263,7 @@
         startLocName,
         radius,
         transportOrderId,
-        checkInTime
+        checkInTime,
       ) {
         hidePreloader();
         checkinResult = "fail";
@@ -1281,7 +1284,7 @@
         document.querySelector(".confirm-sub1.small").innerText =
           latitude && longitude
             ? `(${Number(latitude).toFixed(6)}  ${Number(longitude).toFixed(
-                6
+                6,
               )})`
             : "";
 
