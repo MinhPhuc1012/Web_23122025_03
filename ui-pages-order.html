@@ -218,10 +218,7 @@
         <div class="user-view row">
           <div class="col s3 imgarea">
             <a href="#user" class="status available"
-              ><img
-                class="circle"
-                src="assets/images/menu-user.jpg"
-                alt="menu user"
+              ><img class="circle" src="assets/images/User.png" alt="menu user"
             /></a>
           </div>
           <div class="col s9 infoarea">
@@ -836,9 +833,29 @@
               Chuyến đang cần hoàn thành
             </h5>
 
-            <span class="title" id="deliveryTitle"></span>
-            <p id="deliveryFrom"></p>
-            <p id="deliveryTo"></p>
+            <blockquote class="blues">
+              <span class="title" id="deliveryTitle"></span>
+              <p style="font-weight: 800" id="deliveryName"></p>
+              <div class="loc-block">
+                <div class="loc-row">
+                  <span class="loc-label">Từ:</span>
+                  <span class="loc-name" id="deliveryFrom">
+                    <b></b>
+                  </span>
+                </div>
+                <div class="loc-time" id="fromTime"></div>
+              </div>
+
+              <div class="loc-block">
+                <div class="loc-row">
+                  <span class="loc-label">Đến:</span>
+                  <span class="loc-name" id="deliveryTo">
+                    <b></b>
+                  </span>
+                </div>
+                <div class="loc-time" id="toTime"></div>
+              </div>
+            </blockquote>
 
             <div class="secondary-content">
               <a
@@ -1104,14 +1121,20 @@
         if (!orderDetail) return;
 
         card.style.display = "block";
-
-        document.getElementById("deliveryTitle").innerText = active.orderId;
-
+        document.getElementById("deliveryTitle").innerText =
+          active.transportOrderId;
+        document.getElementById("deliveryName").innerText =
+          orderDetail?.OrderName;
         document.getElementById("deliveryFrom").innerText =
-          "Từ: " + (orderDetail.StartLocName || "");
-
+          "Từ: " + (orderDetail?.StartLocName || "—");
+        document.getElementById("fromTime").innerText = formatDate(
+          active.checkIn
+        );
         document.getElementById("deliveryTo").innerText =
-          "Đến: " + (orderDetail.EndLocName || "");
+          "Đến: " + (orderDetail?.EndLocName || "—");
+        document.getElementById("toTime").innerText = formatDate(
+          active.checkOut
+        );
         const btn = document.getElementById("btnConfirmDelivery");
         btn.dataset.orderId = active.orderId;
         btn.dataset.transportOrderId = active.transportOrderId;
@@ -1272,22 +1295,23 @@
         qrDiv.innerHTML = "";
 
         const img = document.createElement("img");
-        img.src = "assets/images/QR.jpg";
+        img.src =
+          "https://quickchart.io/qr?text=" +
+          encodeURIComponent(transportOrderId);
         img.alt = "QR Code";
         img.classList.add("qr-icon");
 
-        img.onclick = function () {
-          qrModal.innerHTML = "";
+        // img.onclick = function () {
+        //   qrModal.innerHTML = "";
 
-          const qrImg = document.createElement("img");
-          qrImg.src =
-            "https://quickchart.io/qr?text=" +
-            encodeURIComponent(transportOrderId);
-          qrImg.alt = "QR Code";
+        //   const qrImg = document.createElement("img");
+        //   qrImg.src =
 
-          qrModal.appendChild(qrImg);
-          qrModal.classList.add("show");
-        };
+        //   qrImg.alt = "QR Code";
+
+        //   qrModal.appendChild(qrImg);
+        //   qrModal.classList.add("show");
+        // };
 
         qrDiv.appendChild(img);
       }

@@ -1132,22 +1132,24 @@
         qrDiv.innerHTML = "";
 
         const img = document.createElement("img");
-        img.src = "assets/images/QR.jpg";
+        img.src =
+          "https://quickchart.io/qr?text=" +
+          encodeURIComponent(transportOrderId);
         img.alt = "QR Code";
         img.classList.add("qr-icon");
 
-        img.onclick = function () {
-          qrModal.innerHTML = "";
+        // img.onclick = function () {
+        //   qrModal.innerHTML = "";
 
-          const qrImg = document.createElement("img");
-          qrImg.src =
-            "https://quickchart.io/qr?text=" +
-            encodeURIComponent(transportOrderId);
-          qrImg.alt = "QR Code";
+        //   const qrImg = document.createElement("img");
+        //   qrImg.src =
+        //     "https://quickchart.io/qr?text=" +
+        //     encodeURIComponent(transportOrderId);
+        //   qrImg.alt = "QR Code";
 
-          qrModal.appendChild(qrImg);
-          qrModal.classList.add("show");
-        };
+        //   qrModal.appendChild(qrImg);
+        //   qrModal.classList.add("show");
+        // };
 
         qrDiv.appendChild(img);
       }
