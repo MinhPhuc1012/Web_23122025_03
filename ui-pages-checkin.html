@@ -1120,46 +1120,6 @@
                 6,
               )})`
             : "";
-
-        const qrDiv = document.querySelector(".qr-box");
-        const qrModal = document.querySelector(".qr-modal");
-
-        if (!qrDiv || !qrModal) return;
-
-        // 🔥 clear cũ (rất quan trọng)
-        qrDiv.innerHTML = "";
-
-        const img = document.createElement("img");
-        img.src =
-          "https://quickchart.io/qr?text=" +
-          encodeURIComponent(transportOrderId);
-        img.alt = "QR Code";
-        img.classList.add("qr-icon");
-
-        // img.onclick = function () {
-        //   qrModal.innerHTML = "";
-
-        //   const qrImg = document.createElement("img");
-        //   qrImg.src =
-        //     "https://quickchart.io/qr?text=" +
-        //     encodeURIComponent(transportOrderId);
-        //   qrImg.alt = "QR Code";
-
-        //   qrModal.appendChild(qrImg);
-        //   qrModal.classList.add("show");
-        // };
-
-        qrDiv.appendChild(img);
-      }
-
-      const qrModal = document.querySelector(".qr-modal");
-      if (qrModal) {
-        qrModal.onclick = function (e) {
-          if (e.target === qrModal) {
-            qrModal.classList.remove("show");
-            qrModal.innerHTML = "";
-          }
-        };
       }
     </script>
     <!-- CORE JS FRAMEWORK - START -->
