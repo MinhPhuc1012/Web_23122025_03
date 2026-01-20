@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vn" class=" ">
   <head>
     <!-- 
@@ -882,8 +882,6 @@
       </div>
 
       <div class="confirm-sub1 small">(10.745231 - 106.634654)</div>
-      <div class="qr-box"></div>
-      <div class="qr-modal"></div>
     </div>
     <div id="popupProfile" class="profile-overlay">
       <div class="profile-box">
@@ -1065,7 +1063,7 @@
         longitude,
         startLocName,
         radius,
-        checkInTime
+        checkInTime,
       ) {
         hidePreloader();
         checkinResult = "success";
@@ -1086,7 +1084,7 @@
           ? "Bán kính: " + Math.round(radius) + "m"
           : "";
         document.querySelector(".confirm-sub1.small").innerText = `(${Number(
-          latitude
+          latitude,
         ).toFixed(6)}  ${Number(longitude).toFixed(6)})`;
       }
 
@@ -1098,7 +1096,7 @@
         startLocName,
         radius,
         transportOrderId,
-        checkInTime
+        checkInTime,
       ) {
         hidePreloader();
         checkinResult = "fail";
@@ -1119,7 +1117,7 @@
         document.querySelector(".confirm-sub1.small").innerText =
           latitude && longitude
             ? `(${Number(latitude).toFixed(6)}  ${Number(longitude).toFixed(
-                6
+                6,
               )})`
             : "";
 
