@@ -799,7 +799,7 @@
           ✕
         </button>
         <div class="confirm-icon1">✔</div>
-        <div class="confirm-header"></div>
+        <div class="confirm-header1"></div>
         <div class="confirm-title1">Xác nhận vị trí thành công!</div>
 
         <div class="confirm-row1">
@@ -863,7 +863,7 @@
         ✕
       </button>
       <div class="confirm-icon1">✔</div>
-      <div class="confirm-header"></div>
+      <div class="confirm-header1"></div>
       <div class="confirm-title1">Xác nhận vị trí thành công!</div>
 
       <div class="confirm-row1">
@@ -1106,9 +1106,9 @@
 
         const icon = document.querySelector(".confirm-icon1");
         icon.innerHTML = `<i class="mdi mdi-map-marker-off marker-icon"></i>`;
-        document.querySelector(".confirm-header").innerText =
+        document.querySelector(".confirm-header1").innerText =
           "Xác nhận vị trí thất bại";
-        document.querySelector(".confirm-header").style.color = "red";
+        document.querySelector(".confirm-header1").style.color = "red";
         document.querySelector(".confirm-title1").innerText = message;
         document.getElementById("cfLocation").innerText = startLocName ?? "";
         document.getElementById("cfDistance").innerText = distance;
