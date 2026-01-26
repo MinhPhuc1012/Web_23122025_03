@@ -859,7 +859,7 @@
                     <b></b>
                   </span>
                 </div>
-                <div class="loc-time" id="fromTime"></div>
+                <div class="loc-time" id="fromTime" style="color: black"></div>
               </div>
 
               <div class="loc-block">
@@ -869,7 +869,7 @@
                     <b></b>
                   </span>
                 </div>
-                <div class="loc-time" id="toTime"></div>
+                <div class="loc-time" id="toTime" style="color: black"></div>
               </div>
             </blockquote>
 
@@ -966,7 +966,7 @@
     <div id="popupProfile" class="profile-overlay">
       <div class="profile-box">
         <div class="header">
-          <span id="profileCode"></span>
+          <span id="profileCode" style="color: black"></span>
           <button class="close-btn" onclick="closeProfile()">✖</button>
         </div>
 
@@ -1148,15 +1148,17 @@
         document.getElementById("deliveryName").innerText =
           orderDetail?.OrderName;
         document.getElementById("deliveryFrom").innerText =
-          "Từ: " + (orderDetail?.StartLocName || "—");
+          orderDetail?.StartLocName || "—";
         document.getElementById("fromTime").innerText = formatDate(
           active.checkIn,
         );
+        document.getElementById("fromTime").style.color = "black";
         document.getElementById("deliveryTo").innerText =
-          "Đến: " + (orderDetail?.EndLocName || "—");
+          orderDetail?.EndLocName || "—";
         document.getElementById("toTime").innerText = formatDate(
           active.checkOut,
         );
+
         const btn = document.getElementById("btnConfirmDelivery");
         btn.dataset.orderId = active.orderId;
         btn.dataset.transportOrderId = active.transportOrderId;

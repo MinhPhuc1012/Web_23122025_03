@@ -868,7 +868,11 @@
                       <b></b>
                     </span>
                   </div>
-                  <div class="loc-time" id="fromTime"></div>
+                  <div
+                    class="loc-time"
+                    id="fromTime"
+                    style="color: black"
+                  ></div>
                 </div>
 
                 <div class="loc-block">
@@ -878,7 +882,7 @@
                       <b></b>
                     </span>
                   </div>
-                  <div class="loc-time" id="toTime"></div>
+                  <div class="loc-time" id="toTime" style="color: black"></div>
                 </div>
               </blockquote>
               <div class="secondary-content">
@@ -975,7 +979,7 @@
     <div id="popupProfile" class="profile-overlay">
       <div class="profile-box">
         <div class="header">
-          <span id="profileCode"></span>
+          <span id="profileCode" style="color: black"></span>
           <button class="close-btn" onclick="closeProfile()">✖</button>
         </div>
 
@@ -1251,7 +1255,7 @@
                           <b>${order?.StartLocName || ""}</b>
                         </span>
                       </div>
-                      <div class="loc-time">${formatDate(t.checkIn)}</div>
+                      <div class="loc-time" style="color: black">${formatDate(t.checkIn)}</div>
                     </div>
 
                     <div class="loc-block">
@@ -1261,7 +1265,7 @@
                           <b>${order?.EndLocName || ""}</b>
                         </span>
                       </div>
-                      <div class="loc-time">${formatDate(t.checkOut)}</div>
+                      <div class="loc-time"  style="color: black">${formatDate(t.checkOut)}</div>
                     </div>
                   </blockquote>
                 </li>

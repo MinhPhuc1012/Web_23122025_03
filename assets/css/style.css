@@ -327,6 +327,7 @@ TABLE OF CONTENTS:
   margin-left: 40px; /* thụt vào đúng dưới tên kho */
   font-weight: 600;
   color: #444;
+  color-scheme: light;
 }
 .marker-icon {
   font-size: 36px;
