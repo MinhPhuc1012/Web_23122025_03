@@ -406,6 +406,7 @@ ul li.active a i {
   width: 100%;
   max-width: 400px;
   background: #fff;
+  color-scheme: light;
   border-radius: 15px 15px 0 0;
   padding: 12px;
   animation: slideUp 0.3s ease;

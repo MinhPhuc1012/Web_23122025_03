@@ -245,46 +245,61 @@
         <ul class="collapsible">
           <!-- Menu Data Start-->
           <li class="sh-wrap"><div class="subheader">App</div></li>
-          <li class="lvl1">
-            <div class="waves-effect index">
-              <a>
-                <i class="mdi mdi-home-outline"></i>
-                <span class="title">VMS</span>
-                <div class="lvl1-tag">App nhiên liệu</div></a
-              >
-            </div>
-          </li>
-          <li class="lvl1">
-            <div class="waves-effect index">
-              <a>
-                <i class="mdi mdi-script"></i>
-                <span class="title">Canteen</span>
-                <div class="lvl1-tag">App cơm</div></a
-              >
-            </div>
-          </li>
-          <li class="lvl1">
-            <div class="waves-effect index">
-              <a>
-                <i class="mdi mdi-home-outline"></i>
-                <span class="title">CheckMe</span>
-                <div class="lvl1-tag">App CheckMe</div></a
-              >
-            </div>
-          </li>
-          <li class="lvl1">
-            <div class="waves-effect index">
-              <a>
-                <i class="mdi mdi-home-outline"></i>
-                <span class="title">Checklist</span>
-                <div class="lvl1-tag">App Checklist</div></a
-              >
-            </div>
-          </li>
+          <div class="row">
+            <li class="lvl1">
+              <div class="col s4 m4 l3">
+                <div class="icon-block block-small center circle">
+                  <div class="icon primary-text">
+                    <i class="mdi mdi-car-wash" style="background: #3f51b5"></i>
+                  </div>
+                  <div class="title">VMS</div>
+                </div>
+              </div>
+              <div class="col s4 m4 l3">
+                <div class="icon-block block-small center circle">
+                  <div class="icon primary-text">
+                    <i class="mdi mdi-crane" style="background: #ff7043"></i>
+                  </div>
+                  <div class="title">Transporter</div>
+                </div>
+              </div>
+              <div class="col s4 m4 l3">
+                <div class="icon-block block-small center circle">
+                  <div class="icon primary-text">
+                    <i class="mdi mdi-bowl" style="background: #00bcd4"></i>
+                  </div>
+                  <div class="title">Canteen</div>
+                </div>
+              </div>
+            </li>
+          </div>
+          <li class="sh-wrap"><div class="subheader">HSSE</div></li>
+          <div class="row">
+            <li class="lvl1">
+              <div class="col s4 m4 l3">
+                <div class="icon-block block-small center circle">
+                  <div class="icon">
+                    <i class="mdi mdi-approval" style="background: #ef5350"></i>
+                  </div>
+                  <div class="title">CheckMe</div>
+                </div>
+              </div>
+              <div class="col s4 m4 l3">
+                <div class="icon-block block-small center circle">
+                  <div class="icon primary-text">
+                    <i
+                      class="mdi mdi-bookmark-check"
+                      style="background: #26a69a"
+                    ></i>
+                  </div>
+                  <div class="title">Checklist</div>
+                </div>
+              </div>
+            </li>
+          </div>
         </ul>
       </li>
     </ul>
-
     <!-- END navigation -->
 
     <ul id="slide-settings" class="sidenav sidesettings">
@@ -829,74 +844,85 @@
       </li>
     </ul>
     <div class="menu-close"><i class="mdi mdi-close"></i></div>
+    <div class="content-area">
+      <div class="pagehead-bg primary-bg"></div>
+      <div class="container has-pagehead is-pagetitle">
+        <div class="section">
+          <h5 class="pagetitle">Tra cứu</h5>
+        </div>
+      </div>
+      <div class="container transparent pr0 pl0 relative">
+        <div class="section pt0 pb0">
+          <div class="row">
+            <div class="col s12 pad-0">
+              <ul class="collection invoice-item">
+                <li class="collection-item avatar" style="padding-left: 5px">
+                  <label>Từ ngày</label>
+                  <input type="text" id="fromDate" />
+                </li>
 
-    <div class="pagehead-bg primary-bg"></div>
+                <li class="collection-item avatar" style="padding-left: 5px">
+                  <label>Đến ngày</label>
+                  <input type="text" id="toDate" />
+                </li>
+                <div>
+                  <button class="btn-today" onclick="searchTransport()">
+                    🔎Tra cứu
+                  </button>
+                  <button class="btn-today" onclick="setToday()">
+                    <div class="iprev">
+                      <i
+                        class="mdi mdi-timetable"
+                        style="color: aquamarine"
+                      ></i>
+                      Hôm nay
+                    </div>
+                  </button>
+                </div>
+              </ul>
+              <!-- THỐNG KÊ DƯỚI LỊCH -->
+              <ul class="collection invoice-item">
+                <li
+                  class="collection-item center-align avatar"
+                  style="padding-left: 5px"
+                >
+                  <div class="summary-row">
+                    <label class="label">Chưa có cự ly:</label>
+                    <span class="value" id="noDistance">0</span>
+                  </div>
+                  <div class="summary-row">
+                    <label class="label">00 – 02:</label>
+                    <span class="value" id="d02">0</span>
+                  </div>
 
-    <div class="container has-pagehead is-pagetitle">
-      <div class="section">
-        <h5 class="pagetitle">Tra cứu</h5>
-        <div class="date-range-box">
-          <div class="date-item">
-            <label>Từ ngày</label>
-            <input type="text" id="fromDate" />
-          </div>
-
-          <div class="date-item">
-            <label>Đến ngày</label>
-            <input type="text" id="toDate" />
-          </div>
-          <div>
-            <button class="btn-today" onclick="searchTransport()">
-              🔎Tra cứu
-            </button>
-            <button class="btn-today" onclick="setToday()">
-              <div class="iprev">
-                <i class="mdi mdi-timetable" style="color: aquamarine"></i> Hôm
-                nay
+                  <div class="summary-row">
+                    <label class="label">02 – 05:</label>
+                    <span class="value" id="d05">0</span>
+                  </div>
+                  <div class="summary-row">
+                    <label class="label">05 – 10:</label>
+                    <span class="value" id="d10">0</span>
+                  </div>
+                  <div class="summary-row">
+                    <label class="label">10 – 20:</label>
+                    <span class="value" id="d20">0</span>
+                  </div>
+                  <div class="summary-row">
+                    <label class="label">Tổng số chuyến:</label>
+                    <span class="value" id="totalTrip">0</span>
+                  </div>
+                </li>
+              </ul>
+              <div class="backtotop">
+                <a class="btn-floating btn primary-bg">
+                  <i class="mdi mdi-chevron-up"></i>
+                </a>
               </div>
-            </button>
-          </div>
-          <!-- THỐNG KÊ DƯỚI LỊCH -->
-          <div class="distance-summary" id="transportList">
-            <div class="summary-row">
-              <span class="label">Chưa có cự ly:</span>
-              <span class="value" id="noDistance">0</span>
             </div>
-
-            <div class="summary-row">
-              <span class="label">00 – 02:</span>
-              <span class="value" id="d02">0</span>
-            </div>
-
-            <div class="summary-row">
-              <span class="label">02 – 05:</span>
-              <span class="value" id="d05">0</span>
-            </div>
-
-            <div class="summary-row">
-              <span class="label">05 – 10:</span>
-              <span class="value" id="d10">0</span>
-            </div>
-
-            <div class="summary-row">
-              <span class="label">10 – 20:</span>
-              <span class="value" id="d20">0</span>
-            </div>
-
-            <div class="summary-row total">
-              <span class="label">Tổng số chuyến:</span>
-              <span class="value" id="totalTrip">0</span>
-            </div>
-          </div>
-          <div class="backtotop">
-            <a class="btn-floating btn primary-bg">
-              <i class="mdi mdi-chevron-up"></i>
-            </a>
           </div>
         </div>
       </div>
     </div>
-
     <!--.content-area-->
 
     <div class="footer-menu circular">
@@ -934,11 +960,11 @@
           <button class="close-btn" onclick="closeProfile()">✖</button>
         </div>
 
-        <h3 id="userName"></h3>
+        <h3 id="userName" style="color: black"></h3>
 
-        <p id="userPhone"></p>
-        <p id="userPosition"></p>
-        <p id="userCompany"></p>
+        <p id="userPhone" style="color: black"></p>
+        <p id="userPosition" style="color: black"></p>
+        <p id="userCompany" style="color: black"></p>
 
         <button class="logout-btn" id="logoutBtn">ĐĂNG XUẤT</button>
       </div>
