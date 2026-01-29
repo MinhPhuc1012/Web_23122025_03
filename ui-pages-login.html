@@ -163,7 +163,7 @@
     data-footer_menu="show"
     data-footer_menu_style="light"
   >
-    <div class="preloader-background">
+    <div class="preloader-background" id="preloaders">
       <div class="preloader-wrapper">
         <div class="configure-border-1"></div>
         <div class="configure-border-2"></div>
@@ -1032,8 +1032,17 @@
           password: passwordHash,
           isHash: "true",
         }).toString();
-
+        showPreloader();
         window.location.href = "hybrid://loginbtn?" + params;
+      }
+      function showPreloader() {
+        const el = document.getElementById("preloaders");
+        if (el) el.style.display = "flex";
+      }
+
+      function hidePreloader() {
+        const el = document.getElementById("preloaders");
+        if (el) el.style.display = "none";
       }
       // ===== Action: click login =====
       function loginbtn() {
@@ -1077,6 +1086,7 @@
             userName: user.UserName || "",
             department: user.Department || "",
           }).toString();
+          hidePreloader();
           window.location.href = "hybrid://getOrder?" + params;
         } catch (e) {
           console.error(e);
