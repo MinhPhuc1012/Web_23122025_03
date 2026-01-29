@@ -994,9 +994,7 @@
     </div>
     <script>
       document.getElementById("logoutBtn").addEventListener("click", () => {
-        localStorage.clear();
-
-        window.location.href = "ui-pages-login.html";
+        window.location.href = "hybrid://logout";
       });
       document.getElementById("profileCode").innerText =
         localStorage.getItem("user") || "";
