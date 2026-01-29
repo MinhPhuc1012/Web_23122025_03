@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class=" ">
   <head>
     <!-- 
@@ -1011,6 +1011,26 @@
         }
         return data;
       }
+      // ===== Native (MAUI) gọi khi có dữ liệu lưu =====
+      window.onNativeAutoLogin = function (user, passwordHash) {
+        const userInput = document.getElementById("email311");
+        if (userInput) userInput.value = user;
+
+        autoLoginByHash(user, passwordHash);
+      };
+
+      function autoLoginByHash(user, passwordHash) {
+        if (isLoggingIn) return;
+
+        setLoginLoading(true);
+
+        const params = new URLSearchParams({
+          user: user,
+          password: passwordHash,
+        }).toString();
+
+        window.location.href = "hybrid://loginbtn?" + params;
+      }
       // ===== Action: click login =====
       function loginbtn() {
         if (isLoggingIn) return;
@@ -1042,7 +1062,7 @@
             return;
           }
           toast(`Chào mừng ${user.UserName || "bạn"} 👋`, "success");
-          // Lưu storage (nên hạn chế lưu thông tin nhạy cảm)
+
           localStorage.setItem("user", user.UserCode || "");
           localStorage.setItem("userName", user.UserName || "");
           localStorage.setItem("userPhone", user.PhoneNumber || "");
