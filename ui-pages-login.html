@@ -966,6 +966,9 @@
     </div>
     <!--.content-area-->
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        window.location.href = "hybrid://ready";
+      });
       // ===== Helpers =====
       let inputPassword = "";
       let isLoggingIn = false;
@@ -1011,26 +1014,7 @@
         }
         return data;
       }
-      // ===== Native (MAUI) gọi khi có dữ liệu lưu =====
-      window.onNativeAutoLogin = function (user, passwordHash) {
-        const userInput = document.getElementById("email311");
-        if (userInput) userInput.value = user;
 
-        autoLoginByHash(user, passwordHash);
-      };
-
-      function autoLoginByHash(user, passwordHash) {
-        if (isLoggingIn) return;
-
-        setLoginLoading(true);
-
-        const params = new URLSearchParams({
-          user: user,
-          password: passwordHash,
-        }).toString();
-
-        window.location.href = "hybrid://loginbtn?" + params;
-      }
       // ===== Action: click login =====
       function loginbtn() {
         if (isLoggingIn) return;
@@ -1123,11 +1107,7 @@
         }
       });
     </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        window.location.href = "hybrid://ready";
-      });
-    </script>
+
     <!-- CORE JS FRAMEWORK - START -->
     <script src="modules/jquery/jquery-2.2.4.min.js"></script>
     <script src="modules/materialize/materialize.js"></script>
