@@ -966,6 +966,9 @@
     </div>
     <!--.content-area-->
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        window.location.href = "hybrid://ready";
+      });
       // ===== Helpers =====
       let inputPassword = "";
       let isLoggingIn = false;
