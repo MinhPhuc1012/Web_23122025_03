@@ -1063,12 +1063,7 @@
             return;
           }
           const user = users[0];
-          // CHECK PASSWORD (Nên kiểm tra pass ở C#)
-          if (user.Password !== inputPassword) {
-            setLoginLoading(false);
-            toast("Thông tin đăng nhập không chính xác", "error");
-            return;
-          }
+
           toast(`Chào mừng ${user.UserName || "bạn"} 👋`, "success");
 
           localStorage.setItem("user", user.UserCode || "");
@@ -1089,6 +1084,10 @@
           toast("Có lỗi khi xử lý đăng nhập. Vui lòng thử lại.", "error");
         }
       }
+      window.onLoginError = function (msg) {
+        setLoginLoading(false);
+        toast(msg, "error");
+      };
       // ===== Callback: native trả orders/transport =====
       function onLoginSuccess(ordersJson, transportJson) {
         try {
