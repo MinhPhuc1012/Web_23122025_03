@@ -993,6 +993,8 @@
 
         // // reset lại cho lần sau
         // checkinResult = null;
+        const targetLat = 10.554494;
+        const targetLng = 106.736348;
         navigator.geolocation.getCurrentPosition(
           (pos) => {
             const currentLat = pos.coords.latitude;
